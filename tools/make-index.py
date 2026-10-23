@@ -151,7 +151,9 @@ def build_index(root, base_url):
     unknown = sorted(set(manual) & set(statuses))
     if unknown:
         fail(f"status.toml: no source folder for {', '.join(unknown)}")
-    return {"version": 1, "name": "Kurobayomi Extensions Repository", "website": "https://github.com/anas1412/kurobayomi-extensions", "sources": entries}
+    # `url` is where this index lives: when the repository moves, the copy left at the old address names the new one and
+    # the app moves its saved link there
+    return {"version": 1, "name": "Kurobayomi Extensions Repository", "website": "https://github.com/anas1412/kurobayomi-extensions", "url": f"{base_url}/index.min.json", "sources": entries}
 
 
 def main():
