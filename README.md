@@ -1,25 +1,16 @@
-# Kurobayomi extensions
+# Tsuikabako extensions: source code
 
-Anime and manga sources for [Kurobayomi](https://github.com/anas1412/kurobayomi), the anime and manga app for the Linux
-desktop.
+The code of the anime and manga sources for [Kurobayomi](https://github.com/kurobayomi/kurobayomi), the anime and manga
+app for the Linux desktop. CI builds them and publishes the result to
+[tsuikabako/extensions](https://github.com/tsuikabako/extensions), the repository users add.
 
-Kurobayomi ships with no sources. You add a repository like this one by its link, and its sources appear in the app
-straight away. There is nothing to install.
+**To use the sources**, go to **https://tsuikabako.github.io/add**, or paste this address in Kurobayomi:
 
-## Add this repository
+```
+https://raw.githubusercontent.com/tsuikabako/extensions/main/index.min.json
+```
 
-1. In Kurobayomi, click **Add a source repository** on the welcome screen, or go to **Browse → menu → Repositories → Add**.
-2. Paste this link and click **Add**:
-
-   ```
-   https://raw.githubusercontent.com/anas1412/kurobayomi-extensions/main/index.min.json
-   ```
-
-3. The sources show up in **Browse**, grouped by language.
-
-The app checks the repository once a day and picks up fixes and new sources by itself. To remove it, delete its link
-under **Repositories**; its sources go with it. The app's [Getting started](https://github.com/anas1412/kurobayomi/blob/main/docs/GETTING-STARTED.md)
-guide walks through this with screenshots.
+This repository is for reporting problems and changing sources; nothing here is downloaded by the app.
 
 ## Sources
 

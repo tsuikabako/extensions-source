@@ -1,1 +1,4 @@
 target/
+# built by CI and published to tsuikabako/extensions
+dist/
+index.min.json

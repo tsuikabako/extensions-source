@@ -1,0 +1,101 @@
+name: Build and publish
+
+# Builds every source, writes the index and publishes both to tsuikabako/extensions, the repository users add; nothing
+# built is committed here. Runs on each push to main, and every six hours with the health check, which updates each
+# source's status (tools/check-health.py) before the index is written.
+#
+# Publishing needs the secret EXTENSIONS_DEPLOY_KEY: the private half of a deploy key that has write access to
+# tsuikabako/extensions.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'sources/**'
+      - 'tools/**'
+      - 'output/**'
+      - 'status.toml'
+      - 'LICENSE'
+      - 'NOTICE'
+      - '.github/workflows/publish.yml'
+  schedule:
+    - cron: "17 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write  # the health check keeps its state in this repository
+
+concurrency:
+  group: publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Test the health rules
+        run: python3 tools/test-check-health.py
+
+      - name: Check the sites
+        if: github.event_name != 'push'
+        run: python3 tools/check-health.py
+
+      - name: Keep the health state
+        if: github.event_name != 'push'
+        run: |
+          if git diff --quiet -- health.toml health-state.json; then
+            echo "no change"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add health.toml health-state.json
+          git commit -m "Update source health"
+          git pull --rebase --quiet
+          git push
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/bin/wasm-component-ld
+            ~/.cargo/registry
+            target
+          key: wasm-${{ hashFiles('sources/*/Cargo.lock') }}
+          restore-keys: wasm-
+
+      - name: Install the component linker
+        run: command -v wasm-component-ld || cargo install --locked wasm-component-ld
+
+      - name: Build the plug-ins
+        run: tools/build.sh
+
+      - name: Write the index
+        run: python3 tools/make-index.py
+
+      - uses: actions/checkout@v5
+        with:
+          repository: tsuikabako/extensions
+          path: out
+          ssh-key: ${{ secrets.EXTENSIONS_DEPLOY_KEY }}
+
+      - name: Publish
+        run: |
+          # the published repository holds only what this job writes
+          find out -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp -r dist index.min.json LICENSE NOTICE out/
+          cp output/README.md out/README.md
+          cd out
+          git add -A
+          if git diff --cached --quiet; then
+            echo "nothing changed"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Publish ${GITHUB_SHA::8}"
+          git push

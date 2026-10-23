@@ -17,7 +17,7 @@ and what a pull request needs.
 | File | `recipe.toml` | a Rust crate built to `.wasm` |
 | Good for | simple HTML sites: lists, pages, links | APIs, signed requests, JavaScript unpacking, HLS |
 | Runs code | no, only CSS selectors and a few rules | yes, in the app's sandbox, with no file or system access |
-| Reference | [source-recipes.md](https://github.com/anas1412/kurobayomi/blob/main/docs/source-recipes.md) | [source-abi.md](https://github.com/anas1412/kurobayomi/blob/main/docs/source-abi.md) |
+| Reference | [source-recipes.md](https://github.com/kurobayomi/kurobayomi/blob/main/docs/source-recipes.md) | [source-abi.md](https://github.com/kurobayomi/kurobayomi/blob/main/docs/source-abi.md) |
 
 Try a recipe first. Use a plug-in when the site needs real logic.
 
@@ -37,19 +37,20 @@ template/             starter crate for a new plug-in
 status.toml           sources marked blocked or broken by hand (overrides health.toml)
 health.toml           written by tools/check-health.py: sources found broken (do not edit)
 health-state.json     the failures in a row per source, for the next check
-tools/check-health.py checks every source's site; a scheduled workflow runs it and rebuilds the index
+tools/check-health.py checks every source's site; the publish workflow runs it every six hours
 tools/build.sh        builds every plug-in into dist/
 tools/make-index.py   copies recipes and icons into dist/ and writes index.min.json
-dist/, index.min.json generated, but committed: the app downloads from them
+output/README.md      the README of the published repository
+dist/, index.min.json built, never committed: CI publishes them to tsuikabako/extensions
 ```
 
 ## Add a recipe
 
 1. Create `sources/<id>/recipe.toml`. Its `id` must be the folder name. It also needs `name`, `lang`, `kind`
    (`manga` or `anime`) and `version` (default 1). The keys are in
-   [source-recipes.md](https://github.com/anas1412/kurobayomi/blob/main/docs/source-recipes.md).
+   [source-recipes.md](https://github.com/kurobayomi/kurobayomi/blob/main/docs/source-recipes.md).
 2. Save a few real pages from the site into `fixtures/` and point the recipe's `[tests]` section at them.
-3. Check it from a clone of the [app repository](https://github.com/anas1412/kurobayomi):
+3. Check it from a clone of the [app repository](https://github.com/kurobayomi/kurobayomi):
 
    ```bash
    cargo run -p kuro-source-scrape --example check_recipe -- /path/to/recipe.toml /path/to/fixtures/
@@ -123,7 +124,9 @@ answers only the User-Agent the source sends). The rules are tested with
 
 ## Build the index
 
-After any change to a source, run both from the repository root:
+You do not need to: on each push to `main`, CI (`.github/workflows/publish.yml`) builds every source, writes the index and
+publishes them to [tsuikabako/extensions](https://github.com/tsuikabako/extensions). To check a change locally first, run
+both from the repository root:
 
 ```bash
 tools/build.sh
@@ -136,21 +139,22 @@ python3 tools/make-index.py
 `build.sh` builds each plug-in into `dist/<id>.wasm`. `make-index.py` copies recipes and icons into `dist/`, checks every
 source, removes files no source names, and writes `index.min.json` with each file's checksum.
 
-Commit `dist/` and `index.min.json` together with the source. The checksums in the index must match the files on the
-branch, or the app refuses the download. Never edit `index.min.json` by hand.
+Do not commit `dist/` or `index.min.json`; they are ignored here and written by CI. Never edit an index by hand: the
+checksums in it must match the files, or the app refuses the download.
 
 ## Try it in the app
 
-Point an index at your fork and add that link in Kurobayomi:
+Build an index that points at a throwaway branch of your fork, and push the built files there only:
 
 ```bash
-python3 tools/make-index.py --base-url https://raw.githubusercontent.com/<you>/kurobayomi-extensions/<branch>
+tools/build.sh
+python3 tools/make-index.py --base-url https://raw.githubusercontent.com/<you>/extensions-source/<test-branch>
+git switch -c <test-branch> && git add -f dist index.min.json && git commit -m test && git push -u origin <test-branch>
 ```
 
-Push the branch, then add
-`https://raw.githubusercontent.com/<you>/kurobayomi-extensions/<branch>/index.min.json` under **Browse → menu →
-Repositories → Add**. Run `make-index.py` again without `--base-url` before you open the pull request, so the index
-points at this repository.
+Then add `https://raw.githubusercontent.com/<you>/extensions-source/<test-branch>/index.min.json` in Kurobayomi
+(**Settings → Sources and tracking → Repositories → Add**). Open the pull request from a branch without the built
+files.
 
 A recipe can also be tried without a repository: copy `recipe.toml` to `~/.local/share/kurobayomi/scrapers/<id>.toml`
 (`kurobayomi-nightly` for the nightly app) and restart the app.
@@ -160,8 +164,8 @@ A recipe can also be tried without a repository: copy `recipe.toml` to `~/.local
 - [ ] The source's README names the extension it was ported from and what was left out.
 - [ ] `version` is bumped (for a fix) or set to 1 (for a new source).
 - [ ] Tests pass against the saved fixtures.
-- [ ] `tools/build.sh` and `python3 tools/make-index.py` were run, and `dist/` and `index.min.json` are committed.
-- [ ] The index points at this repository, not your fork.
+- [ ] `tools/build.sh` and `python3 tools/make-index.py` run without errors locally; `dist/` and `index.min.json` are
+      not in the pull request.
 - [ ] For a new source, the README's source table has a row for it.
 
 By contributing you agree that your work is licensed under the Apache License 2.0, like the rest of this repository.

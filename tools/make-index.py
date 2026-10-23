@@ -23,7 +23,7 @@ import sys
 import tomllib
 from pathlib import Path
 
-DEFAULT_BASE_URL = "https://raw.githubusercontent.com/anas1412/kurobayomi-extensions/main"
+DEFAULT_BASE_URL = "https://raw.githubusercontent.com/tsuikabako/extensions/main"
 KINDS = ("manga", "anime")
 LIMIT_PER_KIND = 10
 MAX_FILE_BYTES = 1024 * 1024  # the app refuses a larger file
@@ -153,7 +153,7 @@ def build_index(root, base_url):
         fail(f"status.toml: no source folder for {', '.join(unknown)}")
     # `url` is where this index lives: when the repository moves, the copy left at the old address names the new one and
     # the app moves its saved link there
-    return {"version": 1, "name": "Kurobayomi Extensions Repository", "website": "https://github.com/anas1412/kurobayomi-extensions", "url": f"{base_url}/index.min.json", "sources": entries}
+    return {"version": 1, "name": "Tsuikabako", "website": "https://tsuikabako.github.io", "url": f"{base_url}/index.min.json", "sources": entries}
 
 
 def main():
