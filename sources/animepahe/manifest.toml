@@ -1,6 +1,7 @@
 # The source's identity and the hosts its plug-in may reach through the host's http import.
 id = "animepahe"
 name = "AnimePahe"
+description = "Airing anime, streams in 360p to 1080p"
 lang = "en"
 kind = "anime"
 version = 3

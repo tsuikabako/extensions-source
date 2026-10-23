@@ -8,7 +8,8 @@ Each source is one folder, sources/<id>/, and its kind comes from the file it ho
   dist/<id>.toml here, so the index always matches the recipe.
 
 parked/ is not read. Each entry has id, name, lang, kind, version, file (the raw https link of the dist file), sha256 (of
-the file's bytes) and type ("wasm" or "recipe"). The app fetches a file only when a user first opens its source, and
+the file's bytes) and type ("wasm" or "recipe"), and a description when the source names one (one line, at most
+120 characters, shown under its name in the app). The app fetches a file only when a user first opens its source, and
 checks the bytes against sha256. A repository lists at most 10 sources of each kind.
 
 Usage: python3 tools/make-index.py [--base-url URL] [--out PATH]
@@ -131,6 +132,12 @@ def build_index(root, base_url):
             entries[-1]["status"] = status
         if kind_type == "wasm":
             entries[-1]["hosts"] = hosts
+        # one short line on what the source offers, shown under its name in the app (optional)
+        description = meta.get("description")
+        if description is not None:
+            if not (isinstance(description, str) and description.strip() and len(description) <= 120):
+                fail(f"{meta_path}: description must be one line of text, at most 120 characters")
+            entries[-1]["description"] = " ".join(description.split())
         # the site's icon (sources/<id>/icon.png, a square PNG), shown in the app's source lists
         icon = folder / "icon.png"
         if icon.is_file():

@@ -1,5 +1,6 @@
 id = "usagi"
 name = "Usagi"
+description = "Manga in Russian, chapters with dates and translators"
 lang = "ru"
 kind = "manga"
 version = 1

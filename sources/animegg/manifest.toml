@@ -1,5 +1,6 @@
 id = "animegg"
 name = "AnimeGG"
+description = "Anime subbed, dubbed and raw, as MP4 streams"
 lang = "en"
 kind = "anime"
 version = 1

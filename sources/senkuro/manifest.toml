@@ -1,5 +1,6 @@
 id = "senkuro"
 name = "Senkuro"
+description = "Manga in Russian, chapters with dates and teams"
 lang = "ru"
 kind = "manga"
 version = 1

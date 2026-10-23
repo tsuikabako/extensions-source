@@ -1,5 +1,6 @@
 id = "mangadex"
 name = "MangaDex"
+description = "Community scanlations, every English chapter"
 lang = "en"
 kind = "manga"
 version = 1

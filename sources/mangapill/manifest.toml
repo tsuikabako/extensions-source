@@ -1,5 +1,6 @@
 id = "mangapill"
 name = "MangaPill"
+description = "Trending and latest manga, quick search"
 lang = "en"
 kind = "manga"
 version = 1

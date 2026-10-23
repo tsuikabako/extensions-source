@@ -1,5 +1,6 @@
 id = "animeparadise"
 name = "AnimeParadise"
+description = "Anime in 1080p, subtitles in many languages"
 lang = "en"
 kind = "anime"
 version = 1

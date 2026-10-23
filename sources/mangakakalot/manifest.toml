@@ -1,5 +1,6 @@
 id = "mangakakalot"
 name = "Mangakakalot"
+description = "A big manga catalogue, chapters with dates"
 lang = "en"
 kind = "manga"
 version = 1

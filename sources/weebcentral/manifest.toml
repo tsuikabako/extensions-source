@@ -1,5 +1,6 @@
 id = "weebcentral"
 name = "Weeb Central"
+description = "Manga with search filters, chapters"
 lang = "en"
 kind = "manga"
 version = 4

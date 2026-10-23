@@ -1,5 +1,6 @@
 id = "kagane"
 name = "Kagane"
+description = "Manga, chapters with dates and scanlation groups"
 lang = "en"
 kind = "manga"
 version = 3

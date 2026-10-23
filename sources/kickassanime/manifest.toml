@@ -1,6 +1,7 @@
 # The source's identity and the hosts its plug-in may reach through the host's http import.
 id = "kickassanime"
 name = "KickAssAnime"
+description = "Anime streams with subtitles and audio tracks"
 lang = "en"
 kind = "anime"
 version = 3
