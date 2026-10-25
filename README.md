@@ -39,12 +39,19 @@ means the source is broken and needs a fix.
 | <img src="sources/manhwareads/icon.png" width="24" height="24" align="center"> Manhwa Reads | en | popular, latest, search, chapters with dates |
 | <img src="sources/sleepytranslations/icon.png" width="24" height="24" align="center"> Sleepy Translations | en | popular, latest, search, chapters with dates |
 | <img src="sources/tritiniascans/icon.png" width="24" height="24" align="center"> TritiniaScans | en | popular, latest, search, chapters with dates |
+| <img src="sources/atsumaru/icon.png" width="24" height="24" align="center"> Atsumaru | en | popular, latest, search, chapters with dates and groups |
+| <img src="sources/novelcoolen/icon.png" width="24" height="24" align="center"> NovelCool | en | hot, latest, search, chapters with dates |
 | <img src="sources/kagane/icon.png" width="24" height="24" align="center"> Kagane | en | popular, latest, search, chapters with dates and groups |
 | <img src="sources/senkuro/icon.png" width="24" height="24" align="center"> Senkuro | ru | popular, search, chapters with dates and teams |
 | <img src="sources/inkstory/icon.png" width="24" height="24" align="center"> InkStory | ru | popular, latest, search, chapters with dates and teams |
 | <img src="sources/usagi/icon.png" width="24" height="24" align="center"> Usagi | ru | popular, latest, search, chapters with dates and translators |
+| <img src="sources/readmanga/icon.png" width="24" height="24" align="center"> ReadManga | ru | popular, latest, search, chapters with dates and translators |
+| <img src="sources/selfmanga/icon.png" width="24" height="24" align="center"> SelfManga | ru | popular, latest, search, chapters with dates and translators |
+| <img src="sources/desu/icon.png" width="24" height="24" align="center"> Desu | ru | popular, latest, search, chapters |
 | <img src="sources/kazokuden/icon.png" width="24" height="24" align="center"> Kazoku Den | es | popular, latest, search, chapters with dates |
 | <img src="sources/ragnarokscanlation/icon.png" width="24" height="24" align="center"> Ragnarok Scanlation | es | popular, latest, search, chapters with dates |
+| <img src="sources/leercapitulo/icon.png" width="24" height="24" align="center"> LeerCapitulo | es | trending, latest, search, chapters with dates |
+| <img src="sources/novelcooles/icon.png" width="24" height="24" align="center"> NovelCool | es | hot, latest, search, chapters with dates |
 | <img src="sources/harmonyscan/icon.png" width="24" height="24" align="center"> Harmony-Scan | fr | popular, latest, search, chapters |
 | <img src="sources/shinobiscans/icon.png" width="24" height="24" align="center"> Shinobi Scans | it | popular, latest, search, chapters with dates |
 

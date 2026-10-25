@@ -326,11 +326,32 @@ dependencies = [
 ]
 
 [[package]]
+name = "kuro-atsumaru"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "kuro-guest",
+ "serde",
+ "serde_json",
+ "wit-bindgen",
+]
+
+[[package]]
 name = "kuro-decadencescans"
 version = "0.1.0"
 dependencies = [
  "kuro-guest",
  "kuro-madara",
+ "serde_json",
+ "wit-bindgen",
+]
+
+[[package]]
+name = "kuro-desu"
+version = "0.1.0"
+dependencies = [
+ "kuro-guest",
+ "serde",
  "serde_json",
  "wit-bindgen",
 ]
@@ -362,6 +383,17 @@ dependencies = [
  "kuro-madara",
  "serde_json",
  "wit-bindgen",
+]
+
+[[package]]
+name = "kuro-grouple"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "kuro-guest",
+ "serde",
+ "serde_json",
+ "url",
 ]
 
 [[package]]
@@ -452,6 +484,17 @@ dependencies = [
  "kuro-extractors",
  "kuro-guest",
  "serde_json",
+ "wit-bindgen",
+]
+
+[[package]]
+name = "kuro-leercapitulo"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "kuro-guest",
+ "serde_json",
+ "url",
  "wit-bindgen",
 ]
 
@@ -555,11 +598,62 @@ dependencies = [
 ]
 
 [[package]]
+name = "kuro-novelcool"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "kuro-guest",
+ "serde",
+ "serde_json",
+ "url",
+]
+
+[[package]]
+name = "kuro-novelcoolen"
+version = "0.1.0"
+dependencies = [
+ "kuro-guest",
+ "kuro-novelcool",
+ "serde_json",
+ "wit-bindgen",
+]
+
+[[package]]
+name = "kuro-novelcooles"
+version = "0.1.0"
+dependencies = [
+ "kuro-guest",
+ "kuro-novelcool",
+ "serde_json",
+ "wit-bindgen",
+]
+
+[[package]]
 name = "kuro-ragnarokscanlation"
 version = "0.1.0"
 dependencies = [
  "kuro-guest",
  "kuro-madara",
+ "serde_json",
+ "wit-bindgen",
+]
+
+[[package]]
+name = "kuro-readmanga"
+version = "0.1.0"
+dependencies = [
+ "kuro-grouple",
+ "kuro-guest",
+ "serde_json",
+ "wit-bindgen",
+]
+
+[[package]]
+name = "kuro-selfmanga"
+version = "0.1.0"
+dependencies = [
+ "kuro-grouple",
+ "kuro-guest",
  "serde_json",
  "wit-bindgen",
 ]
@@ -641,11 +735,9 @@ dependencies = [
 name = "kuro-usagi"
 version = "0.1.0"
 dependencies = [
- "chrono",
+ "kuro-grouple",
  "kuro-guest",
- "serde",
  "serde_json",
- "url",
  "wit-bindgen",
 ]
 

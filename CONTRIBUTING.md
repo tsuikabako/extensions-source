@@ -101,7 +101,7 @@ no WASI, so a wasip2 build cannot start.
 Many manga sites run the Madara WordPress theme. Its ops, URLs and parsers live once in `lib/madara`, so a Madara site is
 only its settings: copy `sources/topmanhuafan`, rename the folder and package, and set the `Site` in `src/lib.rs` (id,
 name, lang, address, title folder, and how the site lists titles and chapters). [The Madara guide](https://tsuikabako.github.io/make/madara)
-explains how to tell each setting. A fix to the theme goes in `lib/madara` and reaches every Madara site.
+explains how to tell each setting. A fix to the theme goes in `lib/madara` and reaches every Madara site. GroupLe sites (Russian: Usagi, ReadManga, SelfManga) work the same way on `lib/grouple`.
 
 ## Fix a source
 
