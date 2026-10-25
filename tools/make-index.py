@@ -66,7 +66,7 @@ def read_meta(folder):
         fail(f"{path}: {error}")
 
 
-def build_index(root, base_url, name="Tsuikabako", website="https://tsuikabako.github.io"):
+def build_index(root, base_url, repo_name="Tsuikabako", repo_website="https://tsuikabako.github.io"):
     dist = root / "dist"
     sources = root / "sources"
     entries = []
@@ -155,7 +155,7 @@ def build_index(root, base_url, name="Tsuikabako", website="https://tsuikabako.g
         fail(f"status.toml: no source folder for {', '.join(unknown)}")
     # `url` is where this index lives: when the repository moves, the copy left at the old address names the new one and
     # the app moves its saved link there
-    return {"version": 1, "name": name, "website": website, "url": f"{base_url}/index.min.json", "sources": entries}
+    return {"version": 1, "name": repo_name, "website": repo_website, "url": f"{base_url}/index.min.json", "sources": entries}
 
 
 def main():
