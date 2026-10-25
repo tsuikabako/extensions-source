@@ -25,6 +25,7 @@ means the source is broken and needs a fix.
 | <img src="sources/mangapill/icon.png" width="24" height="24" align="center"> MangaPill | en | trending, latest, search, chapters (no dates) |
 | <img src="sources/mangakakalot/icon.png" width="24" height="24" align="center"> Mangakakalot | en | hot, latest, search, chapters with dates |
 | <img src="sources/weebcentral/icon.png" width="24" height="24" align="center"> Weeb Central | en | popular, latest, search with filters, chapters |
+| <img src="sources/topmanhuafan/icon.png" width="24" height="24" align="center"> TopManhua.fan | en | popular, latest, search (first page), chapters with dates |
 | <img src="sources/kagane/icon.png" width="24" height="24" align="center"> Kagane | en | popular, latest, search, chapters with dates and groups |
 | <img src="sources/senkuro/icon.png" width="24" height="24" align="center"> Senkuro | ru | popular, search, chapters with dates and teams |
 | <img src="sources/inkstory/icon.png" width="24" height="24" align="center"> InkStory | ru | popular, latest, search, chapters with dates and teams |

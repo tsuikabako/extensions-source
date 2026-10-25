@@ -11,6 +11,7 @@ on:
     branches: [main]
     paths:
       - 'sources/**'
+      - 'lib/**'
       - 'tools/**'
       - 'output/**'
       - 'status.toml'
@@ -65,7 +66,7 @@ jobs:
             ~/.cargo/bin/wasm-component-ld
             ~/.cargo/registry
             target
-          key: wasm-${{ hashFiles('sources/*/Cargo.lock') }}
+          key: wasm-${{ hashFiles('sources/*/Cargo.lock', 'lib/*/Cargo.lock') }}
           restore-keys: wasm-
 
       - name: Install the component linker

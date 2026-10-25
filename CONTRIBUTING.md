@@ -33,6 +33,7 @@ sources/<id>/         one folder per source; <id> is lower-case letters, digits,
   health.toml         the page the health check fetches to see the site is up (url, expect, cloudflare)
   README.md           what it does, what was left out, the original extension
 parked/<id>/          sources kept but not offered; never read by the tools
+lib/<theme>/          code shared by the plug-ins of one site theme (lib/madara: every Madara WordPress site)
 template/             starter crate for a new plug-in
 status.toml           sources marked blocked or broken by hand (overrides health.toml)
 health.toml           written by tools/check-health.py: sources found broken (do not edit)
@@ -100,6 +101,14 @@ rustup target add wasm32-unknown-unknown
 A built plug-in must be under 1 MiB. `tools/build.sh` fails when it is bigger, and also when it imports anything but the
 app's host interface. Build for `wasm32-unknown-unknown` through the script, never for `wasm32-wasip2`: the sandbox has
 no WASI, so a wasip2 build cannot start.
+
+## Add a Madara site
+
+Many manga sites run the Madara WordPress theme. Its ops, URLs and parsers live once in `lib/madara`, so a Madara site is
+a small plug-in: copy `sources/topmanhuafan`, rename the package, and set the `Site` in `src/lib.rs` (id, name, lang,
+address, title folder, and how the site lists titles and chapters: see the keiyoushi extension's `chapterMode` and
+whether it extends `MadaraNoAjax`). A fix to the theme goes in `lib/madara` and reaches every Madara site; bump the
+`version` of each site whose behaviour changes.
 
 ## Fix a source
 
