@@ -10,7 +10,7 @@ Each source is one folder, sources/<id>/, and its kind comes from the file it ho
 parked/ is not read. Each entry has id, name, lang, kind, version, file (the raw https link of the dist file), sha256 (of
 the file's bytes) and type ("wasm" or "recipe"), and a description when the source names one (one line, at most
 120 characters, shown under its name in the app). The app fetches a file only when a user first opens its source, and
-checks the bytes against sha256. A repository lists at most 10 sources of each kind.
+checks the bytes against sha256.
 
 Usage: python3 tools/make-index.py [--base-url URL] [--out PATH]
 """
@@ -26,7 +26,6 @@ from pathlib import Path
 
 DEFAULT_BASE_URL = "https://raw.githubusercontent.com/tsuikabako/extensions/main"
 KINDS = ("manga", "anime")
-LIMIT_PER_KIND = 10
 MAX_FILE_BYTES = 1024 * 1024  # the app refuses a larger file
 ID_PATTERN = re.compile(r"[a-z0-9._-]+")
 # status.toml: `<id> = "blocked"` or `"broken"`; a source not listed there is active. The app shows it as a coloured dot.
@@ -145,10 +144,6 @@ def build_index(root, base_url):
             shutil.copyfile(icon, dist_icon)
             entries[-1]["icon"] = f"{base_url}/{dist_icon.relative_to(root).as_posix()}"
             entries[-1]["iconSha256"] = hashlib.sha256(dist_icon.read_bytes()).hexdigest()
-    for kind in KINDS:
-        count = sum(1 for entry in entries if entry["kind"] == kind)
-        if count > LIMIT_PER_KIND:
-            fail(f"{count} {kind} sources; a repository lists at most {LIMIT_PER_KIND} of each kind")
     # dist/ holds only what the index names: a source moved to parked/ or removed must not leave its file behind.
     named = {Path(entry["file"]).name for entry in entries} | {Path(entry["icon"]).name for entry in entries if "icon" in entry}
     for stale in sorted(dist.iterdir()) if dist.is_dir() else []:
