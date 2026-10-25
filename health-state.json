@@ -11,6 +11,22 @@
   "fails": 0,
   "status": "active"
  },
+ "decadencescans": {
+  "fails": 0,
+  "status": "active"
+ },
+ "galaxydegenscans": {
+  "fails": 0,
+  "status": "active"
+ },
+ "harmonyscan": {
+  "fails": 1,
+  "status": "active"
+ },
+ "hunlightcomics": {
+  "fails": 0,
+  "status": "active"
+ },
  "inkstory": {
   "fails": 0,
   "status": "active"
@@ -19,11 +35,39 @@
   "fails": 0,
   "status": "active"
  },
+ "kazokuden": {
+  "fails": 0,
+  "status": "active"
+ },
  "kickassanime": {
   "fails": 0,
   "status": "active"
  },
+ "kokomangas": {
+  "fails": 0,
+  "status": "active"
+ },
+ "ksgroupscans": {
+  "fails": 0,
+  "status": "active"
+ },
+ "latanime": {
+  "fails": 0,
+  "status": "active"
+ },
+ "lhtranslation": {
+  "fails": 0,
+  "status": "active"
+ },
+ "linkmanga": {
+  "fails": 0,
+  "status": "active"
+ },
  "mangadex": {
+  "fails": 0,
+  "status": "active"
+ },
+ "mangaeclipse": {
   "fails": 0,
   "status": "active"
  },
@@ -35,7 +79,39 @@
   "fails": 0,
   "status": "active"
  },
+ "mangasushi": {
+  "fails": 0,
+  "status": "active"
+ },
+ "manhuahot": {
+  "fails": 0,
+  "status": "active"
+ },
+ "manhwareads": {
+  "fails": 0,
+  "status": "active"
+ },
+ "ragnarokscanlation": {
+  "fails": 0,
+  "status": "active"
+ },
  "senkuro": {
+  "fails": 0,
+  "status": "active"
+ },
+ "shinobiscans": {
+  "fails": 0,
+  "status": "active"
+ },
+ "sleepytranslations": {
+  "fails": 0,
+  "status": "active"
+ },
+ "topmanhuafan": {
+  "fails": 0,
+  "status": "active"
+ },
+ "tritiniascans": {
   "fails": 0,
   "status": "active"
  },
