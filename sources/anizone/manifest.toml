@@ -1,0 +1,8 @@
+id = "anizone"
+name = "AniZone"
+description = "Anime with many dub languages and soft subtitles, streamed in HLS"
+lang = "all"
+kind = "anime"
+version = 1
+# The site and its Livewire endpoint. The videos and subtitles (*.vid-cdn.xyz, *.xin-cdn.xyz) load in the app.
+hosts = ["anizone.to"]

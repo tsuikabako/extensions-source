@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="Snxrv1FVXoNHBI9FqFDzzrB9pOlf7t4HRNlt6yfp">
+
+        <title>Sousou no Frieren — AniZone</title>
+
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+        <link rel="manifest" href="/site.webmanifest">
+
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+
+        <!-- Scripts -->
+        <link rel="preload" as="style" href="https://anizone.to/build/assets/app-DKzcyrgm.css" /><link rel="preload" as="style" href="https://anizone.to/build/assets/app-BTMyseaN.css" /><link rel="preload" as="style" href="https://anizone.to/build/assets/vidstack-_etrU88d.css" /><link rel="modulepreload" as="script" href="https://anizone.to/build/assets/app-D7l3y0y9.js" /><link rel="modulepreload" as="script" href="https://anizone.to/build/assets/vidstack-B8aDH4fE.js" /><link rel="modulepreload" as="script" href="https://anizone.to/build/assets/vidstack-BGSTndAW-DRhAKVwu.js" /><link rel="stylesheet" href="https://anizone.to/build/assets/app-DKzcyrgm.css" data-navigate-track="reload" /><link rel="stylesheet" href="https://anizone.to/build/assets/app-BTMyseaN.css" data-navigate-track="reload" /><link rel="stylesheet" href="https://anizone.to/build/assets/vidstack-_etrU88d.css" data-navigate-track="reload" /><script type="module" src="https://anizone.to/build/assets/app-D7l3y0y9.js" data-navigate-track="reload"></script><script type="module" src="https://anizone.to/build/assets/vidstack-B8aDH4fE.js" data-navigate-track="reload"></script>            <!-- Livewire Styles --><style >[wire\:loading][wire\:loading], [wire\:loading\.delay][wire\:loading\.delay], [wire\:loading\.inline-block][wire\:loading\.inline-block], [wire\:loading\.inline][wire\:loading\.inline], [wire\:loading\.block][wire\:loading\.block], [wire\:loading\.flex][wire\:loading\.flex], [wire\:loading\.table][wire\:loading\.table], [wire\:loading\.grid][wire\:loading\.grid], [wire\:loading\.inline-flex][wire\:loading\.inline-flex] {display: none;}[wire\:loading\.delay\.none][wire\:loading\.delay\.none], [wire\:loading\.delay\.shortest][wire\:loading\.delay\.shortest], [wire\:loading\.delay\.shorter][wire\:loading\.delay\.shorter], [wire\:loading\.delay\.short][wire\:loading\.delay\.short], [wire\:loading\.delay\.default][wire\:loading\.delay\.default], [wire\:loading\.delay\.long][wire\:loading\.delay\.long], [wire\:loading\.delay\.longer][wire\:loading\.delay\.longer], [wire\:loading\.delay\.longest][wire\:loading\.delay\.longest] {display: none;}[wire\:offline][wire\:offline] {display: none;}[wire\:dirty]:not(textarea):not(input):not(select) {display: none;}:root {--livewire-progress-bar-color: #2299dd;}[x-cloak] {display: none !important;}[wire\:cloak] {display: none !important;}dialog#livewire-error::backdrop {background-color: rgba(0, 0, 0, .6);}</style>
+</head>
+
+    <body class="min-h-screen font-sans antialiased text-slate-300 bg-slate-800">
+                    <nav wire:snapshot="{&quot;data&quot;:{&quot;search&quot;:null},&quot;memo&quot;:{&quot;id&quot;:&quot;WZmSOTTOTdVU1Xtdvuqa&quot;,&quot;name&quot;:&quot;layout.navbar&quot;,&quot;path&quot;:&quot;anime\/mdkytdqp&quot;,&quot;method&quot;:&quot;GET&quot;,&quot;release&quot;:&quot;a-a-a&quot;,&quot;children&quot;:[],&quot;scripts&quot;:[],&quot;assets&quot;:[],&quot;errors&quot;:[],&quot;locale&quot;:&quot;en&quot;},&quot;checksum&quot;:&quot;2f1f664ba939112e6fa3a7d3ce614dd5846854b0c94613dcf78fb2d53acc0833&quot;}" wire:effects="[]" wire:id="WZmSOTTOTdVU1Xtdvuqa" class="md:sticky top-0 z-40 w-full bg-gray-800/50 backdrop-blur-2xl border-gray-700/40 border-b transition-colors duration-300 ease-in-out">
+
+    <div x-data="{ isOpen: false }" class="mx-auto px-4 py-3 flex flex-col md:flex-row md:items-center md:justify-between gap-6 md:gap-0">
+        <div class="flex justify-between items-center gap-3 md:grow">
+
+            <div class="flex items-center gap-2">
+                <a href="https://anizone.to" class="p-2.5 rounded-lg hocus:text-white hocus:bg-gray-700/90 focus:outline-none transition-colors duration-300 ease-in-out " aria-label="Home" wire:navigate>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="block h-5 w-auto fill-current">
+    <path d="M575.8 255.5c0 18-15 32.1-32 32.1h-32l.7 160.2c0 2.7-.2 5.4-.5 8.1V472c0 22.1-17.9 40-40 40H456c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1H416 392c-22.1 0-40-17.9-40-40V448 384c0-17.7-14.3-32-32-32H256c-17.7 0-32 14.3-32 32v64 24c0 22.1-17.9 40-40 40H160 128.1c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2H104c-22.1 0-40-17.9-40-40V360c0-.9 0-1.9 .1-2.8V287.6H32c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z"/>
+</svg>                </a>
+
+                <div class="hidden md:flex gap-2">
+                    <a href="https://anizone.to/anime" class="px-4 py-2 rounded-lg hocus:text-white hocus:bg-gray-700/90 focus:outline-none transition-colors duration-300 ease-in-out text-white bg-rose-500/90" aria-label="Anime Index" wire:navigate>Anime</a>
+
+                    <a href="https://anizone.to/episode" class="px-4 py-2 rounded-lg hocus:text-white hocus:bg-gray-700/90 focus:outline-none transition-colors duration-300 ease-in-out " aria-label="Episode Index" wire:navigate>Episode</a>
+
+                    <a href="https://anizone.to/tag" class="px-4 py-2 rounded-lg hocus:text-white hocus:bg-gray-700/90 focus:outline-none transition-colors duration-300 ease-in-out " aria-label="Tag Index" wire:navigate>Tags</a>
+
+                    <button
+                        type="button"
+                        class="px-4 py-2 rounded-lg hocus:text-white hocus:bg-gray-700/90 focus:outline-none transition-colors duration-300 ease-in-out"
+                        aria-label="Random Anime"
+                        wire:click="randomAnime"
+                    >Random</button>
+                </div>
+            </div>
+
+            <div class="flex flex-row gap-3 grow md:grow-0">
+            <form wire:submit="simpleSearch" class="grow md:grow-0">
+                <input wire:model="search" class="w-full border border-gray-700/40 rounded-full bg-slate-900/30 hocus:bg-slate-900/50 focus:ring-0 transition-colors duration-300 ease-in-out" />
+            </form>
+
+            <a href="https://anizone.to/settings" class="p-2.5 rounded-lg hocus:text-white hocus:bg-gray-700/90 focus:outline-none transition-colors duration-300 ease-in-out " aria-label="Settings" wire:navigate>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="h-5 fill-current">
+    <path d="M495.9 166.6c3.2 8.7 .5 18.4-6.4 24.6l-43.3 39.4c1.1 8.3 1.7 16.8 1.7 25.4s-.6 17.1-1.7 25.4l43.3 39.4c6.9 6.2 9.6 15.9 6.4 24.6c-4.4 11.9-9.7 23.3-15.8 34.3l-4.7 8.1c-6.6 11-14 21.4-22.1 31.2c-5.9 7.2-15.7 9.6-24.5 6.8l-55.7-17.7c-13.4 10.3-28.2 18.9-44 25.4l-12.5 57.1c-2 9.1-9 16.3-18.2 17.8c-13.8 2.3-28 3.5-42.5 3.5s-28.7-1.2-42.5-3.5c-9.2-1.5-16.2-8.7-18.2-17.8l-12.5-57.1c-15.8-6.5-30.6-15.1-44-25.4L83.1 425.9c-8.8 2.8-18.6 .3-24.5-6.8c-8.1-9.8-15.5-20.2-22.1-31.2l-4.7-8.1c-6.1-11-11.4-22.4-15.8-34.3c-3.2-8.7-.5-18.4 6.4-24.6l43.3-39.4C64.6 273.1 64 264.6 64 256s.6-17.1 1.7-25.4L22.4 191.2c-6.9-6.2-9.6-15.9-6.4-24.6c4.4-11.9 9.7-23.3 15.8-34.3l4.7-8.1c6.6-11 14-21.4 22.1-31.2c5.9-7.2 15.7-9.6 24.5-6.8l55.7 17.7c13.4-10.3 28.2-18.9 44-25.4l12.5-57.1c2-9.1 9-16.3 18.2-17.8C227.3 1.2 241.5 0 256 0s28.7 1.2 42.5 3.5c9.2 1.5 16.2 8.7 18.2 17.8l12.5 57.1c15.8 6.5 30.6 15.1 44 25.4l55.7-17.7c8.8-2.8 18.6-.3 24.5 6.8c8.1 9.8 15.5 20.2 22.1 31.2l4.7 8.1c6.1 11 11.4 22.4 15.8 34.3zM256 336a80 80 0 1 0 0-160 80 80 0 1 0 0 160z"/>
+</svg>            </a>
+            </div>
+        </div>
+    </div>
+
+</nav>            <div wire:snapshot="{&quot;data&quot;:[],&quot;memo&quot;:{&quot;id&quot;:&quot;C06OtWtltsGhIEaiQiml&quot;,&quot;name&quot;:&quot;layout.navbar-mobile&quot;,&quot;path&quot;:&quot;anime\/mdkytdqp&quot;,&quot;method&quot;:&quot;GET&quot;,&quot;release&quot;:&quot;a-a-a&quot;,&quot;children&quot;:[],&quot;scripts&quot;:[],&quot;assets&quot;:[],&quot;errors&quot;:[],&quot;locale&quot;:&quot;en&quot;},&quot;checksum&quot;:&quot;accf9a2e0b1d27d3a4f34a48e2bc5f5e7d132ffd7a88fadf23cca49a2debceac&quot;}" wire:effects="[]" wire:id="C06OtWtltsGhIEaiQiml" class="w-full bg-gray-800 border-gray-700 border-t bottom-0 fixed z-40 md:hidden">
+    <div class="flex text-center text-sm">
+        <a href="https://anizone.to" class="flex flex-col flex-1 justify-center py-2 gap-1
+            focus:outline-none transition-colors duration-300 ease-in-out " aria-label="Anime Index" wire:navigate>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="h-5 fill-current">
+    <path d="M575.8 255.5c0 18-15 32.1-32 32.1h-32l.7 160.2c0 2.7-.2 5.4-.5 8.1V472c0 22.1-17.9 40-40 40H456c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1H416 392c-22.1 0-40-17.9-40-40V448 384c0-17.7-14.3-32-32-32H256c-17.7 0-32 14.3-32 32v64 24c0 22.1-17.9 40-40 40H160 128.1c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2H104c-22.1 0-40-17.9-40-40V360c0-.9 0-1.9 .1-2.8V287.6H32c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z"/>
+</svg>            <span>Home</span>
+        </a>
+        <a href="https://anizone.to/anime" class="flex flex-col flex-1 justify-center py-2 gap-1
+            focus:outline-none transition-colors duration-300 ease-in-out text-sky-500/90" aria-label="Anime Index" wire:navigate>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" class="h-5 fill-current">
+    <path d="M64 64V352H576V64H64zM0 64C0 28.7 28.7 0 64 0H576c35.3 0 64 28.7 64 64V352c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V64zM128 448H512c17.7 0 32 14.3 32 32s-14.3 32-32 32H128c-17.7 0-32-14.3-32-32s14.3-32 32-32z"/>
+</svg>            <span>Anime</span>
+        </a>
+
+        <a href="https://anizone.to/episode" class="flex flex-col flex-1 justify-center py-2 gap-1
+            focus:outline-none transition-colors duration-300 ease-in-out " aria-label="Episode Index" wire:navigate>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="h-5 fill-current">
+    <path d="M0 96C0 60.7 28.7 32 64 32H448c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM48 368v32c0 8.8 7.2 16 16 16H96c8.8 0 16-7.2 16-16V368c0-8.8-7.2-16-16-16H64c-8.8 0-16 7.2-16 16zm368-16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V368c0-8.8-7.2-16-16-16H416zM48 240v32c0 8.8 7.2 16 16 16H96c8.8 0 16-7.2 16-16V240c0-8.8-7.2-16-16-16H64c-8.8 0-16 7.2-16 16zm368-16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V240c0-8.8-7.2-16-16-16H416zM48 112v32c0 8.8 7.2 16 16 16H96c8.8 0 16-7.2 16-16V112c0-8.8-7.2-16-16-16H64c-8.8 0-16 7.2-16 16zM416 96c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V112c0-8.8-7.2-16-16-16H416zM160 128v64c0 17.7 14.3 32 32 32H320c17.7 0 32-14.3 32-32V128c0-17.7-14.3-32-32-32H192c-17.7 0-32 14.3-32 32zm32 160c-17.7 0-32 14.3-32 32v64c0 17.7 14.3 32 32 32H320c17.7 0 32-14.3 32-32V320c0-17.7-14.3-32-32-32H192z"/>
+</svg>            <span>Episode</span>
+        </a>
+
+        <a href="https://anizone.to/tag" class="flex flex-col flex-1 justify-center py-2 gap-1
+            focus:outline-none transition-colors duration-300 ease-in-out " aria-label="Tag Index" wire:navigate>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" class="h-5 fill-current">
+    <path d="M74.6 373.2c41.7 36.1 108 82.5 166.1 73.7c6.1-.9 12.1-2.5 18-4.5c-9.2-12.3-17.3-24.4-24.2-35.4c-21.9-35-28.8-75.2-25.9-113.6c-20.6 4.1-39.2 13-54.7 25.4c-6.5 5.2-16.3 1.3-14.8-7c6.4-33.5 33-60.9 68.2-66.3c2.6-.4 5.3-.7 7.9-.8l19.4-131.3c2-13.8 8-32.7 25-45.9C278.2 53.2 310.5 37 363.2 32.2c-.8-.7-1.6-1.4-2.4-2.1C340.6 14.5 288.4-11.5 175.7 5.6S20.5 63 5.7 83.9C0 91.9-.8 102 .6 111.8L24.8 276.1c5.5 37.3 21.5 72.6 49.8 97.2zm87.7-219.6c4.4-3.1 10.8-2 11.8 3.3c.1 .5 .2 1.1 .3 1.6c3.2 21.8-11.6 42-33.1 45.3s-41.5-11.8-44.7-33.5c-.1-.5-.1-1.1-.2-1.6c-.6-5.4 5.2-8.4 10.3-6.7c9 3 18.8 3.9 28.7 2.4s19.1-5.3 26.8-10.8zM261.6 390c29.4 46.9 79.5 110.9 137.6 119.7s124.5-37.5 166.1-73.7c28.3-24.5 44.3-59.8 49.8-97.2l24.2-164.3c1.4-9.8 .6-19.9-5.1-27.9c-14.8-20.9-57.3-61.2-170-78.3S299.4 77.2 279.2 92.8c-7.8 6-11.5 15.4-12.9 25.2L242.1 282.3c-5.5 37.3-.4 75.8 19.6 107.7zM404.5 235.3c-7.7-5.5-16.8-9.3-26.8-10.8s-19.8-.6-28.7 2.4c-5.1 1.7-10.9-1.3-10.3-6.7c.1-.5 .1-1.1 .2-1.6c3.2-21.8 23.2-36.8 44.7-33.5s36.3 23.5 33.1 45.3c-.1 .5-.2 1.1-.3 1.6c-1 5.3-7.4 6.4-11.8 3.3zm136.2 15.5c-1 5.3-7.4 6.4-11.8 3.3c-7.7-5.5-16.8-9.3-26.8-10.8s-19.8-.6-28.7 2.4c-5.1 1.7-10.9-1.3-10.3-6.7c.1-.5 .1-1.1 .2-1.6c3.2-21.8 23.2-36.8 44.7-33.5s36.3 23.5 33.1 45.3c-.1 .5-.2 1.1-.3 1.6zM530 350.2c-19.6 44.7-66.8 72.5-116.8 64.9s-87.1-48.2-93-96.7c-1-8.3 8.9-12.1 15.2-6.7c23.9 20.8 53.6 35.3 87 40.3s66.1 .1 94.9-12.8c7.6-3.4 16 3.2 12.6 10.9z"/>
+</svg>            <span>Tags</span>
+        </a>
+
+        <button
+            type="button"
+            class="items-center flex flex-col flex-1 justify-center py-2 gap-1 focus:outline-none transition-colors duration-300 ease-in-out"
+            aria-label="Random Anime"
+            wire:click="randomAnime"
+        >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="h-5 fill-current">
+    <path d="M403.8 34.4c12-5 25.7-2.2 34.9 6.9l64 64c6 6 9.4 14.1 9.4 22.6s-3.4 16.6-9.4 22.6l-64 64c-9.2 9.2-22.9 11.9-34.9 6.9s-19.8-16.6-19.8-29.6V160H352c-10.1 0-19.6 4.7-25.6 12.8L284 229.3 244 176l31.2-41.6C293.3 110.2 321.8 96 352 96h32V64c0-12.9 7.8-24.6 19.8-29.6zM164 282.7L204 336l-31.2 41.6C154.7 401.8 126.2 416 96 416H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H96c10.1 0 19.6-4.7 25.6-12.8L164 282.7zm274.6 188c-9.2 9.2-22.9 11.9-34.9 6.9s-19.8-16.6-19.8-29.6V416H352c-30.2 0-58.7-14.2-76.8-38.4L121.6 172.8c-6-8.1-15.5-12.8-25.6-12.8H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H96c30.2 0 58.7 14.2 76.8 38.4L326.4 339.2c6 8.1 15.5 12.8 25.6 12.8h32V320c0-12.9 7.8-24.6 19.8-29.6s25.7-2.2 34.9 6.9l64 64c6 6 9.4 14.1 9.4 22.6s-3.4 16.6-9.4 22.6l-64 64z"/>
+</svg>            <span>Random</span>
+        </button>
+    </div>
+</div>        
+        <main class="flex flex-col items-center">
+            
+            <div wire:snapshot="{&quot;data&quot;:{&quot;slug&quot;:&quot;mdkytdqp&quot;,&quot;search&quot;:&quot;&quot;,&quot;sort&quot;:&quot;default-asc&quot;,&quot;type&quot;:&quot;0&quot;,&quot;typeOptions&quot;:[[&quot;All&quot;,&quot;Regular Episode&quot;,&quot;Special&quot;,&quot;Opening\/Ending&quot;,&quot;Trailer\/Promo\/Ads&quot;,&quot;Parody\/Fandub&quot;,&quot;Other&quot;],{&quot;s&quot;:&quot;arr&quot;}],&quot;sortOptions&quot;:[{&quot;default-asc&quot;:&quot;Default&quot;,&quot;default-desc&quot;:&quot;Inverse&quot;,&quot;release-asc&quot;:&quot;First Aired&quot;,&quot;release-desc&quot;:&quot;Last Aired&quot;},{&quot;s&quot;:&quot;arr&quot;}]},&quot;memo&quot;:{&quot;id&quot;:&quot;QtbqA3OtiVynVsdBeDTR&quot;,&quot;name&quot;:&quot;pages.anime-detail&quot;,&quot;path&quot;:&quot;anime\/mdkytdqp&quot;,&quot;method&quot;:&quot;GET&quot;,&quot;release&quot;:&quot;a-a-a&quot;,&quot;children&quot;:[],&quot;scripts&quot;:[],&quot;assets&quot;:[],&quot;errors&quot;:[],&quot;locale&quot;:&quot;en&quot;},&quot;checksum&quot;:&quot;d31a5c2944cbc528951155d301910a7e40c83d81ac9c18826aa2afe94ca9bb9f&quot;}" wire:effects="[]" wire:id="QtbqA3OtiVynVsdBeDTR"
+    x-data="{
+        isUnsafe: false,
+        anmTitles: JSON.parse('{\u00225\u0022:\u0022Sousou no Frieren\u0022,\u00222\u0022:\u0022Frieren\u0022,\u00228\u0022:\u0022\\u846c\\u9001\\u306e\\u30d5\\u30ea\\u30fc\\u30ec\\u30f3\u0022,\u00221\u0022:\u0022Frieren: Beyond Journey`s End\u0022,\u002210\u0022:\u0022Frieren: Nach dem Ende der Reise\u0022,\u002211\u0022:\u0022Frieren - Oltre la Fine del Viaggio\u0022,\u002213\u0022:\u0022Frieren: Tras finalizar el viaje\u0022,\u002221\u0022:\u0022Frieren e a Jornada para o Al\\u00e9m\u0022,\u002235\u0022:\u0022\\u05e4\\u05e8\\u05d9\\u05e8\\u05df: \\u05de\\u05e2\\u05d1\\u05e8 \\u05dc\\u05e1\\u05d5\\u05e3 \\u05d4\\u05de\\u05e1\\u05e2\u0022,\u002238\u0022:\u0022\\u846c\\u9001\\u7684\\u8299\\u8389\\u84ee\u0022,\u00229\u0022:\u0022\\u846c\\u9001\\u7684\\u8299\\u8389\\u83b2\u0022,\u002241\u0022:\u0022Frieren: M\\u00e1s all\\u00e1 del final del viaje\u0022,\u00226\u0022:\u0022\\u0424\\u0440\\u0438\\u0440\\u0435\\u043d, \\u043f\\u0440\\u043e\\u0432\\u043e\\u0436\\u0430\\u044e\\u0449\\u0430\\u044f \\u0432 \\u043f\\u043e\\u0441\\u043b\\u0435\\u0434\\u043d\\u0438\\u0439 \\u043f\\u0443\\u0442\\u044c\u0022,\u00223\u0022:\u0022Frieren. U kresu drogi\u0022,\u002240\u0022:\u0022\\u0e04\\u0e33\\u0e2d\\u0e18\\u0e34\\u0e29\\u0e10\\u0e32\\u0e19\\u0e43\\u0e19\\u0e27\\u0e31\\u0e19\\u0e17\\u0e35\\u0e48\\u0e08\\u0e32\\u0e01\\u0e25\\u0e32 FRIEREN\u0022,\u002214\u0022:\u0022Frieren e a Jornada para o Al\\u00e9m\u0022}'),
+        items: JSON.parse('[{\u0022slug\u0022:\u00221\u0022,\u0022url\u0022:\u0022http:\\\/\\\/anizone.to\\\/anime\\\/mdkytdqp\\\/1\u0022,\u0022title_list\u0022:{\u00228\u0022:\u0022\\u5192\\u967a\\u306e\\u7d42\\u308f\\u308a\u0022,\u00221\u0022:\u0022The Journey`s End\u0022,\u00222\u0022:\u0022La fin de l`aventure\u0022,\u00225\u0022:\u0022Bouken no Owari\u0022,\u002210\u0022:\u0022Das Ende der Reise\u0022,\u00229\u0022:\u0022\\u5192\\u9669\\u7684\\u7ed3\\u675f\u0022},\u0022summary\u0022:\u0022The world celebrates the Demon King`s defeat at the hands of the Hero and his companions. Now that their great adventure is over, what will Frieren the mage do next?\u0022,\u0022is_unsafe\u0022:false,\u0022type\u0022:\u0022Regular Episode\u0022,\u0022air_date\u0022:\u00222023-09-29\u0022,\u0022air_diff\u0022:\u00223 years ago\u0022,\u0022videos_count\u0022:1,\u0022duration\u0022:\u002225:59\u0022,\u0022snapshot\u0022:\u0022https:\\\/\\\/seiryuu.vid-cdn.xyz\\\/a7305a5d-5bc8-4944-843a-f8675561b940\\\/snapshot.webp\u0022,\u0022teaser\u0022:\u0022https:\\\/\\\/seiryuu.vid-cdn.xyz\\\/a7305a5d-5bc8-4944-843a-f8675561b940\\\/teaser.webp\u0022},{\u0022slug\u0022:\u00222\u0022,\u0022url\u0022:\u0022http:\\\/\\\/anizone.to\\\/anime\\\/mdkytdqp\\\/2\u0022,\u0022title_list\u0022:{\u00228\u0022:\u0022\\u5225\\u306b\\u9b54\\u6cd5\\u3058\\u3083\\u306a\\u304f\\u305f\\u3063\\u3066...\u0022,\u00221\u0022:\u0022It Didn`t Have to Be Magic...\u0022,\u00222\u0022:\u0022Magie ou pas, peu importe\u0022,\u00225\u0022:\u0022Betsu ni Mahou ja Nakutatte...\u0022,\u002210\u0022:\u0022Es h\\u00e4tte nicht unbedingt Magie sein m\\u00fcssen ...\u0022,\u00229\u0022:\u0022\\u4e5f\\u4e0d\\u4e00\\u5b9a\\u8981\\u662f\\u9b54\\u6cd5\\u2026\u0022},\u0022summary\u0022:\u0022Frieren instructs Fern in the use of magic while deciphering a grimoire for Heiter.\u0022,\u0022is_unsafe\u0022:false,\u0022type\u0022:\u0022Regular Episode\u0022,\u0022air_date\u0022:\u00222023-09-29\u0022,\u0022air_diff\u0022:\u00223 years ago\u0022,\u0022videos_count\u0022:1,\u0022duration\u0022:\u002226:00\u0022,\u0022snapshot\u0022:\u0022https:\\\/\\\/seiryuu.vid-cdn.xyz\\\/0e49e7f0-ee0c-41c1-a8a3-3514765a0cbe\\\/snapshot.webp\u0022,\u0022teaser\u0022:\u0022https:\\\/\\\/seiryuu.vid-cdn.xyz\\\/0e49e7f0-ee0c-41c1-a8a3-3514765a0cbe\\\/teaser.webp\u0022},{\u0022slug\u0022:\u00223\u0022,\u0022url\u0022:\u0022http:\\\/\\\/anizone.to\\\/anime\\\/mdkytdqp\\\/3\u0022,\u0022title_list\u0022:{\u00228\u0022:\u0022\\u4eba\\u3092\\u6bba\\u3059\\u9b54\\u6cd5\u0022,\u00221\u0022:\u0022Killing Magic\u0022,\u00222\u0022:\u0022Le zoltraak\u0022,\u00225\u0022:\u0022Hito o Korosu Mahou\u0022,\u002210\u0022:\u0022T\\u00f6tungszauber\u0022,\u00229\u0022:\u0022\\u6740\\u4eba\\u9b54\\u6cd5\u0022},\u0022summary\u0022:\u0022While retracing the path she took on her adventure with her former traveling companions, Frieren confronts an old enemy.\u0022,\u0022is_unsafe\u0022:false,\u0022type\u0022:\u0022Regular Episode\u0022,\u0022air_date\u0022:\u00222023-09-29\u0022,\u0022air_diff\u0022:\u00223 years ago\u0022,\u0022videos_count\u0022:1,\u0022duration\u0022:\u002224:29\u0022,\u0022snapshot\u0022:\u0022https:\\\/\\\/seiryuu.vid-cdn.xyz\\\/b71cf91b-83a2-4aa8-b468-76e6f7b146db\\\/snapshot.webp\u0022,\u0022teaser\u0022:\u0022https:\\\/\\\/seiryuu.vid-cdn.xyz\\\/b71cf91b-83a2-4aa8-b468-76e6f7b146db\\\/teaser.webp\u0022},{\u0022slug\u0022:\u00224\u0022,\u0022url\u0022:\u0022http:\\\/\\\/anizone.to\\\/anime\\\/mdkytdqp\\\/4\u0022,\u0022title_list\u0022:{\u00228\u0022:\u0022\\u9b42\\u306e\\u7720\\u308b\\u5730\u0022,\u00221\u0022:\u0022The Land Where Souls Rest\u0022,\u00222\u0022:\u0022L\\u00e0 o\\u00f9 reposent les \\u00e2mes\u0022,\u00225\u0022:\u0022Tamashii no Nemuru Chi\u0022,\u002210\u0022:\u0022Wo die Seelen ruhen\u0022,\u00229\u0022:\u0022\\u7075\\u9b42\\u5b89\\u7720\\u4e4b\\u5730\u0022},\u0022summary\u0022:\u0022Frieren and Fern pay a visit to Eisen, who requests their help in finding the notes of Flamme the Legendary Mage.\u0022,\u0022is_unsafe\u0022:false,\u0022type\u0022:\u0022Regular Episode\u0022,\u0022air_date\u0022:\u00222023-09-29\u0022,\u0022air_diff\u0022:\u00223 years ago\u0022,\u0022videos_count\u0022:1,\u0022duration\u0022:\u002225:59\u0022,\u0022snapshot\u0022:\u0022https:\\\/\\\/seiryuu.vid-cdn.xyz\\\/51268e6f-70eb-4294-b203-16fc14da163e\\\/snapshot.webp\u0022,\u0022teaser\u0022:\u0022https:\\\/\\\/seiryuu.vid-cdn.xyz\\\/51268e6f-70eb-4294-b203-16fc14da163e\\\/teaser.webp\u0022},{\u0022slug\u0022:\u00225\u0022,\u0022url\u0022:\u0022http:\\\/\\\/anizone.to\\\/anime\\\/mdkytdqp\\\/5\u0022,\u0022title_list\u0022:{\u00228\u0022:\u0022\\u6b7b\\u8005\\u306e\\u5e7b\\u5f71\u0022,\u00221\u0022:\u0022Phantoms of the Dead\u0022,\u00222\u0022:\u0022Mirages\u0022,\u00225\u0022:\u0022Shisha no Gen`ei\u0022,\u002210\u0022:\u0022Trugbild der Toten\u0022,\u00229\u0022:\u0022\\u6b7b\\u8005\\u7684\\u5e7b\\u5f71\u0022},\u0022summary\u0022:\u0022Frieren and Fern investigate ghost sightings at a village where people have started going missing.\u0022,\u0022is_unsafe\u0022:false,\u0022type\u0022:\u0022Regular Episode\u0022,\u0022air_date\u0022:\u00222023-10-06\u0022,\u0022air_diff\u0022:\u00223 years ago\u0022,\u0022videos_count\u0022:1,\u0022duration\u0022:\u002224:29\u0022,\u0022snapshot\u0022:\u0022https:\\\/\\\/seiryuu.vid-cdn.xyz\\\/20e44f5a-c987-40a4-a6fb-04daed90981b\\\/snapshot.webp\u0022,\u0022teaser\u0022:\u0022https:\\\/\\\/seiryuu.vid-cdn.xyz\\\/20e44f5a-c987-40a4-a6fb-04daed90981b\\\/teaser.webp\u0022},{\u0022slug\u0022:\u00226\u0022,\u0022url\u0022:\u0022http:\\\/\\\/anizone.to\\\/anime\\\/mdkytdqp\\\/6\u0022,\u0022title_list\u0022:{\u00228\u0022:\u0022\\u6751\\u306e\\u82f1\\u96c4\u0022,\u00221\u0022:\u0022The Hero of the Village\u0022,\u00222\u0022:\u0022Le h\\u00e9ros du village\u0022,\u00225\u0022:\u0022Mura no Eiyuu\u0022,\u002210\u0022:\u0022Der Held des Dorfes\u0022,\u00229\u0022:\u0022\\u6751\\u5b50\\u7684\\u82f1\\u96c4\u0022},\u0022summary\u0022:\u0022Frieren and Fern enlist Stark`s help to fight the solar dragon - but is he up to the task?\u0022,\u0022is_unsafe\u0022:false,\u0022type\u0022:\u0022Regular Episode\u0022,\u0022air_date\u0022:\u00222023-10-13\u0022,\u0022air_diff\u0022:\u00223 years ago\u0022,\u0022videos_count\u0022:1,\u0022duration\u0022:\u002224:29\u0022,\u0022snapshot\u0022:\u0022https:\\\/\\\/seiryuu.vid-cdn.xyz\\\/b16520b7-dbdb-4125-b2c8-b266319b952f\\\/snapshot.webp\u0022,\u0022teaser\u0022:\u0022https:\\\/\\\/seiryuu.vid-cdn.xyz\\\/b16520b7-dbdb-4125-b2c8-b266319b952f\\\/teaser.webp\u0022},{\u0022slug\u0022:\u00227\u0022,\u0022url\u0022:\u0022http:\\\/\\\/anizone.to\\\/anime\\\/mdkytdqp\\\/7\u0022,\u0022title_list\u0022:{\u00228\u0022:\u0022\\u304a\\u3068\\u304e\\u8a71\\u306e\\u3088\\u3046\\u306a\\u3082\\u306e\u0022,\u00221\u0022:\u0022Like a Fairy Tale\u0022,\u00222\u0022:\u0022Comme un conte de f\\u00e9es\u0022,\u00225\u0022:\u0022Otogibanashi no You na Mono\u0022,\u002210\u0022:\u0022Wie aus einem M\\u00e4rchen\u0022,\u00229\u0022:\u0022\\u7ae5\\u8bdd\\u6545\\u4e8b\\u822c\\u7684\\u4eba\\u7269\u0022},\u0022summary\u0022:\u0022After reflecting on the transient nature of the past as it exists in people`s collective memories, Frieren unexpectedly runs into a sworn enemy.\u0022,\u0022is_unsafe\u0022:false,\u0022type\u0022:\u0022Regular Episode\u0022,\u0022air_date\u0022:\u00222023-10-20\u0022,\u0022air_diff\u0022:\u00223 years ago\u0022,\u0022videos_count\u0022:1,\u0022duration\u0022:\u002224:30\u0022,\u0022snapshot\u0022:\u0022https:\\\/\\\/seiryuu.vid-cdn.xyz\\\/7c73eb01-b48f-4491-8bad-3c0087bc3eb6\\\/snapshot.webp\u0022,\u0022teaser\u0022:\u0022https:\\\/\\\/seiryuu.vid-cdn.xyz\\\/7c73eb01-b48f-4491-8bad-3c0087bc3eb6\\\/teaser.webp\u0022},{\u0022slug\u0022:\u00228\u0022,\u0022url\u0022:\u0022http:\\\/\\\/anizone.to\\\/anime\\\/mdkytdqp\\\/8\u0022,\u0022title_list\u0022:{\u00228\u0022:\u0022\\u846c\\u9001\\u306e\\u30d5\\u30ea\\u30fc\\u30ec\\u30f3\u0022,\u00221\u0022:\u0022Frieren the Slayer\u0022,\u00222\u0022:\u0022Frieren la Fossoyeuse\u0022,\u00225\u0022:\u0022Sousou no Frieren\u0022,\u002210\u0022:\u0022Die Todesbotin Frieren\u0022,\u00229\u0022:\u0022\\u846c\\u9001\\u7684\\u8299\\u8389\\u83b2\u0022},\u0022summary\u0022:\u0022As tensions in Graf Granat`s domain reach a breaking point, Fern and Stark find their own resolve - and Frieren resumes an old duty.\u0022,\u0022is_unsafe\u0022:false,\u0022type\u0022:\u0022Regular Episode\u0022,\u0022air_date\u0022:\u00222023-10-27\u0022,\u0022air_diff\u0022:\u00222 years ago\u0022,\u0022videos_count\u0022:1,\u0022duration\u0022:\u002224:29\u0022,\u0022snapshot\u0022:\u0022https:\\\/\\\/seiryuu.vid-cdn.xyz\\\/01083ce3-29f3-4c89-8679-7ec7d8cf9c93\\\/snapshot.webp\u0022,\u0022teaser\u0022:\u0022https:\\\/\\\/seiryuu.vid-cdn.xyz\\\/01083ce3-29f3-4c89-8679-7ec7d8cf9c93\\\/teaser.webp\u0022},{\u0022slug\u0022:\u00229\u0022,\u0022url\u0022:\u0022http:\\\/\\\/anizone.to\\\/anime\\\/mdkytdqp\\\/9\u0022,\u0022title_list\u0022:{\u00228\u0022:\u0022\\u65ad\\u982d\\u53f0\\u306e\\u30a2\\u30a6\\u30e9\u0022,\u00221\u0022:\u0022Aura the Guillotine\u0022,\u00222\u0022:\u0022Aura la Guillotine\u0022,\u00225\u0022:\u0022Dantoudai no Aura\u0022,\u002210\u0022:\u0022Die Henkerin Aura\u0022,\u00229\u0022:\u0022\\u65ad\\u5934\\u53f0\\u963f\\u4e4c\\u62c9\u0022},\u0022summary\u0022:\u0022While Fern and Stark make a temporary retreat with Graf Granat, Frieren`s true foe awaits her outside the city.\u0022,\u0022is_unsafe\u0022:false,\u0022type\u0022:\u0022Regular Episode\u0022,\u0022air_date\u0022:\u00222023-11-03\u0022,\u0022air_diff\u0022:\u00222 years ago\u0022,\u0022videos_count\u0022:1,\u0022duration\u0022:\u002224:30\u0022,\u0022snapshot\u0022:\u0022https:\\\/\\\/seiryuu.vid-cdn.xyz\\\/51cfefc4-e7ae-4a91-b75c-e70f640e7d21\\\/snapshot.webp\u0022,\u0022teaser\u0022:\u0022https:\\\/\\\/seiryuu.vid-cdn.xyz\\\/51cfefc4-e7ae-4a91-b75c-e70f640e7d21\\\/teaser.webp\u0022},{\u0022slug\u0022:\u002210\u0022,\u0022url\u0022:\u0022http:\\\/\\\/anizone.to\\\/anime\\\/mdkytdqp\\\/10\u0022,\u0022title_list\u0022:{\u00228\u0022:\u0022\\u5f37\\u3044\\u9b54\\u6cd5\\u4f7f\\u3044\u0022,\u00221\u0022:\u0022A Powerful Mage\u0022,\u00222\u0022:\u0022Une mage redoutable\u0022,\u00225\u0022:\u0022Tsuyoi Mahou Tsukai\u0022,\u002210\u0022:\u0022M\\u00e4chtige Magierin\u0022,\u00229\u0022:\u0022\\u5f3a\\u5927\\u7684\\u9b54\\u6cd5\\u4f7f\u0022},\u0022summary\u0022:\u0022Frieren`s many years of training under her teacher Flamme are tested in her confrontation with Aura the Guillotine. Will Aura`s scales find her wanting?\u0022,\u0022is_unsafe\u0022:false,\u0022type\u0022:\u0022Regular Episode\u0022,\u0022air_date\u0022:\u00222023-11-10\u0022,\u0022air_diff\u0022:\u00222 years ago\u0022,\u0022videos_count\u0022:1,\u0022duration\u0022:\u002224:30\u0022,\u0022snapshot\u0022:\u0022https:\\\/\\\/seiryuu.vid-cdn.xyz\\\/250300b2-4978-41ef-befb-adb2864b8099\\\/snapshot.webp\u0022,\u0022teaser\u0022:\u0022https:\\\/\\\/seiryuu.vid-cdn.xyz\\\/250300b2-4978-41ef-befb-adb2864b8099\\\/teaser.webp\u0022},{\u0022slug\u0022:\u002211\u0022,\u0022url\u0022:\u0022http:\\\/\\\/anizone.to\\\/anime\\\/mdkytdqp\\\/11\u0022,\u0022title_list\u0022:{\u00228\u0022:\u0022\\u5317\\u5074\\u8af8\\u56fd\\u306e\\u51ac\u0022,\u00221\u0022:\u0022Winter in the Northern Lands\u0022,\u00222\u0022:\u0022L`hiver des contr\\u00e9es du nord\u0022,\u00225\u0022:\u0022Kitagawa Shokoku no Fuyu\u0022,\u002210\u0022:\u0022Winter in den N\\u00f6rdlichen L\\u00e4ndern\u0022,\u00229\u0022:\u0022\\u5317\\u65b9\\u8bf8\\u56fd\\u7684\\u51ac\\u5b63\u0022},\u0022summary\u0022:\u0022Frieren and her companions continue their journey through the northern lands, but obstacles both natural and manmade still stand in their way.\u0022,\u0022is_unsafe\u0022:false,\u0022type\u0022:\u0022Regular Episode\u0022,\u0022air_date\u0022:\u00222023-11-17\u0022,\u0022air_diff\u0022:\u00222 years ago\u0022,\u0022videos_count\u0022:1,\u0022duration\u0022:\u002224:29\u0022,\u0022snapshot\u0022:\u0022https:\\\/\\\/seiryuu.vid-cdn.xyz\\\/853e8de9-c4cb-46da-a072-ff0858d82cc7\\\/snapshot.webp\u0022,\u0022teaser\u0022:\u0022https:\\\/\\\/seiryuu.vid-cdn.xyz\\\/853e8de9-c4cb-46da-a072-ff0858d82cc7\\\/teaser.webp\u0022},{\u0022slug\u0022:\u002212\u0022,\u0022url\u0022:\u0022http:\\\/\\\/anizone.to\\\/anime\\\/mdkytdqp\\\/12\u0022,\u0022title_list\u0022:{\u00228\u0022:\u0022\\u672c\\u7269\\u306e\\u52c7\\u8005\u0022,\u00221\u0022:\u0022A Real Hero\u0022,\u00222\u0022:\u0022Un authentique h\\u00e9ros\u0022,\u00225\u0022:\u0022Honmono no Yuusha\u0022,\u002210\u0022:\u0022Ein echter Held\u0022,\u00229\u0022:\u0022\\u771f\\u6b63\\u7684\\u52c7\\u8005\u0022},\u0022summary\u0022:\u0022Deep in the mountains of the northern lands, Frieren and her party arrive at the Village of the Sword, where they have another job to do.\u0022,\u0022is_unsafe\u0022:false,\u0022type\u0022:\u0022Regular Episode\u0022,\u0022air_date\u0022:\u00222023-11-24\u0022,\u0022air_diff\u0022:\u00222 years ago\u0022,\u0022videos_count\u0022:1,\u0022duration\u0022:\u002224:30\u0022,\u0022snapshot\u0022:\u0022https:\\\/\\\/seiryuu.vid-cdn.xyz\\\/9020ac25-57bd-4f12-99c9-75a20b6b1b35\\\/snapshot.webp\u0022,\u0022teaser\u0022:\u0022https:\\\/\\\/seiryuu.vid-cdn.xyz\\\/9020ac25-57bd-4f12-99c9-75a20b6b1b35\\\/teaser.webp\u0022},{\u0022slug\u0022:\u002213\u0022,\u0022url\u0022:\u0022http:\\\/\\\/anizone.to\\\/anime\\\/mdkytdqp\\\/13\u0022,\u0022title_list\u0022:{\u00228\u0022:\u0022\\u540c\\u65cf\\u5acc\\u60aa\u0022,\u00221\u0022:\u0022Aversion to One`s Own Kind\u0022,\u00222\u0022:\u0022R\\u00e9pulsion envers un semblable\u0022,\u00225\u0022:\u0022Douzoku Ken`o\u0022,\u002210\u0022:\u0022Abneigung unter Gleichgesinnten\u0022,\u00229\u0022:\u0022\\u540c\\u7c7b\\u538c\\u6076\u0022},\u0022summary\u0022:\u0022While passing by a village in the woods of the northern lands, Frieren and party meet Sein, a gifted priest who is nonetheless corrupt enough to give even Heiter a run for his money. But what happened in his past?\u0022,\u0022is_unsafe\u0022:false,\u0022type\u0022:\u0022Regular Episode\u0022,\u0022air_date\u0022:\u00222023-12-01\u0022,\u0022air_diff\u0022:\u00222 years ago\u0022,\u0022videos_count\u0022:1,\u0022duration\u0022:\u002224:30\u0022,\u0022snapshot\u0022:\u0022https:\\\/\\\/seiryuu.vid-cdn.xyz\\\/af41f12b-c0de-4e51-9e93-0bec31075acf\\\/snapshot.webp\u0022,\u0022teaser\u0022:\u0022https:\\\/\\\/seiryuu.vid-cdn.xyz\\\/af41f12b-c0de-4e51-9e93-0bec31075acf\\\/teaser.webp\u0022},{\u0022slug\u0022:\u002214\u0022,\u0022url\u0022:\u0022http:\\\/\\\/anizone.to\\\/anime\\\/mdkytdqp\\\/14\u0022,\u0022title_list\u0022:{\u00228\u0022:\u0022\\u82e5\\u8005\\u306e\\u7279\\u6a29\u0022,\u00221\u0022:\u0022Privilege of the Young\u0022,\u00222\u0022:\u0022Le privil\\u00e8ge de la jeunesse\u0022,\u00225\u0022:\u0022Wakamono no Tokken\u0022,\u002210\u0022:\u0022Das Vorrecht der Jugend\u0022,\u00229\u0022:\u0022\\u5e74\\u8f7b\\u4eba\\u7684\\u7279\\u6743\u0022},\u0022summary\u0022:\u0022The party arrives in a large and lively town with a bustling shopping district that Frieren once visited with Himmel, but something seems to have come up between Fern and Stark.\u0022,\u0022is_unsafe\u0022:false,\u0022type\u0022:\u0022Regular Episode\u0022,\u0022air_date\u0022:\u00222023-12-08\u0022,\u0022air_diff\u0022:\u00222 years ago\u0022,\u0022videos_count\u0022:1,\u0022duration\u0022:\u002224:29\u0022,\u0022snapshot\u0022:\u0022https:\\\/\\\/seiryuu.vid-cdn.xyz\\\/db31b0f1-a385-411b-b9c9-5c521acc884d\\\/snapshot.webp\u0022,\u0022teaser\u0022:\u0022https:\\\/\\\/seiryuu.vid-cdn.xyz\\\/db31b0f1-a385-411b-b9c9-5c521acc884d\\\/teaser.webp\u0022},{\u0022slug\u0022:\u002215\u0022,\u0022url\u0022:\u0022http:\\\/\\\/anizone.to\\\/anime\\\/mdkytdqp\\\/15\u0022,\u0022title_list\u0022:{\u00228\u0022:\u0022\\u5384\\u4ecb\\u4e8b\\u306e\\u5302\\u3044\u0022,\u00221\u0022:\u0022Smells Like Trouble\u0022,\u00222\u0022:\u0022L`odeur des ennuis\u0022,\u00225\u0022:\u0022Yakkai Goto no Nioi\u0022,\u002210\u0022:\u0022Der Geruch von \\u00c4rger\u0022,\u00229\u0022:\u0022\\u9ebb\\u70e6\\u4e8b\\u7684\\u6c14\\u606f\u0022},\u0022summary\u0022:\u0022When the party happens upon a town whose inhabitants are all mysteriously asleep, it`s time for their newest traveling companion to prove his mettle.\u0022,\u0022is_unsafe\u0022:false,\u0022type\u0022:\u0022Regular Episode\u0022,\u0022air_date\u0022:\u00222023-12-15\u0022,\u0022air_diff\u0022:\u00222 years ago\u0022,\u0022videos_count\u0022:1,\u0022duration\u0022:\u002224:30\u0022,\u0022snapshot\u0022:\u0022https:\\\/\\\/seiryuu.vid-cdn.xyz\\\/3628de12-ff36-44c4-83b3-26752841829c\\\/snapshot.webp\u0022,\u0022teaser\u0022:\u0022https:\\\/\\\/seiryuu.vid-cdn.xyz\\\/3628de12-ff36-44c4-83b3-26752841829c\\\/teaser.webp\u0022},{\u0022slug\u0022:\u002216\u0022,\u0022url\u0022:\u0022http:\\\/\\\/anizone.to\\\/anime\\\/mdkytdqp\\\/16\u0022,\u0022title_list\u0022:{\u00228\u0022:\u0022\\u9577\\u5bff\\u53cb\\u9054\u0022,\u00221\u0022:\u0022Long-Lived Friends\u0022,\u00222\u0022:\u0022Amis de longue vie\u0022,\u00225\u0022:\u0022Chouju Tomodachi\u0022,\u002210\u0022:\u0022Langlebige Freunde\u0022,\u00229\u0022:\u0022\\u957f\\u5bff\\u7684\\u670b\\u53cb\u0022},\u0022summary\u0022:\u0022Frieren pays a visit to Old Man Voll, a long-lived friend of hers, with traveling companions in tow.\u0022,\u0022is_unsafe\u0022:false,\u0022type\u0022:\u0022Regular Episode\u0022,\u0022air_date\u0022:\u00222023-12-22\u0022,\u0022air_diff\u0022:\u00222 years ago\u0022,\u0022videos_count\u0022:1,\u0022duration\u0022:\u002224:06\u0022,\u0022snapshot\u0022:\u0022https:\\\/\\\/seiryuu.vid-cdn.xyz\\\/4cdbd038-b030-447b-9ea4-793ba88fbad7\\\/snapshot.webp\u0022,\u0022teaser\u0022:\u0022https:\\\/\\\/seiryuu.vid-cdn.xyz\\\/4cdbd038-b030-447b-9ea4-793ba88fbad7\\\/teaser.webp\u0022},{\u0022slug\u0022:\u002217\u0022,\u0022url\u0022:\u0022http:\\\/\\\/anizone.to\\\/anime\\\/mdkytdqp\\\/17\u0022,\u0022title_list\u0022:{\u00228\u0022:\u0022\\u3058\\u3083\\u3042\\u5143\\u6c17\\u3067\u0022,\u00221\u0022:\u0022Take Care\u0022,\u00222\u0022:\u0022Faites bon voyage\u0022,\u00225\u0022:\u0022Jaa Genki de\u0022,\u002210\u0022:\u0022Dann macht`s gut\u0022,\u00229\u0022:\u0022\\u90a3\\u5c31\\u591a\\u4fdd\\u91cd\\u4e86\u0022},\u0022summary\u0022:\u0022Now that Sein finally has a lead on the whereabouts of his long-lost friend, is it time for him and Frieren`s party to part ways?\u0022,\u0022is_unsafe\u0022:false,\u0022type\u0022:\u0022Regular Episode\u0022,\u0022air_date\u0022:\u00222024-01-05\u0022,\u0022air_diff\u0022:\u00222 years ago\u0022,\u0022videos_count\u0022:1,\u0022duration\u0022:\u002224:30\u0022,\u0022snapshot\u0022:\u0022https:\\\/\\\/seiryuu.vid-cdn.xyz\\\/63802e59-3892-414f-8178-bb36be9376a2\\\/snapshot.webp\u0022,\u0022teaser\u0022:\u0022https:\\\/\\\/seiryuu.vid-cdn.xyz\\\/63802e59-3892-414f-8178-bb36be9376a2\\\/teaser.webp\u0022},{\u0022slug\u0022:\u002218\u0022,\u0022url\u0022:\u0022http:\\\/\\\/anizone.to\\\/anime\\\/mdkytdqp\\\/18\u0022,\u0022title_list\u0022:{\u00228\u0022:\u0022\\u4e00\\u7d1a\\u9b54\\u6cd5\\u4f7f\\u3044\\u9078\\u629c\\u8a66\\u9a13\u0022,\u00221\u0022:\u0022First-Class Mage Exam\u0022,\u00222\u0022:\u0022L`examen de mage de premier niveau\u0022,\u00225\u0022:\u0022Ikkyuu Mahou Tsukai Senbatsu Shiken\u0022,\u002210\u0022:\u0022Die Auswahlpr\\u00fcfung f\\u00fcr Magier des ersten Ranges\u0022,\u00229\u0022:\u0022\\u4e00\\u7ea7\\u9b54\\u6cd5\\u4f7f\\u9009\\u62d4\\u6d4b\\u9a8c\u0022},\u0022summary\u0022:\u0022Frieren and party finally arrive in \\u00c4u\\u00dferst, ready to undergo the first-class mage exam, and meet a number of colorful characters who are there to do the same.\u0022,\u0022is_unsafe\u0022:false,\u0022type\u0022:\u0022Regular Episode\u0022,\u0022air_date\u0022:\u00222024-01-12\u0022,\u0022air_diff\u0022:\u00222 years ago\u0022,\u0022videos_count\u0022:1,\u0022duration\u0022:\u002224:30\u0022,\u0022snapshot\u0022:\u0022https:\\\/\\\/seiryuu.vid-cdn.xyz\\\/947b64ea-f1e4-41c0-895e-7a438cfbbde6\\\/snapshot.webp\u0022,\u0022teaser\u0022:\u0022https:\\\/\\\/seiryuu.vid-cdn.xyz\\\/947b64ea-f1e4-41c0-895e-7a438cfbbde6\\\/teaser.webp\u0022},{\u0022slug\u0022:\u002219\u0022,\u0022url\u0022:\u0022http:\\\/\\\/anizone.to\\\/anime\\\/mdkytdqp\\\/19\u0022,\u0022title_list\u0022:{\u00228\u0022:\u0022\\u5165\\u5ff5\\u306a\\u8a08\\u753b\u0022,\u00221\u0022:\u0022Well-Laid Plans\u0022,\u00222\u0022:\u0022Une strat\\u00e9gie soign\\u00e9e\u0022,\u00225\u0022:\u0022Nyuunen na Keikaku\u0022,\u002210\u0022:\u0022Ein sorgf\\u00e4ltig durchdachter Plan\u0022,\u00229\u0022:\u0022\\u5468\\u5bc6\\u7684\\u8ba1\\u5212\u0022},\u0022summary\u0022:\u0022Frieren and her new teammates hatch a plan to capture a Stille - but are the other teams just going to stand by and let it happen?\u0022,\u0022is_unsafe\u0022:false,\u0022type\u0022:\u0022Regular Episode\u0022,\u0022air_date\u0022:\u00222024-01-19\u0022,\u0022air_diff\u0022:\u00222 years ago\u0022,\u0022videos_count\u0022:1,\u0022duration\u0022:\u002224:30\u0022,\u0022snapshot\u0022:\u0022https:\\\/\\\/seiryuu.vid-cdn.xyz\\\/96fba60e-3708-4033-8cde-f19691f1a96a\\\/snapshot.webp\u0022,\u0022teaser\u0022:\u0022https:\\\/\\\/seiryuu.vid-cdn.xyz\\\/96fba60e-3708-4033-8cde-f19691f1a96a\\\/teaser.webp\u0022},{\u0022slug\u0022:\u002220\u0022,\u0022url\u0022:\u0022http:\\\/\\\/anizone.to\\\/anime\\\/mdkytdqp\\\/20\u0022,\u0022title_list\u0022:{\u00228\u0022:\u0022\\u5fc5\\u8981\\u306a\\u6bba\\u3057\u0022,\u00221\u0022:\u0022Necessary Killing\u0022,\u00222\u0022:\u0022Meurtres n\\u00e9cessaires\u0022,\u00225\u0022:\u0022Hitsuyou na Koroshi\u0022,\u002210\u0022:\u0022Notwendiges T\\u00f6ten\u0022,\u00229\u0022:\u0022\\u5fc5\\u8981\\u7684\\u6740\\u622e\u0022},\u0022summary\u0022:\u0022The first-class mage exam intensifies as fighting breaks out between the participants - and what`s at stake might even be worth killing for.\u0022,\u0022is_unsafe\u0022:false,\u0022type\u0022:\u0022Regular Episode\u0022,\u0022air_date\u0022:\u00222024-01-26\u0022,\u0022air_diff\u0022:\u00222 years ago\u0022,\u0022videos_count\u0022:1,\u0022duration\u0022:\u002224:29\u0022,\u0022snapshot\u0022:\u0022https:\\\/\\\/seiryuu.vid-cdn.xyz\\\/7e9e22d2-b308-48cb-8f1a-554414803608\\\/snapshot.webp\u0022,\u0022teaser\u0022:\u0022https:\\\/\\\/seiryuu.vid-cdn.xyz\\\/7e9e22d2-b308-48cb-8f1a-554414803608\\\/teaser.webp\u0022},{\u0022slug\u0022:\u002221\u0022,\u0022url\u0022:\u0022http:\\\/\\\/anizone.to\\\/anime\\\/mdkytdqp\\\/21\u0022,\u0022title_list\u0022:{\u00228\u0022:\u0022\\u9b54\\u6cd5\\u306e\\u4e16\\u754c\u0022,\u00221\u0022:\u0022The World of Magic\u0022,\u00222\u0022:\u0022Le monde de la magie\u0022,\u00225\u0022:\u0022Mahou no Sekai\u0022,\u002210\u0022:\u0022Die Welt der Magie\u0022,\u00229\u0022:\u0022\\u9b54\\u6cd5\\u7684\\u4e16\\u754c\u0022},\u0022summary\u0022:\u0022Frieren, Kanne, and Lawine struggle with the 13th party over possession of the Stille, but there`ll be more surprises in store before their battle, and the first test, reach their conclusion.\u0022,\u0022is_unsafe\u0022:false,\u0022type\u0022:\u0022Regular Episode\u0022,\u0022air_date\u0022:\u00222024-02-02\u0022,\u0022air_diff\u0022:\u00222 years ago\u0022,\u0022videos_count\u0022:1,\u0022duration\u0022:\u002224:30\u0022,\u0022snapshot\u0022:\u0022https:\\\/\\\/seiryuu.vid-cdn.xyz\\\/cccfb135-ff80-4aff-ab65-21390742de34\\\/snapshot.webp\u0022,\u0022teaser\u0022:\u0022https:\\\/\\\/seiryuu.vid-cdn.xyz\\\/cccfb135-ff80-4aff-ab65-21390742de34\\\/teaser.webp\u0022},{\u0022slug\u0022:\u002222\u0022,\u0022url\u0022:\u0022http:\\\/\\\/anizone.to\\\/anime\\\/mdkytdqp\\\/22\u0022,\u0022title_list\u0022:{\u00228\u0022:\u0022\\u6b21\\u304b\\u3089\\u306f\\u6575\\u540c\\u58eb\u0022,\u00221\u0022:\u0022Future Enemies\u0022,\u00222\u0022:\u0022D`alli\\u00e9s \\u00e0 ennemis\u0022,\u00225\u0022:\u0022Tsugi kara wa Tekidoushi\u0022,\u002210\u0022:\u0022Zuk\\u00fcnftige Feinde\u0022,\u00229\u0022:\u0022\\u4e0b\\u6b21\\u5f00\\u59cb\\u5c31\\u662f\\u654c\\u4eba\u0022},\u0022summary\u0022:\u0022After the conclusion of the first test, the exam participants have some time to kill in town. What do mages get up to on their days off?\u0022,\u0022is_unsafe\u0022:false,\u0022type\u0022:\u0022Regular Episode\u0022,\u0022air_date\u0022:\u00222024-02-09\u0022,\u0022air_diff\u0022:\u00222 years ago\u0022,\u0022videos_count\u0022:1,\u0022duration\u0022:\u002224:30\u0022,\u0022snapshot\u0022:\u0022https:\\\/\\\/seiryuu.vid-cdn.xyz\\\/4d9d734b-0e98-4c81-aa0b-e94f122aebf6\\\/snapshot.webp\u0022,\u0022teaser\u0022:\u0022https:\\\/\\\/seiryuu.vid-cdn.xyz\\\/4d9d734b-0e98-4c81-aa0b-e94f122aebf6\\\/teaser.webp\u0022},{\u0022slug\u0022:\u002223\u0022,\u0022url\u0022:\u0022http:\\\/\\\/anizone.to\\\/anime\\\/mdkytdqp\\\/23\u0022,\u0022title_list\u0022:{\u00228\u0022:\u0022\\u8ff7\\u5bae\\u653b\\u7565\u0022,\u00221\u0022:\u0022Conquering the Labyrinth\u0022,\u00222\u0022:\u0022La conqu\\u00eate du donjon\u0022,\u00225\u0022:\u0022Dungeon Kouryaku\u0022,\u002210\u0022:\u0022Eroberung des Labyrinths\u0022,\u00229\u0022:\u0022\\u653b\\u7565\\u8ff7\\u5bab\u0022},\u0022summary\u0022:\u0022The aspiring first-class mages now face their second test: conquering the Ruins of the King`s Tomb. A simple task, or so the proctor claims, but there`s a reason this particular dungeon remains unexplored.\u0022,\u0022is_unsafe\u0022:false,\u0022type\u0022:\u0022Regular Episode\u0022,\u0022air_date\u0022:\u00222024-02-16\u0022,\u0022air_diff\u0022:\u00222 years ago\u0022,\u0022videos_count\u0022:1,\u0022duration\u0022:\u002224:30\u0022,\u0022snapshot\u0022:\u0022https:\\\/\\\/seiryuu.vid-cdn.xyz\\\/d2a2cdae-b37a-493c-9bc4-1dc7067eac99\\\/snapshot.webp\u0022,\u0022teaser\u0022:\u0022https:\\\/\\\/seiryuu.vid-cdn.xyz\\\/d2a2cdae-b37a-493c-9bc4-1dc7067eac99\\\/teaser.webp\u0022},{\u0022slug\u0022:\u002224\u0022,\u0022url\u0022:\u0022http:\\\/\\\/anizone.to\\\/anime\\\/mdkytdqp\\\/24\u0022,\u0022title_list\u0022:{\u00228\u0022:\u0022\\u5b8c\\u74a7\\u306a\\u8907\\u88fd\\u4f53\u0022,\u00221\u0022:\u0022Perfect Replicas\u0022,\u00222\u0022:\u0022Des copies conformes\u0022,\u00225\u0022:\u0022Kanpeki na Fukuseitai\u0022,\u002210\u0022:\u0022Perfekte Kopien\u0022,\u00229\u0022:\u0022\\u5b8c\\u7f8e\\u7684\\u590d\\u5236\\u4f53\u0022},\u0022summary\u0022:\u0022Due to the Spiegel, a legendary monster that can create perfect replicas of others, the test-takers who would conquer the Ruins of the King`s Tomb must first face the ultimate enemy: themselves.\u0022,\u0022is_unsafe\u0022:false,\u0022type\u0022:\u0022Regular Episode\u0022,\u0022air_date\u0022:\u00222024-02-23\u0022,\u0022air_diff\u0022:\u00222 years ago\u0022,\u0022videos_count\u0022:1,\u0022duration\u0022:\u002224:30\u0022,\u0022snapshot\u0022:\u0022https:\\\/\\\/seiryuu.vid-cdn.xyz\\\/1910b28b-fa6f-4b90-9bbe-ab007a257ed9\\\/snapshot.webp\u0022,\u0022teaser\u0022:\u0022https:\\\/\\\/seiryuu.vid-cdn.xyz\\\/1910b28b-fa6f-4b90-9bbe-ab007a257ed9\\\/teaser.webp\u0022}]'),
+        nextCursor: 'eyJzb3J0IjoyNCwiaWQiOjIxMSwiX3BvaW50c1RvTmV4dEl0ZW1zIjp0cnVlfQ',
+        hasMore: true,
+        loading: false,
+        view: 'list',
+
+        get activeGridItems() {
+            return this.view === 'grid' ? this.items : [];
+        },
+
+        get activeListItems() {
+            return this.view === 'list' ? this.items : [];
+        },
+
+        init() {
+            const match = document.cookie.match(/(?:^|; )anime-episode-view=([^;]*)/);
+            if (match) {
+                this.view = decodeURIComponent(match[1]);
+            }
+        },
+
+        setView(newView) {
+            this.view = newView;
+            document.cookie = `anime-episode-view=${newView}; path=/; max-age=31536000; SameSite=Lax`;
+        },
+
+        get displayAnimeTitle() {
+            return window.getTitle(this.anmTitles, 'Sousou no Frieren');
+        },
+
+        isBlurred(episode) {
+            return episode.is_unsafe && (window.getUnsafeState?.().blur ?? false);
+        },
+
+        loadMore() {
+            if (this.loading || !this.hasMore || !this.nextCursor) return;
+            this.loading = true;
+            $wire.loadPage(this.nextCursor);
+        }
+    }"
+    @items-loaded.window="
+        if ($event.detail.items && $event.detail.items.length) {
+            items.push(...$event.detail.items);
+        }
+        nextCursor = $event.detail.nextCursor;
+        hasMore = $event.detail.hasMore;
+        loading = false;
+    "
+    @filters-reset.window="
+        items.splice(0, items.length, ...$event.detail.items);
+        nextCursor = $event.detail.nextCursor;
+        hasMore = $event.detail.hasMore;
+        loading = false;
+    "
+    class="flex flex-col items-center w-full pb-[109px] md:pb-12 relative"
+>
+    <!--[if BLOCK]><![endif]-->        <div class="absolute w-full -z-10 h-0 pb-96 -mx-4 bg-gray-900 opacity-75 overflow-clip">
+            <img src="https://anizone.to/images/anime/f22fead3-c3f2-4f24-934d-2e4c899f5350.jpg" class="absolute w-full h-full object-cover" />
+            <div class="absolute w-full h-full bg-gradient-to-t from-gray-800"></div>
+        </div>
+    <!--[if ENDBLOCK]><![endif]-->
+    <div class="space-y-12 w-full lg:container px-4 pt-12 lg:pt-80">
+        <div class="w-full flex justify-center select-none overflow-hidden" 
+     x-data="{ 
+        blocked: false,
+        checkAd() {
+            setTimeout(() => {
+                const slot = this.$refs.slot;
+                if (!slot) return;
+
+                const hasNoChildren = slot.children.length === 0;
+                let elementsHidden = false;
+
+                if (!hasNoChildren) {
+                    elementsHidden = Array.from(slot.children).every(child => {
+                        const style = window.getComputedStyle(child);
+                        return style.display === 'none' || 
+                               style.visibility === 'hidden' || 
+                               child.offsetHeight < 10;
+                    });
+                }
+
+                if (hasNoChildren || elementsHidden) {
+                    this.blocked = true;
+                }
+            }, 2500);
+        }
+     }" 
+     x-init="checkAd()">
+    
+    <div class="relative max-w-[728px] min-h-[90px] w-full">
+        <div x-show="blocked" 
+            x-transition.opacity.duration.500ms
+            x-cloak
+            class="absolute inset-0 flex items-center justify-center bg-gray-700 text-center text-balance text-gray-500 font-semibold border-4 border-dashed border-gray-600 rounded-xl overflow-hidden">
+            <p class="px-4 xs:text-lg sm:text-xl md:text-2xl">
+                We don't use intrusive ads and hope you disable your adblock.
+            </p>
+        </div>
+
+        <div x-ref="slot" class="w-full h-full flex justify-center">
+            <div id="frame" style="width: 728px;margin: auto;z-index: 99998;height: auto">
+          <iframe data-aa='2419912' src='//ad.a-ads.com/2419912/?size=728x90'
+                            style='border:0; padding:0; width:728px; height:90px; overflow:hidden;display: block;margin: auto'></iframe>
+        </div>
+        </div>
+    </div>
+</div>
+
+        
+        <div class="flex items-start flex-wrap lg:flex-nowrap gap-6">
+            <div class="mx-auto lg:mx-0">
+                <img
+                    src="https://anizone.to/images/anime/38c0dc13-dbdf-4e7d-9590-f079497c2842.jpg"
+                    :alt="displayAnimeTitle"
+                    class="bg-gray-700 hover:cursor-zoom-in max-w-auto xs:max-w-[400px] max-h-[400px] rounded-md drop-shadow-lg"
+                    @click="$dispatch('lightbox', 'https://anizone.to/images/anime/38c0dc13-dbdf-4e7d-9590-f079497c2842.jpg')"
+                />
+
+                <!--[if BLOCK]><![endif]-->                <div class="flex mt-8">
+                    <a href="https://anizone.to/anime/mdkytdqp/1" class="
+                            w-full items-center justify-center p-0.5 overflow-hidden text-lg font-semibold text-white rounded-lg
+                            focus:ring-4 focus:outline-none focus:ring-cyan-800
+                            group bg-gradient-to-br from-cyan-500 to-blue-500 group-hocus:from-cyan-500 group-hocus:to-blue-500
+                        ">
+                        <span class="flex justify-center items-center gap-2 pl-3.5 pr-5 py-3 transition-colors duration-300 ease-in-out bg-gray-900 rounded-md group-hocus:bg-opacity-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" class="h-4 w-auto fill-current">
+    <path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/>
+</svg> Start Watching
+                        </span>
+                    </a>
+                </div>
+                <!--[if ENDBLOCK]><![endif]-->            </div>
+
+            <div class="w-full grid grid-cols-1 gap-6">
+                <div class="flex flex-col items-center lg:items-start">
+                    <h1 class="text-center lg:text-start text-slate-100 text-xl sm:text-2xl lg:text-3xl mb-5" x-text="displayAnimeTitle"></h1>
+
+                    <div class="text-slate-100 text-xs lg:text-base flex flex-wrap justify-center gap-2 sm:gap-6">
+                        <span class="flex items-center gap-1.5">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="inline-block h-4 w-auto fill-current">
+    <path d="M64 480H448c35.3 0 64-28.7 64-64V160c0-35.3-28.7-64-64-64H288c-10.1 0-19.6-4.7-25.6-12.8L243.2 57.6C231.1 41.5 212.1 32 192 32H64C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64z"/>
+</svg>                            <span class="inline-block">TV Series</span>
+                        </span>
+
+                        <span class="flex items-center gap-1.5">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="inline-block h-4 w-auto fill-current">
+    <path d="M352 256c0 22.2-1.2 43.6-3.3 64H163.3c-2.2-20.4-3.3-41.8-3.3-64s1.2-43.6 3.3-64H348.7c2.2 20.4 3.3 41.8 3.3 64zm28.8-64H503.9c5.3 20.5 8.1 41.9 8.1 64s-2.8 43.5-8.1 64H380.8c2.1-20.6 3.2-42 3.2-64s-1.1-43.4-3.2-64zm112.6-32H376.7c-10-63.9-29.8-117.4-55.3-151.6c78.3 20.7 142 77.5 171.9 151.6zm-149.1 0H167.7c6.1-36.4 15.5-68.6 27-94.7c10.5-23.6 22.2-40.7 33.5-51.5C239.4 3.2 248.7 0 256 0s16.6 3.2 27.8 13.8c11.3 10.8 23 27.9 33.5 51.5c11.6 26 20.9 58.2 27 94.7zm-209 0H18.6C48.6 85.9 112.2 29.1 190.6 8.4C165.1 42.6 145.3 96.1 135.3 160zM8.1 192H131.2c-2.1 20.6-3.2 42-3.2 64s1.1 43.4 3.2 64H8.1C2.8 299.5 0 278.1 0 256s2.8-43.5 8.1-64zM194.7 446.6c-11.6-26-20.9-58.2-27-94.6H344.3c-6.1 36.4-15.5 68.6-27 94.6c-10.5 23.6-22.2 40.7-33.5 51.5C272.6 508.8 263.3 512 256 512s-16.6-3.2-27.8-13.8c-11.3-10.8-23-27.9-33.5-51.5zM135.3 352c10 63.9 29.8 117.4 55.3 151.6C112.2 482.9 48.6 426.1 18.6 352H135.3zm358.1 0c-30 74.1-93.6 130.9-171.9 151.6c25.5-34.2 45.2-87.7 55.3-151.6H493.4z"/>
+</svg>                            <span class="inline-block">Completed</span>
+                        </span>
+
+                        <span class="flex items-center gap-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="inline-block h-4 w-auto fill-current">
+    <path d="M0 96C0 60.7 28.7 32 64 32H448c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM48 368v32c0 8.8 7.2 16 16 16H96c8.8 0 16-7.2 16-16V368c0-8.8-7.2-16-16-16H64c-8.8 0-16 7.2-16 16zm368-16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V368c0-8.8-7.2-16-16-16H416zM48 240v32c0 8.8 7.2 16 16 16H96c8.8 0 16-7.2 16-16V240c0-8.8-7.2-16-16-16H64c-8.8 0-16 7.2-16 16zm368-16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V240c0-8.8-7.2-16-16-16H416zM48 112v32c0 8.8 7.2 16 16 16H96c8.8 0 16-7.2 16-16V112c0-8.8-7.2-16-16-16H64c-8.8 0-16 7.2-16 16zM416 96c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V112c0-8.8-7.2-16-16-16H416zM160 128v64c0 17.7 14.3 32 32 32H320c17.7 0 32-14.3 32-32V128c0-17.7-14.3-32-32-32H192c-17.7 0-32 14.3-32 32zm32 160c-17.7 0-32 14.3-32 32v64c0 17.7 14.3 32 32 32H320c17.7 0 32-14.3 32-32V320c0-17.7-14.3-32-32-32H192z"/>
+</svg>                            <span class="inline-block">28 Episodes</span>
+                        </span>
+
+                        <span class="flex items-center gap-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="inline-block h-4 w-auto fill-current">
+    <path d="M96 32V64H48C21.5 64 0 85.5 0 112v48H448V112c0-26.5-21.5-48-48-48H352V32c0-17.7-14.3-32-32-32s-32 14.3-32 32V64H160V32c0-17.7-14.3-32-32-32S96 14.3 96 32zM448 192H0V464c0 26.5 21.5 48 48 48H400c26.5 0 48-21.5 48-48V192z"/>
+</svg>                            <span class="inline-block">2023</span>
+                        </span>
+
+                        <span class="flex items-center gap-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" class="inline-block h-4 w-auto fill-current">
+    <path d="M579.8 267.7c56.5-56.5 56.5-148 0-204.5c-50-50-128.8-56.5-186.3-15.4l-1.6 1.1c-14.4 10.3-17.7 30.3-7.4 44.6s30.3 17.7 44.6 7.4l1.6-1.1c32.1-22.9 76-19.3 103.8 8.6c31.5 31.5 31.5 82.5 0 114L422.3 334.8c-31.5 31.5-82.5 31.5-114 0c-27.9-27.9-31.5-71.8-8.6-103.8l1.1-1.6c10.3-14.4 6.9-34.4-7.4-44.6s-34.4-6.9-44.6 7.4l-1.1 1.6C206.5 251.2 213 330 263 380c56.5 56.5 148 56.5 204.5 0L579.8 267.7zM60.2 244.3c-56.5 56.5-56.5 148 0 204.5c50 50 128.8 56.5 186.3 15.4l1.6-1.1c14.4-10.3 17.7-30.3 7.4-44.6s-30.3-17.7-44.6-7.4l-1.6 1.1c-32.1 22.9-76 19.3-103.8-8.6C74 372 74 321 105.5 289.5L217.7 177.2c31.5-31.5 82.5-31.5 114 0c27.9 27.9 31.5 71.8 8.6 103.9l-1.1 1.6c-10.3 14.4-6.9 34.4 7.4 44.6s34.4 6.9 44.6-7.4l1.1-1.6C433.5 260.8 427 182 377 132c-56.5-56.5-148-56.5-204.5 0L60.2 244.3z"/>
+</svg>                            <a
+                                href="https://frieren-anime.jp/"
+                                title="https://frieren-anime.jp/"
+                                target="_blank"
+                                rel="nofollow noopener noreferrer"
+                                aria-label="Official Site"
+                                class="inline-block hocus:text-amber-300 focus:outline-none transition-colors duration-300 ease-in-out"
+                            >Official Site</a>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="text-slate-100 text-center lg:text-start text-sm md:text-base xl:text-lg">
+                    <h3 class="sr-only">Synopsis</h3>
+
+                    <div>* Based on an action-adventure fantasy manga written by Yamada Kanehito and drawn by Abe Tsukasa.<br />
+<br />
+Elf mage Frieren and her courageous fellow adventurers have defeated the Demon King and brought peace to the land. With the great struggle over, they all go their separate ways to live a quiet life. But as an elf, Frieren, nearly immortal, will long outlive the rest of her former party. How will she come to terms with the mortality of her friends? How can she find fulfillment in her own life, and can she learn to understand what life means to the humans around her? Frieren begins a new journey to find the answer.</div>
+                </div>
+
+                <!--[if BLOCK]><![endif]-->                    <div class="flex flex-wrap gap-2 justify-center lg:justify-start">
+                        <!--[if BLOCK]><![endif]-->                            <a wire:navigate wire:key="t-hmi0gccz" href="https://anizone.to/tag/hmi0gccz" title="Manga" class="px-5 py-2 rounded-full text-xs md:text-sm text-white bg-gray-600 hocus:bg-sky-600 focus:outline-none transition-colors duration-300 ease-in-out">Manga</a>
+                                                    <a wire:navigate wire:key="t-fxndqllf" href="https://anizone.to/tag/fxndqllf" title="Shounen" class="px-5 py-2 rounded-full text-xs md:text-sm text-white bg-gray-600 hocus:bg-sky-600 focus:outline-none transition-colors duration-300 ease-in-out">Shounen</a>
+                                                    <a wire:navigate wire:key="t-5vykxow0" href="https://anizone.to/tag/5vykxow0" title="Elf" class="px-5 py-2 rounded-full text-xs md:text-sm text-white bg-gray-600 hocus:bg-sky-600 focus:outline-none transition-colors duration-300 ease-in-out">Elf</a>
+                                                    <a wire:navigate wire:key="t-v1odvezb" href="https://anizone.to/tag/v1odvezb" title="Magic" class="px-5 py-2 rounded-full text-xs md:text-sm text-white bg-gray-600 hocus:bg-sky-600 focus:outline-none transition-colors duration-300 ease-in-out">Magic</a>
+                                                    <a wire:navigate wire:key="t-mwma8dlr" href="https://anizone.to/tag/mwma8dlr" title="Demon" class="px-5 py-2 rounded-full text-xs md:text-sm text-white bg-gray-600 hocus:bg-sky-600 focus:outline-none transition-colors duration-300 ease-in-out">Demon</a>
+                                                    <a wire:navigate wire:key="t-7kov4siq" href="https://anizone.to/tag/7kov4siq" title="Violence" class="px-5 py-2 rounded-full text-xs md:text-sm text-white bg-gray-600 hocus:bg-sky-600 focus:outline-none transition-colors duration-300 ease-in-out">Violence</a>
+                                                    <a wire:navigate wire:key="t-s1ssghb1" href="https://anizone.to/tag/s1ssghb1" title="Fantasy" class="px-5 py-2 rounded-full text-xs md:text-sm text-white bg-gray-600 hocus:bg-sky-600 focus:outline-none transition-colors duration-300 ease-in-out">Fantasy</a>
+                        <!--[if ENDBLOCK]><![endif]-->                    </div>
+                <!--[if ENDBLOCK]><![endif]-->            </div>
+        </div>
+
+        
+        <div class="space-y-4">
+            <h2 class="text-center lg:text-start text-slate-100 text-xl lg:text-2xl mb-4">Episodes</h2>
+
+            <div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between mb-4 gap-3">
+
+    
+    <div class="w-full lg:w-96 flex flex-col gap-1">
+        <input
+            wire:model.live.debounce.500="search"
+            class="w-full rounded-lg bg-slate-900 border border-slate-700 placeholder:text-slate-200/50 focus:outline-none focus:ring-0 px-4 py-2.5"
+            placeholder="Ep#, Title, Summary"
+        />
+        <!--[if BLOCK]><![endif]--><!--[if ENDBLOCK]><![endif]-->    </div>
+
+    
+    <div class="flex flex-wrap sm:flex-nowrap items-center gap-2 sm:gap-4" role="group">
+
+        
+        <div class="grid grid-cols-2 sm:flex items-center gap-2 sm:gap-4 grow sm:grow-0">
+            <!--[if BLOCK]><![endif]-->                <div class="w-full">
+                    <select wire:model.live="type" class="w-full sm:w-auto rounded-lg bg-slate-900 border border-slate-700 focus:outline-none focus:ring-0 pl-4 pr-9 py-2.5">
+<!--[if BLOCK]><![endif]-->    <option value="0">All</option>
+    <option value="1">Regular Episode</option>
+    <option value="2">Special</option>
+    <option value="3">Opening/Ending</option>
+    <option value="4">Trailer/Promo/Ads</option>
+    <option value="5">Parody/Fandub</option>
+    <option value="6">Other</option>
+<!--[if ENDBLOCK]><![endif]-->
+</select>
+                </div>
+            <!--[if ENDBLOCK]><![endif]-->
+            <!--[if BLOCK]><![endif]-->                <div class="w-full">
+                    <select wire:model.live="sort" class="w-full sm:w-auto rounded-lg bg-slate-900 border border-slate-700 focus:outline-none focus:ring-0 pl-4 pr-9 py-2.5">
+<!--[if BLOCK]><![endif]-->    <option value="default-asc">Default</option>
+    <option value="default-desc">Inverse</option>
+    <option value="release-asc">First Aired</option>
+    <option value="release-desc">Last Aired</option>
+<!--[if ENDBLOCK]><![endif]-->
+</select>
+                </div>
+            <!--[if ENDBLOCK]><![endif]-->        </div>
+
+        
+        <div wire:ignore class="flex items-center space-x-1 bg-slate-900 p-1 rounded-lg border border-slate-700 shrink-0 ml-auto lg:ml-0">
+            <button 
+                type="button"
+                @click="setView('list')"
+                :class="view === 'list' ? 'bg-slate-700 text-white' : 'text-slate-400 hover:text-slate-200'"
+                class="p-2 rounded-md transition-colors"
+                aria-label="List View"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-5 h-5" fill="currentColor">
+    <path d="M40 48C26.7 48 16 58.7 16 72v48c0 13.3 10.7 24 24 24H88c13.3 0 24-10.7 24-24V72c0-13.3-10.7-24-24-24H40zM192 64c-17.7 0-32 14.3-32 32s14.3 32 32 32H480c17.7 0 32-14.3 32-32s-14.3-32-32-32H192zm0 160c-17.7 0-32 14.3-32 32s14.3 32 32 32H480c17.7 0 32-14.3 32-32s-14.3-32-32-32H192zm0 160c-17.7 0-32 14.3-32 32s14.3 32 32 32H480c17.7 0 32-14.3 32-32s-14.3-32-32-32H192zM16 232v48c0 13.3 10.7 24 24 24H88c13.3 0 24-10.7 24-24V232c0-13.3-10.7-24-24-24H40c-13.3 0-24 10.7-24 24zM40 368c-13.3 0-24 10.7-24 24v48c0 13.3 10.7 24 24 24H88c13.3 0 24-10.7 24-24V392c0-13.3-10.7-24-24-24H40z"/>
+</svg>            </button>
+
+            <button 
+                type="button"
+                @click="setView('grid')"
+                :class="view === 'grid' ? 'bg-slate-700 text-white' : 'text-slate-400 hover:text-slate-200'"
+                class="p-2 rounded-md transition-colors"
+                aria-label="Grid View"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-5 h-5" fill="currentColor">
+    <path fill-rule="evenodd" d="M3 6a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3V6ZM3 15.75a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-2.25Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3v-2.25Z" clip-rule="evenodd" />
+</svg>
+              </button>
+        </div>
+
+    </div>
+
+</div>
+            <div 
+                x-show="window.getUnsafeState?.()?.blur"
+                x-cloak
+                class="max-w-xl flex justify-center mx-auto"
+            >
+                <div class="w-full text-white text-center bg-rose-600/90 p-4 py-3 border border-rose-500/90 rounded-md">
+                    Safesearch filter is active. You can disable it in the 
+                    <a href="https://anizone.to/settings" wire:navigate class="text-white font-bold underline">Settings</a> page.
+                </div>
+            </div>
+
+            <div wire:ignore>
+                
+                <div x-show="view === 'grid'">
+                    <ul x-show="items.length > 0" class="grid grid-cols-2 xs:grid-cols-3 md:grid-cols-4 2xl:grid-cols-6 gap-4 list-none">
+                        <template x-for="episode in activeGridItems" :key="'grid-' + episode.slug">
+                            <li x-data="{ inView: false, loaded: false, hvr: false, fcs: false }" class="space-y-3 h-full">
+    <a
+        wire:navigate
+        :href="episode.url"
+        x-on:mouseover="hvr = true"
+        x-on:mouseover.away="hvr = false"
+        x-on:focus="fcs = true"
+        x-on:blur="fcs = false"
+        class="group relative aspect-video block drop-shadow-lg overflow-hidden rounded-lg bg-gray-700"
+        x-intersect.margin.200px.once="inView = true"
+    >
+        <template x-if="inView">
+            <img
+                :src="(hvr || fcs) && !isBlurred(episode) ? episode.teaser : episode.snapshot"
+                :alt="(getAnimeTitle(episode) ? getAnimeTitle(episode) + ' - ' : '') + 'Episode ' + episode.slug + (getEpisodeTitle(episode) ? ' : ' + getEpisodeTitle(episode) : '')"
+                @load="loaded = true"
+                class="absolute object-cover h-full w-full transition-opacity duration-300"
+                :class="{
+                    'opacity-100': loaded,
+                    'opacity-0': !loaded,
+                    'blur-lg': isBlurred(episode)
+                }"
+            />
+        </template>
+
+        <template x-if="episode.duration">
+            <div 
+                class="px-1.5 py-1 rounded-md text-white bg-black/70 text-xs absolute bottom-1.5 right-1.5 transition-opacity duration-300 ease-in-out"
+                :class="{ 'group-hocus:opacity-0': !isBlurred(episode) }"
+                x-text="episode.duration"
+            ></div>
+        </template>
+    </a>
+
+    <div>
+        <!--[if BLOCK]><![endif]--><!--[if ENDBLOCK]><![endif]-->
+        <div class="line-clamp-1">
+            <a
+                wire:navigate
+                :href="episode.url"
+                :title="'Episode ' + episode.slug + (getEpisodeTitle(episode) ? ' : ' + getEpisodeTitle(episode) : '')"
+                class="title text-white focus:outline-none focus:ring-0 transition-colors duration-300 ease-in-out hocus:text-amber-300"
+            >Episode <span x-text="episode.slug"></span><span x-text="getEpisodeTitle(episode) ? ' : ' + getEpisodeTitle(episode) : ''"></span></a>
+        </div>
+    </div>
+
+    <div class="flex flex-row text-xs pb-6">
+        <template x-if="episode.air_date">
+            <span
+                :title="episode.air_diff"
+                class="flex items-center gap-1 not-last:after:mx-1 not-last:after:content-['•']"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="inline-block h-3 w-auto fill-current">
+    <path d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/>
+</svg>                <span x-text="episode.air_date"></span>
+            </span>
+        </template>
+
+        <template x-if="episode.videos_count > 0">
+            <span class="flex items-center gap-1 not-last:after:mx-1 not-last:after:content-['•']">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" class="inline-block h-3 w-auto fill-current">
+    <path d="M64 64V352H576V64H64zM0 64C0 28.7 28.7 0 64 0H576c35.3 0 64 28.7 64 64V352c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V64zM128 448H512c17.7 0 32 14.3 32 32s-14.3 32-32 32H128c-17.7 0-32-14.3-32-32s14.3-32 32-32z"/>
+</svg>                <span x-text="episode.videos_count"></span>
+            </span>
+        </template>
+    </div>
+</li>                        </template>
+                    </ul>
+                </div>
+
+                
+                <div x-show="view === 'list'">
+                    <ul x-show="items.length > 0" class="grid grid-cols-1 2xl:grid-cols-2 gap-4 list-none">
+                        <template x-for="episode in activeListItems" :key="'list-' + episode.slug">
+                            <li x-data="{ inView: false, loaded: false, hvr: false, fcs: false }">
+    <a
+        wire:navigate
+        :href="episode.url"
+        x-on:mouseover="hvr = true"
+        x-on:mouseover.away="hvr = false"
+        x-on:focus="fcs = true"
+        x-on:blur="fcs = false"
+        class="group block relative drop-shadow-lg overflow-hidden px-5 py-4 bg-slate-900 rounded-lg focus:outline-none h-[101px]"
+    >
+        <template x-if="!isBlurred(episode)">
+            <div 
+                class="absolute -inset-y-0 -left-0 w-60 bg-gray-700"
+                x-intersect.margin.200px.once="inView = true"
+            >
+                <template x-if="inView">
+                    <img
+                        :src="(hvr || fcs) ? episode.teaser : episode.snapshot"
+                        :alt="(getAnimeTitle(episode) ? getAnimeTitle(episode) + ' - ' : '') + 'Episode ' + episode.slug + (getEpisodeTitle(episode) ? ' : ' + getEpisodeTitle(episode) : '')"
+                        @load="loaded = true"
+                        class="absolute w-full h-full object-cover transition-opacity duration-300 ease-in-out"
+                        :class="loaded ? 'opacity-25 sm:group-hocus:opacity-100' : 'opacity-0'"
+                    />
+                </template>
+                <div class="absolute left-0 w-full h-full bg-gradient-to-r from-transparent to-slate-900"></div>
+            </div>
+        </template>
+
+        <div 
+            class="relative flex flex-col gap-1.5"
+            :class="{ 'sm:group-hocus:ml-52 transition-all duration-300 ease-in-out': !isBlurred(episode) && episode.videos_count > 0 }"
+        >
+            <div class="flex flex-col">
+                <!--[if BLOCK]><![endif]--><!--[if ENDBLOCK]><![endif]-->
+                <div class="line-clamp-1">
+                    <h3 class="group-hocus:text-amber-300 transition-colors duration-300 ease-in-out">
+                        Episode <span x-text="episode.slug"></span><span x-text="getEpisodeTitle(episode) ? ' : ' + getEpisodeTitle(episode) : ''"></span>
+                    </h3>
+                </div>
+            </div>
+
+            <div class="text-sm line-clamp-1 h-[17px]">
+                <template x-if="episode.summary">
+                    <span class="text-slate-100 text-sm" x-text="episode.summary"></span>
+                </template>
+            </div>
+
+            <div class="flex flex-row gap-2 text-xs">
+                <span class="flex items-center gap-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="inline h-3 w-auto fill-current">
+    <path d="M64 480H448c35.3 0 64-28.7 64-64V160c0-35.3-28.7-64-64-64H288c-10.1 0-19.6-4.7-25.6-12.8L243.2 57.6C231.1 41.5 212.1 32 192 32H64C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64z"/>
+</svg>                    <span class="line-clamp-1" x-text="episode.type"></span>
+                </span>
+
+                <template x-if="episode.air_date">
+                    <span
+                        :title="episode.air_diff"
+                        class="flex items-center gap-1"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="inline h-3 w-auto fill-current">
+    <path d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/>
+</svg>                        <span class="line-clamp-1" x-text="episode.air_date"></span>
+                    </span>
+                </template>
+
+                <template x-if="episode.videos_count > 0">
+                    <span class="flex items-center gap-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" class="inline h-3 w-auto fill-current">
+    <path d="M64 64V352H576V64H64zM0 64C0 28.7 28.7 0 64 0H576c35.3 0 64 28.7 64 64V352c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V64zM128 448H512c17.7 0 32 14.3 32 32s-14.3 32-32 32H128c-17.7 0-32-14.3-32-32s14.3-32 32-32z"/>
+</svg>                        <span class="line-clamp-1" x-text="episode.videos_count"></span>
+                    </span>
+                </template>
+            </div>
+        </div>
+    </a>
+</li>                        </template>
+                    </ul>
+                </div>
+            </div>
+
+            
+            <div x-show="items.length === 0" x-cloak class="max-w-xl flex justify-center mx-auto">
+                <div class="w-full text-center bg-sky-600 p-4 py-3 border border-sky-500 rounded-md">Nothing found.</div>
+            </div>
+        </div>
+
+        <div x-show="loading" class="w-full">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="fill-current h-12 w-12 mx-auto animate-spin">
+    <path d="M304 48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zm0 416a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM48 304a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm464-48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM142.9 437A48 48 0 1 0 75 369.1 48 48 0 1 0 142.9 437zm0-294.2A48 48 0 1 0 75 75a48 48 0 1 0 67.9 67.9zM369.1 437A48 48 0 1 0 437 369.1 48 48 0 1 0 369.1 437z"/>
+</svg>        </div>
+
+        <div
+            x-show="hasMore && !loading"
+            class="h-12"
+            x-intersect="loadMore()"
+        ></div>
+    </div>
+
+    
+    <div
+        class="fixed z-50 h-full w-full inset-0 bg-black/80 backdrop-blur-lg"
+        x-data="{lightboxOpen: false, imgSrc: ''}"
+        x-show="lightboxOpen"
+        x-cloak
+        x-transition
+        @lightbox.window="lightboxOpen = true; imgSrc = $event.detail"
+        @keydown.escape.window="lightboxOpen = false"
+    >
+        <div class="flex max-w-full justify-center items-center h-screen w-screen">
+            <img class="max-w-full max-h-full p-4" :src="imgSrc" @click.away="lightboxOpen = false">
+        </div>
+    </div>
+</div>
+        </div>
+    <script src="/livewire/livewire.min.js?id=42cd7fd5"   data-csrf="Snxrv1FVXoNHBI9FqFDzzrB9pOlf7t4HRNlt6yfp" data-update-uri="/livewire/update" data-navigate-once="true"></script>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a503bec07c50aa1e',t:'MTc5Mjk1Nzc3Mg=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
