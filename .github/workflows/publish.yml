@@ -37,6 +37,8 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0  # the index takes each source's added and updated dates from the git history
 
       - name: Test the health rules
         run: python3 tools/test-check-health.py

@@ -9,7 +9,9 @@ Each source is one folder, sources/<id>/, and its kind comes from the file it ho
 
 parked/ is not read. Each entry has id, name, lang, kind, version, file (the raw https link of the dist file), sha256 (of
 the file's bytes) and type ("wasm" or "recipe"), and a description when the source names one (one line, at most
-120 characters, shown under its name in the app). The app fetches a source's file when a user turns the source on,
+120 characters, shown under its name in the app), and added and updated (YYYY-MM-DD, UTC+1) from the git history of
+sources/<id>/: its first and its latest commit. Without that history (not a git checkout, or a shallow clone) the two
+are left out. The app fetches a source's file when a user turns the source on,
 checks the bytes against sha256, and fetches it again when the sha256 in the index changes.
 
 Usage: python3 tools/make-index.py [--base-url URL] [--name NAME] [--website URL] [--out PATH]
@@ -19,7 +21,9 @@ import argparse
 import hashlib
 import json
 import re
+import os
 import shutil
+import subprocess
 import sys
 import tomllib
 from pathlib import Path
@@ -66,6 +70,17 @@ def read_meta(folder):
         fail(f"{path}: {error}")
 
 
+def git_dates(root, folder):
+    """(added, updated) of sources/<id>/ from git: the dates of its oldest and newest commit, or None without history.
+
+    ponytail: the folder's own log, no --follow, so a source renamed from another folder counts as added on the rename.
+    """
+    result = subprocess.run(["git", "log", "--date=format-local:%Y-%m-%d", "--format=%cd", "--", f"sources/{folder}"],
+                            cwd=root, capture_output=True, text=True, env={**os.environ, "TZ": "Africa/Tunis"})
+    dates = result.stdout.split()
+    return (dates[-1], dates[0]) if result.returncode == 0 and dates else None
+
+
 def build_index(root, base_url, repo_name="Tsuikabako", repo_website="https://tsuikabako.github.io"):
     dist = root / "dist"
     sources = root / "sources"
@@ -75,6 +90,11 @@ def build_index(root, base_url, repo_name="Tsuikabako", repo_website="https://ts
         file = root / name
         return tomllib.loads(file.read_text(encoding="utf-8")) if file.is_file() else {}
     manual = read_statuses("status.toml")
+    shallow = subprocess.run(["git", "rev-parse", "--is-shallow-repository"], cwd=root, capture_output=True, text=True)
+    has_history = shallow.returncode == 0 and shallow.stdout.strip() == "false"
+    if not has_history:
+        print("warning: no full git history here (not a git checkout, or a shallow clone), sources have no added or "
+              "updated dates", file=sys.stderr)
     statuses = {**read_statuses("health.toml"), **manual}
     for folder in sorted(sources.iterdir()) if sources.is_dir() else []:
         if not folder.is_dir():
@@ -137,6 +157,11 @@ def build_index(root, base_url, repo_name="Tsuikabako", repo_website="https://ts
             if not (isinstance(description, str) and description.strip() and len(description) <= 120):
                 fail(f"{meta_path}: description must be one line of text, at most 120 characters")
             entries[-1]["description"] = " ".join(description.split())
+        dates = git_dates(root, folder.name) if has_history else None
+        if dates:
+            entries[-1]["added"], entries[-1]["updated"] = dates
+        elif has_history:
+            print(f"warning: sources/{folder.name} has no commit yet, no added or updated dates", file=sys.stderr)
         # the site's icon (sources/<id>/icon.png, a square PNG), shown in the app's source lists
         icon = folder / "icon.png"
         if icon.is_file():
