@@ -26,10 +26,27 @@ means the source is broken and needs a fix.
 | <img src="sources/mangakakalot/icon.png" width="24" height="24" align="center"> Mangakakalot | en | hot, latest, search, chapters with dates |
 | <img src="sources/weebcentral/icon.png" width="24" height="24" align="center"> Weeb Central | en | popular, latest, search with filters, chapters |
 | <img src="sources/topmanhuafan/icon.png" width="24" height="24" align="center"> TopManhua.fan | en | popular, latest, search (first page), chapters with dates |
+| <img src="sources/decadencescans/icon.png" width="24" height="24" align="center"> Decadence Scans | en | popular, latest, search, chapters with dates |
+| <img src="sources/galaxydegenscans/icon.png" width="24" height="24" align="center"> GalaxyDegenScans | en | popular, latest, search, chapters with dates |
+| <img src="sources/hunlightcomics/icon.png" width="24" height="24" align="center"> Hunlight Comics | en | popular, latest, search, chapters with dates |
+| <img src="sources/kokomangas/icon.png" width="24" height="24" align="center"> KokoMangas | en | popular, latest, search, chapters with dates |
+| <img src="sources/ksgroupscans/icon.png" width="24" height="24" align="center"> KSGroupScans | en | popular, latest, search, chapters with dates |
+| <img src="sources/lhtranslation/icon.png" width="24" height="24" align="center"> LHTranslation | en | popular, latest, search, chapters with dates |
+| <img src="sources/linkmanga/icon.png" width="24" height="24" align="center"> LinkManga | en | popular, latest, search, chapters with dates |
+| <img src="sources/mangaeclipse/icon.png" width="24" height="24" align="center"> Manga Eclipse | en | popular, latest, search, chapters with dates |
+| <img src="sources/mangasushi/icon.png" width="24" height="24" align="center"> Mangasushi | en | popular, latest, search, chapters with dates |
+| <img src="sources/manhuahot/icon.png" width="24" height="24" align="center"> ManhuaHot | en | popular, latest, search, chapters with dates |
+| <img src="sources/manhwareads/icon.png" width="24" height="24" align="center"> Manhwa Reads | en | popular, latest, search, chapters with dates |
+| <img src="sources/sleepytranslations/icon.png" width="24" height="24" align="center"> Sleepy Translations | en | popular, latest, search, chapters with dates |
+| <img src="sources/tritiniascans/icon.png" width="24" height="24" align="center"> TritiniaScans | en | popular, latest, search, chapters with dates |
 | <img src="sources/kagane/icon.png" width="24" height="24" align="center"> Kagane | en | popular, latest, search, chapters with dates and groups |
 | <img src="sources/senkuro/icon.png" width="24" height="24" align="center"> Senkuro | ru | popular, search, chapters with dates and teams |
 | <img src="sources/inkstory/icon.png" width="24" height="24" align="center"> InkStory | ru | popular, latest, search, chapters with dates and teams |
 | <img src="sources/usagi/icon.png" width="24" height="24" align="center"> Usagi | ru | popular, latest, search, chapters with dates and translators |
+| <img src="sources/kazokuden/icon.png" width="24" height="24" align="center"> Kazoku Den | es | popular, latest, search, chapters with dates |
+| <img src="sources/ragnarokscanlation/icon.png" width="24" height="24" align="center"> Ragnarok Scanlation | es | popular, latest, search, chapters with dates |
+| <img src="sources/harmonyscan/icon.png" width="24" height="24" align="center"> Harmony-Scan | fr | popular, latest, search, chapters |
+| <img src="sources/shinobiscans/icon.png" width="24" height="24" align="center"> Shinobi Scans | it | popular, latest, search, chapters with dates |
 
 ### Anime
 

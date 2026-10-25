@@ -1,0 +1,8 @@
+id = "kokomangas"
+name = "KokoMangas"
+description = "Manga in English, chapters with dates"
+lang = "en"
+kind = "manga"
+version = 1
+# The only host the plug-in may reach through the `http` import. Covers and page images load in the app.
+hosts = ["kokomangas.com"]

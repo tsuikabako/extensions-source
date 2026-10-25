@@ -1,0 +1,8 @@
+id = "shinobiscans"
+name = "Shinobi Scans"
+description = "Manga in Italian, chapters with dates"
+lang = "it"
+kind = "manga"
+version = 1
+# The only host the plug-in may reach through the `http` import. Covers and page images load in the app.
+hosts = ["shinobiscans.com"]

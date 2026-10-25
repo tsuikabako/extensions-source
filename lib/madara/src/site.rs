@@ -301,8 +301,11 @@ pub fn parse_chapters(site: &Site, html: &str, now: u64) -> Vec<Chapter> {
             let link = item.select(&sel("a")).next()?;
             let href = link.value().attr("href").filter(|h| !h.trim().is_empty() && !h.starts_with('#'))?;
             let attr = |css: &str, name: &str| item.select(&sel(css)).next().and_then(|e| e.value().attr(name)).map(str::to_owned).filter(|v| !v.trim().is_empty());
-            let date = attr("img:not(.thumb)", "alt").or_else(|| attr("span a", "title")).or_else(|| item.select(&sel("span.chapter-release-date")).next().map(text_of));
-            Some(Chapter { url: path_of(site, href), name: text_of(link), date_upload: date.map_or(0, |d| parse_date(&d, now)), chapter_number: -1.0 })
+            // the Kotlin takes the first of these that is present; some sites put a non-date `alt` on an icon, so the
+            // first that reads as a date wins here
+            let release = item.select(&sel("span.chapter-release-date")).next().map(text_of);
+            let date_upload = [attr("img:not(.thumb)", "alt"), attr("span a", "title"), release].into_iter().flatten().map(|d| parse_date(&d, now)).find(|&ms| ms != 0).unwrap_or(0);
+            Some(Chapter { url: path_of(site, href), name: text_of(link), date_upload, chapter_number: -1.0 })
         })
         .collect()
 }
@@ -364,13 +367,21 @@ fn relative_unit(word: &str) -> Option<i64> {
     units.iter().find(|(prefixes, _)| prefixes.iter().any(|p| word.starts_with(p))).map(|(_, ms)| *ms)
 }
 
-/// (year, month, day) of "january 5 2024" or "01 05 2024" (the words of the date, split on punctuation).
+/// The prefixes of the month names, in English, Spanish, Portuguese, Italian and French. `juil` comes before `jun` and
+/// `juin` so July is not read as June.
+const MONTHS: [(&str, i64); 32] = [
+    ("jan", 1), ("ene", 1), ("gen", 1), ("feb", 2), ("fev", 2), ("fév", 2), ("mar", 3), ("apr", 4), ("abr", 4), ("avr", 4),
+    ("may", 5), ("mai", 5), ("mag", 5), ("juil", 7), ("jun", 6), ("juin", 6), ("giu", 6), ("jul", 7), ("lug", 7),
+    ("aug", 8), ("ago", 8), ("aoû", 8), ("sep", 9), ("set", 9), ("oct", 10), ("out", 10), ("ott", 10), ("nov", 11),
+    ("dec", 12), ("dic", 12), ("dez", 12), ("déc", 12),
+];
+
+/// (year, month, day) of "january 5 2024", "7 agosto 2023" or "01 05 2024" (the words of the date, split on punctuation).
 fn calendar_date(words: &[&str]) -> Option<(i64, i64, i64)> {
-    const MONTHS: [&str; 12] = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
     let numbers: Vec<i64> = words.iter().filter_map(|w| w.parse().ok()).collect();
-    let named = words.iter().find_map(|w| MONTHS.iter().position(|m| w.starts_with(m)));
+    let named = words.iter().find_map(|w| MONTHS.iter().find(|(prefix, _)| w.starts_with(prefix)).map(|(_, month)| *month));
     let (y, m, d) = match (named, numbers.as_slice()) {
-        (Some(month), [day, year]) => (*year, month as i64 + 1, *day),
+        (Some(month), [day, year]) => (*year, month, *day),
         (None, [month, day, year]) => (*year, *month, *day),
         _ => return None,
     };
@@ -506,6 +517,9 @@ mod tests {
         assert_eq!(parse_date("5 mins ago", NOW), NOW as i64 * 1000 - 5 * 60_000);
         assert_eq!(parse_date("January 1, 1970", NOW), 0);
         assert_eq!(parse_date("March 1, 2024", NOW), days_from_civil(2024, 3, 1) * DAY_MS);
+        assert_eq!(parse_date("7 Agosto 2023", NOW), days_from_civil(2023, 8, 7) * DAY_MS);
+        assert_eq!(parse_date("12 juillet 2025", NOW), days_from_civil(2025, 7, 12) * DAY_MS);
+        assert_eq!(parse_date("3 juin 2025", NOW), days_from_civil(2025, 6, 3) * DAY_MS);
         assert_eq!(days_from_civil(2024, 3, 1), 19_783);
         assert_eq!(parse_date("not a date", NOW), 0);
     }
