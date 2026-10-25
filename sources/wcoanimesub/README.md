@@ -22,7 +22,7 @@ addresses are the site's paths: `/anime/<slug>` for a title, `/<slug>-episode-<n
 | `details` | the title page: title, summary, genres, cover (an episode page: its series' name) |
 | `episodes` | the same page, newest first (WCOStream's episode pages list oldest first and are turned), numbered from "Season S Episode N" ((S - 1) * 100 + N); an episode page is its own one episode |
 | `hosters` | the episode page: one server per WCO player (`embed.wcostream.com`), from its iframe or from the script that writes it |
-| `videos` | the player: its page, the "clear" ad-check beacon, a 13 s wait (the server refuses the player before its 12 s countdown), the player page (the newer one; the older one, which the Kotlin asks first, as the fallback), then its JSON: up to three mp4 files, 1080p, 720p, 480p |
+| `videos` | the player: its page, the "clear" ad-check beacon, a 13 s wait (the server refuses the player before its 12 s countdown), the player page (the newer one, asked up to twice more 2-3 s apart while it answers "busy" (503); then the older one, which the Kotlin asks first), then its JSON: up to three mp4 files, 1080p, 720p, 480p |
 
 The site serves only one kind of title (dubbed or subbed); a title of the other kind answers with a 301 to
 `www.wco.tv` or `www.wcoanimedub.tv`, so the manifest lists those hosts too.

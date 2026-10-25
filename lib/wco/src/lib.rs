@@ -28,6 +28,10 @@ pub struct Site {
 /// Whole seconds to wait between the player's beacon and its player page. The server refuses the page before its
 /// 12 s countdown has run; the clock reads whole seconds, so 13 makes at least 12.
 const PLAYER_WAIT_S: u64 = if cfg!(test) { 0 } else { 13 };
+/// How often a "busy" player page is asked again, and the whole seconds between two asks (2 to 3 s on a clock of whole
+/// seconds). With the countdown that is at most about 19 s of the call's 30 s of run time.
+const BUSY_RETRIES: u32 = 2;
+const BUSY_WAIT_S: u64 = if cfg!(test) { 0 } else { 3 };
 
 impl Source for Site {
     fn info(&self) -> Info {
@@ -149,19 +153,30 @@ fn player_videos(host: &dyn Host, iframe: &str, referer: &str, preferred: bool) 
     // ponytail: the ABI has no sleep, so the countdown is waited out on the clock (about 13 s of the call's 30 s of run
     // time); a host wait import would free the CPU.
     while host.unix_seconds() < started + PLAYER_WAIT_S {}
-    // the newer player first, as the browser opens it; the Kotlin asks the older one first, but on 2026-10-25 that
-    // answered 403 and the newer one asked right after it mostly answered "busy"
-    let mut link = None;
-    for path in ["/inc/embed/video-js.php", "/inc/embed/video-js-old.php"] {
+    let player = |path: &str| -> Res<(u16, Option<String>)> {
         let page = Request::get(format!("{origin}{path}?{query}&n={nonce}"))
             .headers([("User-Agent", USER_AGENT), ("Referer", iframe)])
             .send(host)?;
-        if page.is_success() && page.body_encoding.is_none() {
-            link = site::json_link(&page.body);
-            if link.is_some() {
-                break;
-            }
+        let ok = page.is_success() && page.body_encoding.is_none();
+        Ok((page.status, if ok { site::json_link(&page.body) } else { None }))
+    };
+    // the newer player first, as the browser opens it; the Kotlin asks the older one first, but on 2026-10-25 that
+    // answered 403 and the newer one asked right after it mostly answered "busy". A "busy" (503) is asked again a few
+    // seconds later, which played every time it was tried; the countdown need not run again.
+    let mut link = None;
+    for attempt in 0..=BUSY_RETRIES {
+        if attempt > 0 {
+            let until = host.unix_seconds() + BUSY_WAIT_S;
+            while host.unix_seconds() < until {}
         }
+        let (status, found) = player("/inc/embed/video-js.php")?;
+        link = found;
+        if link.is_some() || status != 503 {
+            break;
+        }
+    }
+    if link.is_none() {
+        link = player("/inc/embed/video-js-old.php")?.1;
     }
     let link = format!("{origin}{}", link.ok_or("the WCO player is busy or refused the episode; try again later")?);
     let json = Request::get(&link)
@@ -426,5 +441,29 @@ mod tests {
             call(&WCOTV, &host, "videos", json!({ "hoster": hoster })),
             Err("the WCO player is busy or refused the episode; try again later".into())
         );
+        // the newer player three times, then the older one
+        let asked = |path: &str| host.sent().iter().rev().take(4).filter(|r| r.url.contains(path)).count();
+        assert_eq!((asked("/video-js.php?"), asked("/video-js-old.php?")), (3, 1));
+    }
+
+    #[test]
+    fn a_busy_player_is_asked_again() {
+        let busy = std::cell::Cell::new(true);
+        let host = TestHost::answering(move |request| {
+            let page = |name: &str| {
+                std::fs::read_to_string(format!("{}/fixtures/{name}", env!("CARGO_MANIFEST_DIR"))).unwrap()
+            };
+            match request.url.as_str() {
+                "https://embed.wcostream.com/ad-verify" => (204, String::new()),
+                url if url.contains("/video-js.php?") && busy.replace(false) => (503, "Servers Busy".into()),
+                url if url.contains("/video-js.php?") => (200, page("player.html")),
+                url if url.contains("/getvidlink.php?") => (200, page("getvidlink.json")),
+                _ => (200, String::new()),
+            }
+        });
+        let hoster = json!({ "hosterUrl": "https://embed.wcostream.com/inc/embed/index.php?pid=1", "hosterName": "WCO", "internalData": "https://www.wco.tv/x" });
+        let videos = call(&WCOTV, &host, "videos", json!({ "hoster": hoster })).unwrap();
+        assert_eq!(videos.as_array().unwrap().len(), 3);
+        assert_eq!(host.sent().iter().filter(|r| r.url.contains("/video-js.php?")).count(), 2);
     }
 }
