@@ -2,7 +2,7 @@
 //! CSRF token) and the JSON answers of `/livewire/update`.
 
 use kuro_guest::Res;
-use kuro_guest::html::{ElementRef, Html, attr, first, sel, text_of};
+use kuro_guest::html::{ElementRef, Html, attr, sel, text_of};
 use kuro_guest::wire::{Anime, Episode, Hoster, Track, Video, status};
 use regex_lite::Regex;
 use serde::Deserialize;
@@ -211,19 +211,16 @@ fn synopsis(doc: &Html) -> Option<String> {
     Some(lines.join("\n").trim().replace('`', "'")).filter(|t| !t.is_empty())
 }
 
-/// The servers of an episode page: one per `setVideo(n)` button, `internal_data` the server's number. Two servers of
-/// one name (the site has that) are told apart by a number.
+/// The servers of an episode page: one per `setVideo(n)` button, `internal_data` the server's number. They are named
+/// "Server 1", "Server 2"... in the page's order: the site labels them with random codenames (some crude), which say
+/// nothing to a user.
 pub fn hosters(html: &str, episode: &str) -> Vec<Hoster> {
     let doc = Html::parse_document(html);
     let number = Regex::new(r#"setVideo\(['"]?(\d+)"#).unwrap();
     let mut hosters: Vec<Hoster> = Vec::new();
     for button in doc.select(&sel("button[wire\\:click*=setVideo]")) {
         let Some(index) = button.value().attr("wire:click").and_then(|c| number.captures(c)).map(|c| c[1].to_owned()) else { continue };
-        let mut name = first(button, "div.text-lg").map(text_of).filter(|n| !n.is_empty()).unwrap_or_else(|| text_of(button));
-        let same = hosters.iter().filter(|h| h.hoster_name == name || h.hoster_name.starts_with(&format!("{name} ("))).count();
-        if same > 0 {
-            name = format!("{name} ({})", same + 1);
-        }
+        let name = format!("Server {}", hosters.len() + 1);
         hosters.push(Hoster { hoster_url: episode.to_owned(), hoster_name: name, internal_data: index, ..Default::default() });
     }
     hosters

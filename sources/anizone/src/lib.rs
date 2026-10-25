@@ -315,7 +315,7 @@ mod tests {
         let host = site();
         let hosters = call(&host, "hosters", json!({ "episode": { "url": "/anime/ltayl97j/1" } })).unwrap();
         let names: Vec<&str> = hosters.as_array().unwrap().iter().map(|h| h["hosterName"].as_str().unwrap()).collect();
-        assert_eq!(names, ["VARYG", "VARYG (2)"]);
+        assert_eq!(names, ["Server 1", "Server 2"]);
         let first = call(&host, "videos", json!({ "hoster": hosters[0] })).unwrap();
         assert_eq!(first[0]["videoUrl"], "https://suzaku.xin-cdn.xyz/b5b9aaae-8e23-48e2-af41-3ec5c3ae2229/master.m3u8");
         let second = call(&host, "videos", json!({ "hoster": hosters[1] })).unwrap();
