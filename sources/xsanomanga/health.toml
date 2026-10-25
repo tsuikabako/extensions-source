@@ -1,0 +1,3 @@
+# What tools/check-health.py fetches to see that the site is up.
+url = "https://www.xsano-manga.com/feeds/posts/default/-/Series?alt=json&max-results=1"
+expect = "openSearch$totalResults"

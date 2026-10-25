@@ -1,0 +1,9 @@
+id = "murim"
+name = "Murim"
+description = "Arabic manhwa translations (murim, martial arts), newest titles first"
+lang = "ar"
+kind = "manga"
+version = 1
+# The only host the plug-in may reach through the `http` import. Covers and page images (blogger.googleusercontent.com)
+# load in the app.
+hosts = ["murim-manga.blogspot.com"]

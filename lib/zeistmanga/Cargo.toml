@@ -1,0 +1,13 @@
+[package]
+name = "kuro-zeistmanga"
+version = "0.1.0"
+edition.workspace = true
+publish.workspace = true
+
+[dependencies]
+chrono = { workspace = true }
+kuro-guest = { workspace = true, features = ["html"] }
+regex-lite = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+url = { workspace = true }

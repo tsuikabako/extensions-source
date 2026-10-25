@@ -1,0 +1,9 @@
+id = "comicverse"
+name = "Comic Verse"
+description = "Arabic translations of Marvel and DC comics, issues with dates"
+lang = "ar"
+kind = "manga"
+version = 1
+# The only host the plug-in may reach through the `http` import. Covers and page images (blogger.googleusercontent.com)
+# load in the app.
+hosts = ["arcomixverse.blogspot.com"]

@@ -1,0 +1,16 @@
+[package]
+name = "kuro-manhatok"
+version = "0.1.0"
+edition.workspace = true
+publish.workspace = true
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+kuro-guest = { workspace = true }
+kuro-zeistmanga = { path = "../../lib/zeistmanga" }
+wit-bindgen = { workspace = true }
+
+[dev-dependencies]
+serde_json = { workspace = true }
