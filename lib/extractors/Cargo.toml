@@ -1,0 +1,11 @@
+[package]
+name = "kuro-extractors"
+version = "0.1.0"
+edition.workspace = true
+publish.workspace = true
+
+[dependencies]
+kuro-guest = { workspace = true }
+regex-lite = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }

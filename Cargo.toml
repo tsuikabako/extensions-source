@@ -10,6 +10,7 @@ publish = false
 
 [workspace.dependencies]
 kuro-guest = { path = "lib/guest" }
+kuro-extractors = { path = "lib/extractors" }
 kuro-madara = { path = "lib/madara" }
 base64 = "0.22"
 chrono = { version = "0.4.45", default-features = false, features = ["std"] }
