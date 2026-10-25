@@ -337,6 +337,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "kuro-comicverse"
+version = "0.1.0"
+dependencies = [
+ "kuro-guest",
+ "kuro-zeistmanga",
+ "serde_json",
+ "wit-bindgen",
+]
+
+[[package]]
 name = "kuro-decadencescans"
 version = "0.1.0"
 dependencies = [
@@ -353,6 +363,18 @@ dependencies = [
  "kuro-guest",
  "serde",
  "serde_json",
+ "wit-bindgen",
+]
+
+[[package]]
+name = "kuro-eshadow"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "kuro-guest",
+ "serde",
+ "serde_json",
+ "url",
  "wit-bindgen",
 ]
 
@@ -411,6 +433,16 @@ version = "0.1.0"
 dependencies = [
  "kuro-guest",
  "kuro-madara",
+ "serde_json",
+ "wit-bindgen",
+]
+
+[[package]]
+name = "kuro-hijala"
+version = "0.1.0"
+dependencies = [
+ "kuro-guest",
+ "kuro-mangathemesia",
  "serde_json",
  "wit-bindgen",
 ]
@@ -488,6 +520,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "kuro-lavascans"
+version = "0.1.0"
+dependencies = [
+ "kuro-guest",
+ "kuro-mangathemesia",
+ "serde_json",
+ "wit-bindgen",
+]
+
+[[package]]
 name = "kuro-leercapitulo"
 version = "0.1.0"
 dependencies = [
@@ -519,12 +561,32 @@ dependencies = [
 ]
 
 [[package]]
+name = "kuro-lonertranslations"
+version = "0.1.0"
+dependencies = [
+ "kuro-guest",
+ "kuro-zeistmanga",
+ "serde_json",
+ "wit-bindgen",
+]
+
+[[package]]
 name = "kuro-madara"
 version = "0.1.0"
 dependencies = [
  "kuro-guest",
  "serde_json",
  "url",
+]
+
+[[package]]
+name = "kuro-mangaailand"
+version = "0.1.0"
+dependencies = [
+ "kuro-guest",
+ "kuro-zeistmanga",
+ "serde_json",
+ "wit-bindgen",
 ]
 
 [[package]]
@@ -578,6 +640,52 @@ dependencies = [
 ]
 
 [[package]]
+name = "kuro-mangathemesia"
+version = "0.1.0"
+dependencies = [
+ "base64",
+ "chrono",
+ "kuro-guest",
+ "regex-lite",
+ "serde_json",
+ "url",
+]
+
+[[package]]
+name = "kuro-mangatime"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "kuro-guest",
+ "serde",
+ "serde_json",
+ "url",
+ "wit-bindgen",
+]
+
+[[package]]
+name = "kuro-mangatuk"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "kuro-guest",
+ "serde",
+ "serde_json",
+ "url",
+ "wit-bindgen",
+]
+
+[[package]]
+name = "kuro-manhatok"
+version = "0.1.0"
+dependencies = [
+ "kuro-guest",
+ "kuro-zeistmanga",
+ "serde_json",
+ "wit-bindgen",
+]
+
+[[package]]
 name = "kuro-manhuahot"
 version = "0.1.0"
 dependencies = [
@@ -593,6 +701,16 @@ version = "0.1.0"
 dependencies = [
  "kuro-guest",
  "kuro-madara",
+ "serde_json",
+ "wit-bindgen",
+]
+
+[[package]]
+name = "kuro-murim"
+version = "0.1.0"
+dependencies = [
+ "kuro-guest",
+ "kuro-zeistmanga",
  "serde_json",
  "wit-bindgen",
 ]
@@ -624,6 +742,16 @@ version = "0.1.0"
 dependencies = [
  "kuro-guest",
  "kuro-novelcool",
+ "serde_json",
+ "wit-bindgen",
+]
+
+[[package]]
+name = "kuro-orcamanga"
+version = "0.1.0"
+dependencies = [
+ "kuro-guest",
+ "kuro-zeistmanga",
  "serde_json",
  "wit-bindgen",
 ]
@@ -751,6 +879,38 @@ dependencies = [
  "serde_json",
  "url",
  "wit-bindgen",
+]
+
+[[package]]
+name = "kuro-xsanomanga"
+version = "0.1.0"
+dependencies = [
+ "kuro-guest",
+ "kuro-zeistmanga",
+ "serde_json",
+ "wit-bindgen",
+]
+
+[[package]]
+name = "kuro-yokai"
+version = "0.1.0"
+dependencies = [
+ "kuro-guest",
+ "kuro-zeistmanga",
+ "serde_json",
+ "wit-bindgen",
+]
+
+[[package]]
+name = "kuro-zeistmanga"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "kuro-guest",
+ "regex-lite",
+ "serde",
+ "serde_json",
+ "url",
 ]
 
 [[package]]

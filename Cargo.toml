@@ -12,6 +12,8 @@ publish = false
 kuro-guest = { path = "lib/guest" }
 kuro-extractors = { path = "lib/extractors" }
 kuro-madara = { path = "lib/madara" }
+kuro-mangathemesia = { path = "lib/mangathemesia" }
+kuro-zeistmanga = { path = "lib/zeistmanga" }
 kuro-novelcool = { path = "lib/novelcool" }
 kuro-grouple = { path = "lib/grouple" }
 base64 = "0.22"

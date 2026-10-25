@@ -54,6 +54,19 @@ means the source is broken and needs a fix.
 | <img src="sources/novelcooles/icon.png" width="24" height="24" align="center"> NovelCool | es | hot, latest, search, chapters with dates |
 | <img src="sources/harmonyscan/icon.png" width="24" height="24" align="center"> Harmony-Scan | fr | popular, latest, search, chapters |
 | <img src="sources/shinobiscans/icon.png" width="24" height="24" align="center"> Shinobi Scans | it | popular, latest, search, chapters with dates |
+| <img src="sources/comicverse/icon.png" width="24" height="24" align="center"> Comic Verse | ar | Arabic translations of Marvel and DC comics, issues with dates |
+| <img src="sources/eshadow/icon.png" width="24" height="24" align="center"> EShadow | ar | A small Arabic manga translation site |
+| <img src="sources/hijala/icon.png" width="24" height="24" align="center"> Hijala | ar | Arabic translations of Korean and Chinese manhwa and manhua |
+| <img src="sources/lavascans/icon.png" width="24" height="24" align="center"> Lava Scans | ar | Arabic translations of manhwa and manhua, free chapters |
+| <img src="sources/lonertranslations/icon.png" width="24" height="24" align="center"> Loner Translations | ar | Arabic manga translations, chapters with dates |
+| <img src="sources/mangaailand/icon.png" width="24" height="24" align="center"> Manga Ai Land | ar | Arabic manga translations (seinen, thrillers), chapters with dates |
+| <img src="sources/mangatime/icon.png" width="24" height="24" align="center"> MangaTime | ar | Arabic manga, manhwa and manhua translations from many teams |
+| <img src="sources/mangatuk/icon.png" width="24" height="24" align="center"> MangaTuk | ar | Arabic manhwa, manga and manhua translations, free chapters |
+| <img src="sources/manhatok/icon.png" width="24" height="24" align="center"> Manhatok | ar | Arabic manga translations (Blue Lock, Jujutsu Kaisen, One Piece), chapters with dates |
+| <img src="sources/murim/icon.png" width="24" height="24" align="center"> Murim | ar | Arabic manhwa translations (murim, martial arts), newest titles first |
+| <img src="sources/orcamanga/icon.png" width="24" height="24" align="center"> Orca Manga | ar | Arabic manhua and manhwa translations, chapters with dates |
+| <img src="sources/xsanomanga/icon.png" width="24" height="24" align="center"> XSano Manga | ar | Arabic manga translations (sports, adventure), newest titles first |
+| <img src="sources/yokai/icon.png" width="24" height="24" align="center"> Yokai | ar | Hunter x Hunter in Arabic, chapters with dates and the download list |
 
 ### Anime
 

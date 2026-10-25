@@ -9,7 +9,7 @@ crate-type = ["cdylib"]
 
 [dependencies]
 kuro-guest = { workspace = true }
-kuro-mangathemesia = { path = "../../lib/mangathemesia" }
+kuro-mangathemesia = { workspace = true }
 wit-bindgen = { workspace = true }
 
 [dev-dependencies]

@@ -9,7 +9,7 @@ crate-type = ["cdylib"]
 
 [dependencies]
 kuro-guest = { workspace = true }
-kuro-zeistmanga = { path = "../../lib/zeistmanga" }
+kuro-zeistmanga = { workspace = true }
 wit-bindgen = { workspace = true }
 
 [dev-dependencies]
