@@ -1,0 +1,3 @@
+# What tools/check-health.py fetches to see that the site is up.
+url = "https://api.mangatuk.com/api/catalog/search?sort=latest_updates&limit=1&offset=0"
+expect = "total"

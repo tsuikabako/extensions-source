@@ -1,0 +1,16 @@
+[package]
+name = "kuro-hijala"
+version = "0.1.0"
+edition.workspace = true
+publish.workspace = true
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+kuro-guest = { workspace = true }
+kuro-mangathemesia = { path = "../../lib/mangathemesia" }
+wit-bindgen = { workspace = true }
+
+[dev-dependencies]
+serde_json = { workspace = true }

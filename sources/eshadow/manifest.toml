@@ -1,0 +1,9 @@
+id = "eshadow"
+name = "EShadow"
+description = "A small Arabic manga translation site"
+lang = "ar"
+kind = "manga"
+version = 1
+# The only host the plug-in reaches through the `http` import: the site's API. Covers and page images (an r2.dev
+# bucket) load in the app, not here.
+hosts = ["eshadow.net"]

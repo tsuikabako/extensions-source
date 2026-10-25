@@ -1,0 +1,3 @@
+# What tools/check-health.py fetches to see that the site is up.
+url = "https://hijala.com/manga/?page=1&order=popular"
+expect = "listupd"

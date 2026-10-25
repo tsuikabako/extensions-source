@@ -1,0 +1,9 @@
+id = "mangatuk"
+name = "MangaTuk"
+description = "Arabic manhwa, manga and manhua translations, free chapters"
+lang = "ar"
+kind = "manga"
+version = 1
+# The only host the plug-in reaches through the `http` import: the API. Covers and page images (content.mangatuk.com)
+# load in the app, not here.
+hosts = ["api.mangatuk.com"]

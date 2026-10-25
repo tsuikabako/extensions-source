@@ -1,0 +1,8 @@
+id = "hijala"
+name = "Hijala"
+description = "Arabic translations of Korean and Chinese manhwa and manhua"
+lang = "ar"
+kind = "manga"
+version = 1
+# The only host the plug-in reaches through the `http` import. Covers and page images (the same host) load in the app.
+hosts = ["hijala.com"]
