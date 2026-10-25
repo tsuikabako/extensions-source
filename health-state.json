@@ -11,7 +11,35 @@
   "fails": 0,
   "status": "active"
  },
+ "animeworld": {
+  "fails": 0,
+  "status": "active"
+ },
+ "aniworld": {
+  "fails": 0,
+  "status": "active"
+ },
+ "anizone": {
+  "fails": 0,
+  "status": "active"
+ },
+ "atsumaru": {
+  "fails": 0,
+  "status": "active"
+ },
+ "comicverse": {
+  "fails": 0,
+  "status": "active"
+ },
  "decadencescans": {
+  "fails": 0,
+  "status": "active"
+ },
+ "desu": {
+  "fails": 0,
+  "status": "active"
+ },
+ "eshadow": {
   "fails": 0,
   "status": "active"
  },
@@ -20,7 +48,11 @@
   "status": "active"
  },
  "harmonyscan": {
-  "fails": 1,
+  "fails": 2,
+  "status": "broken"
+ },
+ "hijala": {
+  "fails": 0,
   "status": "active"
  },
  "hunlightcomics": {
@@ -55,11 +87,27 @@
   "fails": 0,
   "status": "active"
  },
+ "lavascans": {
+  "fails": 0,
+  "status": "active"
+ },
+ "leercapitulo": {
+  "fails": 0,
+  "status": "active"
+ },
  "lhtranslation": {
   "fails": 0,
   "status": "active"
  },
  "linkmanga": {
+  "fails": 0,
+  "status": "active"
+ },
+ "lonertranslations": {
+  "fails": 0,
+  "status": "active"
+ },
+ "mangaailand": {
   "fails": 0,
   "status": "active"
  },
@@ -83,6 +131,18 @@
   "fails": 0,
   "status": "active"
  },
+ "mangatime": {
+  "fails": 0,
+  "status": "active"
+ },
+ "mangatuk": {
+  "fails": 0,
+  "status": "active"
+ },
+ "manhatok": {
+  "fails": 0,
+  "status": "active"
+ },
  "manhuahot": {
   "fails": 0,
   "status": "active"
@@ -91,7 +151,31 @@
   "fails": 0,
   "status": "active"
  },
+ "murim": {
+  "fails": 0,
+  "status": "active"
+ },
+ "novelcoolen": {
+  "fails": 0,
+  "status": "active"
+ },
+ "novelcooles": {
+  "fails": 0,
+  "status": "active"
+ },
+ "orcamanga": {
+  "fails": 0,
+  "status": "active"
+ },
  "ragnarokscanlation": {
+  "fails": 0,
+  "status": "active"
+ },
+ "readmanga": {
+  "fails": 0,
+  "status": "active"
+ },
+ "selfmanga": {
   "fails": 0,
   "status": "active"
  },
@@ -120,6 +204,14 @@
   "status": "active"
  },
  "weebcentral": {
+  "fails": 0,
+  "status": "active"
+ },
+ "xsanomanga": {
+  "fails": 0,
+  "status": "active"
+ },
+ "yokai": {
   "fails": 0,
   "status": "active"
  }
