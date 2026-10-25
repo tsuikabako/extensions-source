@@ -80,6 +80,16 @@ means the source is broken and needs a fix.
 | <img src="sources/anizone/icon.png" width="24" height="24" align="center"> AniZone | all | popular, latest, search, HLS streams with subtitles in many languages |
 | <img src="sources/animeworld/icon.png" width="24" height="24" align="center"> ANIMEWORLD.tv | it | popular, latest, search, the site's own server |
 | <img src="sources/aniworld/icon.png" width="24" height="24" align="center"> AniWorld | de | popular, latest, search, German dub and sub, Doodstream and Vidmoly |
+| <img src="sources/wcostream/icon.png" width="24" height="24" align="center"> WCOStream | en | English dubbed and subbed anime and cartoons from the WCO family, mp4 up to 1080p |
+| <img src="sources/wcofun/icon.png" width="24" height="24" align="center"> Wcofun | en | English dubbed and subbed anime and cartoons (wcoflix.tv), mp4 up to 1080p |
+| <img src="sources/wcotv/icon.png" width="24" height="24" align="center"> WcoTv | en | English dubbed and subbed cartoons and anime from WCO.tv, mp4 up to 1080p |
+| <img src="sources/wcoforever/icon.png" width="24" height="24" align="center"> WcoForever | en | English dubbed and subbed cartoons and anime from WcoForever, mp4 up to 1080p |
+| <img src="sources/wcoanimedub/icon.png" width="24" height="24" align="center"> WcoAnimeDub | en | English dubbed anime from the WCO family, mp4 up to 1080p |
+| <img src="sources/wcoanimesub/icon.png" width="24" height="24" align="center"> WcoAnimeSub | en | English subbed anime from the WCO family, mp4 up to 1080p |
+| <img src="sources/monoschinos/icon.png" width="24" height="24" align="center"> MonosChinos | es | Anime subbed in Spanish, from the DoodStream, MixDrop and Mp4Upload servers |
+| <img src="sources/vostfree/icon.png" width="24" height="24" align="center"> Vostfree | fr | Anime in French, subbed (VOSTFR) and dubbed (VF), from the Uqload, Okru, DoodStream and MixDrop servers |
+| <img src="sources/animetoast/icon.png" width="24" height="24" align="center"> AnimeToast | de | Anime in German, dubbed and subbed, from the DoodStream and Mp4Upload servers |
+| <img src="sources/okanime/icon.png" width="24" height="24" align="center"> Okanime | ar | Anime with Arabic subtitles, from the Mp4upload and Uqload servers |
 
 Mangakakalot and AnimePahe sit behind Cloudflare's browser check, so they need a recent Kurobayomi that can pass it.
 

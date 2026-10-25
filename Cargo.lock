@@ -326,6 +326,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "kuro-animetoast"
+version = "0.1.0"
+dependencies = [
+ "kuro-extractors",
+ "kuro-guest",
+ "serde_json",
+ "url",
+ "wit-bindgen",
+]
+
+[[package]]
 name = "kuro-animeworld"
 version = "0.1.0"
 dependencies = [
@@ -741,6 +752,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "kuro-monoschinos"
+version = "0.1.0"
+dependencies = [
+ "base64",
+ "kuro-extractors",
+ "kuro-guest",
+ "serde_json",
+ "url",
+ "wit-bindgen",
+]
+
+[[package]]
 name = "kuro-murim"
 version = "0.1.0"
 dependencies = [
@@ -778,6 +801,17 @@ dependencies = [
  "kuro-guest",
  "kuro-novelcool",
  "serde_json",
+ "wit-bindgen",
+]
+
+[[package]]
+name = "kuro-okanime"
+version = "0.1.0"
+dependencies = [
+ "kuro-extractors",
+ "kuro-guest",
+ "serde_json",
+ "url",
  "wit-bindgen",
 ]
 
@@ -900,6 +934,87 @@ version = "0.1.0"
 dependencies = [
  "kuro-grouple",
  "kuro-guest",
+ "serde_json",
+ "wit-bindgen",
+]
+
+[[package]]
+name = "kuro-vostfree"
+version = "0.1.0"
+dependencies = [
+ "kuro-extractors",
+ "kuro-guest",
+ "serde_json",
+ "url",
+ "wit-bindgen",
+]
+
+[[package]]
+name = "kuro-wco"
+version = "0.1.0"
+dependencies = [
+ "base64",
+ "kuro-guest",
+ "serde_json",
+ "url",
+]
+
+[[package]]
+name = "kuro-wcoanimedub"
+version = "0.1.0"
+dependencies = [
+ "kuro-guest",
+ "kuro-wco",
+ "serde_json",
+ "wit-bindgen",
+]
+
+[[package]]
+name = "kuro-wcoanimesub"
+version = "0.1.0"
+dependencies = [
+ "kuro-guest",
+ "kuro-wco",
+ "serde_json",
+ "wit-bindgen",
+]
+
+[[package]]
+name = "kuro-wcoforever"
+version = "0.1.0"
+dependencies = [
+ "kuro-guest",
+ "kuro-wco",
+ "serde_json",
+ "wit-bindgen",
+]
+
+[[package]]
+name = "kuro-wcofun"
+version = "0.1.0"
+dependencies = [
+ "kuro-guest",
+ "kuro-wco",
+ "serde_json",
+ "wit-bindgen",
+]
+
+[[package]]
+name = "kuro-wcostream"
+version = "0.1.0"
+dependencies = [
+ "kuro-guest",
+ "kuro-wco",
+ "serde_json",
+ "wit-bindgen",
+]
+
+[[package]]
+name = "kuro-wcotv"
+version = "0.1.0"
+dependencies = [
+ "kuro-guest",
+ "kuro-wco",
  "serde_json",
  "wit-bindgen",
 ]

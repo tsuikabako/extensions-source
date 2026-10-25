@@ -9,7 +9,7 @@ crate-type = ["cdylib"]
 
 [dependencies]
 kuro-guest = { workspace = true }
-kuro-wco = { path = "../../lib/wco" }
+kuro-wco = { workspace = true }
 wit-bindgen = { workspace = true }
 
 [dev-dependencies]
