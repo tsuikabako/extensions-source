@@ -43,17 +43,48 @@ struct HttpResponse {
     status: u16,
     #[serde(default)]
     url: String,
+    #[serde(default)]
+    headers: Vec<(String, String)>,
     body: String,
     #[serde(default)]
     body_encoding: Option<String>,
 }
 
-/// One GET through the host: the body and the address it ended at. A non-2xx status is an error.
+/// The start of the error a 429 gives, which tells the stream lookups to stop.
+const LIMITED: &str = "AnimePahe is limiting requests";
+
+fn limited(wait: Option<u64>) -> String {
+    match wait {
+        Some(seconds) => format!("{LIMITED}; wait {seconds} seconds and try again"),
+        None => format!("{LIMITED}; wait a few seconds and try again"),
+    }
+}
+
+/// The seconds of a `Retry-After` header. ponytail: the HTTP-date form is ignored (no wait kept); parse it if a host sends it.
+fn retry_after(headers: &[(String, String)]) -> Option<u64> {
+    headers.iter().find(|(name, _)| name.eq_ignore_ascii_case("retry-after")).and_then(|(_, value)| value.trim().parse().ok())
+}
+
+/// The pref that holds until when a host asked us to wait (unix seconds), so the next op does not ask it again early.
+fn limited_key(url: &str) -> String {
+    format!("limited_until_{}", url::Url::parse(url).ok().and_then(|u| u.host_str().map(str::to_owned)).unwrap_or_default())
+}
+
+/// One GET through the host: the body and the address it ended at. A non-2xx status is an error. A host that answered
+/// 429 with a `Retry-After` is not asked again until that time has passed.
 fn fetch(url: &str, headers: &[(&str, &str)]) -> Res<(String, String)> {
+    let now = unix_seconds();
+    if let Some(until) = serde_json::from_str::<u64>(&host::pref_get(&limited_key(url))).ok().filter(|until| *until > now) {
+        return Err(limited(Some(until - now)));
+    }
     let request = serde_json::to_string(&HttpRequest { method: "GET", url, headers, body: None }).map_err(|e| e.to_string())?;
     let response: HttpResponse = serde_json::from_str(&host::http(&request)?).map_err(|e| format!("invalid response: {e}"))?;
     if response.status == 429 {
-        return Err("AnimePahe is limiting requests; wait a few seconds and try again".into());
+        let wait = retry_after(&response.headers);
+        if let Some(seconds) = wait {
+            let _ = host::pref_set(&limited_key(url), &json!(now + seconds).to_string());
+        }
+        return Err(limited(wait));
     }
     if !(200..300).contains(&response.status) {
         return Err(format!("HTTP error {}", response.status));
@@ -288,30 +319,56 @@ fn hosters(input: &str) -> Res<Vec<Hoster>> {
 }
 
 /// The videos of a hoster: each stream's Kwik page, unpacked to its HLS playlist. A stream that fails is skipped.
-fn hoster_videos(hoster: &Hoster, first: bool) -> Vec<api::Video> {
+fn hoster_videos(hoster: &Hoster, first: bool) -> Res<Vec<api::Video>> {
+    let fetch_kwik = |kwik: &str| fetch(kwik, &[("Referer", "https://animepahe.pw/")]);
+    let log = |message: &str| host::log(2, &format!("animepahe: {message} of {}", hoster.hoster_name));
+    resolve_streams(api::streams(&hoster.internal_data), first, fetch_kwik, log)
+}
+
+/// Resolves each stream with `fetch`, skipping one that fails. A 429 stops the lookups, since each further one counts
+/// against the limit too: what was found is returned, or the 429 error when nothing was.
+fn resolve_streams(
+    streams: Vec<(String, String)>,
+    first: bool,
+    mut fetch: impl FnMut(&str) -> Res<(String, String)>,
+    log: impl Fn(&str),
+) -> Res<Vec<api::Video>> {
     let mut videos = Vec::new();
-    for (kwik, title) in api::streams(&hoster.internal_data) {
-        let found = fetch(&kwik, &[("Referer", "https://animepahe.pw/")])
+    for (kwik, title) in streams {
+        let found = fetch(&kwik)
             .and_then(|(html, landed)| api::kwik_playlist(&html).map(|p| (p, landed)).ok_or_else(|| "no playlist in the Kwik page".to_owned()));
         match found {
             Ok((playlist, landed)) => {
                 let preferred = first && videos.is_empty();
                 videos.push(api::video(playlist, &title, if landed.is_empty() { &kwik } else { &landed }, preferred));
             }
-            Err(error) => host::log(2, &format!("animepahe: {title} of {} failed: {error}", hoster.hoster_name)),
+            Err(error) => {
+                log(&format!("{title} failed: {error}"));
+                if error.starts_with(LIMITED) {
+                    return if videos.is_empty() { Err(error) } else { Ok(videos) };
+                }
+            }
         }
     }
-    videos
+    Ok(videos)
 }
 
 fn videos(input: &str) -> Res<Vec<api::Video>> {
     let a: VideosArgs = args(input)?;
     if let Some(hoster) = a.hoster {
-        return Ok(hoster_videos(&hoster, true));
+        return hoster_videos(&hoster, true);
     }
     let episode = a.episode.ok_or("videos needs a hoster or an episode")?;
     let hosters = hosters(&json!({ "args": { "episode": { "url": episode.url } } }).to_string())?;
-    Ok(hosters.iter().enumerate().flat_map(|(i, h)| hoster_videos(h, i == 0)).collect())
+    let mut all = Vec::new();
+    for (i, hoster) in hosters.iter().enumerate() {
+        match hoster_videos(hoster, i == 0) {
+            Ok(videos) => all.extend(videos),
+            Err(error) if all.is_empty() => return Err(error),
+            Err(_) => break,
+        }
+    }
+    Ok(all)
 }
 
 fn json_out<T: Serialize>(result: Res<T>) -> Res<String> {
@@ -338,3 +395,53 @@ impl Guest for Plugin {
 }
 
 export!(Plugin);
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    const KWIK: &str = include_str!("../fixtures/kwik.html");
+
+    fn streams(n: usize) -> Vec<(String, String)> {
+        (0..n).map(|i| (format!("https://kwik.cx/e/{i}"), format!("{i}p"))).collect()
+    }
+
+    #[test]
+    fn a_429_stops_the_remaining_lookups() {
+        // the first stream resolves, the second is limited: the third is never asked for, and the found one is kept
+        let mut asked = Vec::new();
+        let found = resolve_streams(streams(3), true, |url| {
+            asked.push(url.to_owned());
+            if asked.len() == 1 { Ok((KWIK.to_owned(), String::new())) } else { Err(limited(Some(30))) }
+        }, |_| {})
+        .unwrap();
+        assert_eq!(asked.len(), 2);
+        assert_eq!(found.len(), 1);
+        assert!(found[0].preferred);
+
+        // limited at the first stream: one request, and the 429 is the answer
+        let mut count = 0;
+        let error = resolve_streams(streams(3), true, |_| { count += 1; Err(limited(None)) }, |_| {}).unwrap_err();
+        assert_eq!(count, 1);
+        assert!(error.starts_with(LIMITED));
+    }
+
+    #[test]
+    fn another_failure_skips_only_its_stream() {
+        let mut count = 0;
+        let found = resolve_streams(streams(3), false, |_| {
+            count += 1;
+            if count == 1 { Err("HTTP error 500".into()) } else { Ok((KWIK.to_owned(), String::new())) }
+        }, |_| {})
+        .unwrap();
+        assert_eq!((count, found.len()), (3, 2));
+    }
+
+    #[test]
+    fn retry_after_reads_seconds_in_any_case() {
+        assert_eq!(retry_after(&[("Retry-After".into(), " 42 ".into())]), Some(42));
+        assert_eq!(retry_after(&[("retry-after".into(), "Wed, 21 Oct 2015 07:28:00 GMT".into())]), None);
+        assert_eq!(retry_after(&[]), None);
+        assert_eq!(limited_key("https://kwik.cx/e/abc"), "limited_until_kwik.cx");
+    }
+}

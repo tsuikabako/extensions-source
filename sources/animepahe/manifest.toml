@@ -4,7 +4,7 @@ name = "AnimePahe"
 description = "Airing anime, streams in 360p to 1080p"
 lang = "en"
 kind = "anime"
-version = 3
+version = 4
 # animepahe.pw is the site and its API (behind Cloudflare's browser check: the app reaches it through a hidden page);
 # kwik.cx is the player page of each video.
 hosts = ["animepahe.pw", "kwik.cx"]
