@@ -76,7 +76,10 @@ means the source is broken and needs a fix.
 | <img src="sources/animepahe/icon.png" width="24" height="24" align="center"> AnimePahe | en | airing list, search, streaming in 360p to 1080p |
 | <img src="sources/animeparadise/icon.png" width="24" height="24" align="center"> AnimeParadise | en | popular, latest, search, 1080p streaming with subtitles in many languages |
 | <img src="sources/animegg/icon.png" width="24" height="24" align="center"> AnimeGG | en | popular, latest, search, subbed, dubbed and raw MP4 streams |
-| <img src="sources/latanime/icon.png" width="24" height="24" align="center"> Latanime | es | airing list, search, dubbed and subbed, from DoodStream, Hexload, MixDrop and Mp4Upload |
+| <img src="sources/latanime/icon.png" width="24" height="24" align="center"> Latanime | es | airing list, search, dubbed and subbed, from DoodStream, Hexload, MixDrop, Mp4Upload, Okru, Uqload and YourUpload |
+| <img src="sources/anizone/icon.png" width="24" height="24" align="center"> AniZone | all | popular, latest, search, HLS streams with subtitles in many languages |
+| <img src="sources/animeworld/icon.png" width="24" height="24" align="center"> ANIMEWORLD.tv | it | popular, latest, search, the site's own server |
+| <img src="sources/aniworld/icon.png" width="24" height="24" align="center"> AniWorld | de | popular, latest, search, German dub and sub, Doodstream and Vidmoly |
 
 Mangakakalot and AnimePahe sit behind Cloudflare's browser check, so they need a recent Kurobayomi that can pass it.
 

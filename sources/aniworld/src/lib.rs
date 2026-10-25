@@ -208,7 +208,8 @@ fn hoster_videos(host: &dyn Host, hoster: &Hoster, preferred: bool) -> Res<Vec<V
         return Err(response.error(NAME));
     }
     let embed = if response.url.is_empty() { redirect } else { response.url };
-    let mut videos = kuro_extractors::videos(host, &embed, &hoster.internal_data).ok_or_else(|| format!("{} is not supported", hoster.hoster_name))??;
+    // the language is in the server's name (the Server menu), so the title is only the height or "Auto"
+    let mut videos = kuro_extractors::videos(host, &embed, "").ok_or_else(|| format!("{} is not supported", hoster.hoster_name))??;
     if let Some(first) = videos.first_mut() {
         first.preferred = preferred;
     }
@@ -315,7 +316,7 @@ mod tests {
         let host = Redirecting(TestHost::with_body("<script>player.setup({ sources: [{ file: 'https://v.example/master.m3u8' }], })</script>"));
         let hoster = &parse_hosters(EPISODE)[1];
         let videos = hoster_videos(&host, hoster, true).unwrap();
-        assert_eq!((videos[0].video_url.as_str(), videos[0].video_title.as_str(), videos[0].preferred), ("https://v.example/master.m3u8", "Deutscher Dub Auto", true));
+        assert_eq!((videos[0].video_url.as_str(), videos[0].video_title.as_str(), videos[0].preferred), ("https://v.example/master.m3u8", "Auto", true));
         let sent: Vec<String> = host.0.sent().into_iter().map(|r| r.url).collect();
         assert_eq!(sent, ["https://aniworld.to/redirect/4240419", "https://vidmoly.biz/embed-ka28nfechsnx.html"]);
         let elsewhere = Hoster { hoster_url: "https://evil.example/x".into(), ..hoster.clone() };

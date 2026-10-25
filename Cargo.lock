@@ -326,6 +326,41 @@ dependencies = [
 ]
 
 [[package]]
+name = "kuro-animeworld"
+version = "0.1.0"
+dependencies = [
+ "kuro-extractors",
+ "kuro-guest",
+ "serde_json",
+ "url",
+ "wit-bindgen",
+]
+
+[[package]]
+name = "kuro-aniworld"
+version = "0.1.0"
+dependencies = [
+ "kuro-extractors",
+ "kuro-guest",
+ "serde_json",
+ "url",
+ "wit-bindgen",
+]
+
+[[package]]
+name = "kuro-anizone"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "kuro-guest",
+ "regex-lite",
+ "serde",
+ "serde_json",
+ "url",
+ "wit-bindgen",
+]
+
+[[package]]
 name = "kuro-atsumaru"
 version = "0.1.0"
 dependencies = [

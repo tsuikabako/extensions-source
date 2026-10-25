@@ -44,6 +44,7 @@ pub const HOSTS: &[&str] = &[
     "mixdrop.sx",
     "mixdrop.bz",
     "mxdrop.click",
+    "mxdrop.to",
     "ok.ru",
     "www.yourupload.com",
     "yourupload.com",
@@ -73,7 +74,7 @@ pub fn videos(host: &dyn Host, embed_url: &str, label: &str) -> Option<Res<Vec<V
     let extract: fn(&dyn Host, &str, &str) -> Res<Vec<Video>> = match name {
         "www.mp4upload.com" | "mp4upload.com" => mp4upload::videos,
         "hexload.com" => hexload::videos,
-        "mixdrop.co" | "mixdrop.to" | "mixdrop.ag" | "mixdrop.top" | "mixdrop.ps" | "mixdrop.sx" | "mixdrop.bz" | "mxdrop.click" => mixdrop::videos,
+        "mixdrop.co" | "mixdrop.to" | "mixdrop.ag" | "mixdrop.top" | "mixdrop.ps" | "mixdrop.sx" | "mixdrop.bz" | "mxdrop.click" | "mxdrop.to" => mixdrop::videos,
         "ok.ru" => okru::videos,
         "www.yourupload.com" | "yourupload.com" => yourupload::videos,
         _ if name.starts_with("uqload.") && HOSTS.contains(&name) => uqload::videos,
