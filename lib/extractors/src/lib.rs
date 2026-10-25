@@ -4,13 +4,17 @@
 //!
 //! An extractor requests only its host's pages, so a source lists those hosts in its manifest (see [`HOSTS`]); the
 //! videos themselves load in the app, from any host. Hosts that move to new domains all the time (VOE, StreamWish,
-//! Filemoon) are not here: no manifest can list them.
+//! Filemoon, VidHide) are not here: no manifest can list them.
 
 mod dood;
 mod hexload;
 mod mixdrop;
 mod mp4upload;
+mod okru;
 pub mod unpacker;
+mod uqload;
+mod vidmoly;
+mod yourupload;
 
 use kuro_guest::wire::Video;
 use kuro_guest::{Host, Res};
@@ -40,7 +44,26 @@ pub const HOSTS: &[&str] = &[
     "mixdrop.sx",
     "mixdrop.bz",
     "mxdrop.click",
+    "ok.ru",
+    "www.yourupload.com",
+    "yourupload.com",
+    "uqload.vc",
+    "uqload.ws",
+    "uqload.is",
+    "uqload.com",
+    "uqload.co",
+    "uqload.io",
+    "uqload.net",
+    "uqload.cx",
+    "vidmoly.biz",
+    "vidmoly.net",
+    "vidmoly.me",
+    "vidmoly.to",
 ];
+
+/// The one User-Agent of hosts that serve a video only to the browser that opened its page (MixDrop, Okru): the page
+/// is asked for, and the video played, with it.
+const USER_AGENT: &str = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36";
 
 /// The videos of one embed page, by the host in its address. `None` when no extractor knows the host (the caller
 /// skips that server); `Some(Err)` when the host is known but its page did not give a video. `label` starts each
@@ -51,6 +74,10 @@ pub fn videos(host: &dyn Host, embed_url: &str, label: &str) -> Option<Res<Vec<V
         "www.mp4upload.com" | "mp4upload.com" => mp4upload::videos,
         "hexload.com" => hexload::videos,
         "mixdrop.co" | "mixdrop.to" | "mixdrop.ag" | "mixdrop.top" | "mixdrop.ps" | "mixdrop.sx" | "mixdrop.bz" | "mxdrop.click" => mixdrop::videos,
+        "ok.ru" => okru::videos,
+        "www.yourupload.com" | "yourupload.com" => yourupload::videos,
+        _ if name.starts_with("uqload.") && HOSTS.contains(&name) => uqload::videos,
+        _ if name.starts_with("vidmoly.") && HOSTS.contains(&name) => vidmoly::videos,
         _ if is_dood(name) => dood::videos,
         _ => return None,
     };
@@ -103,6 +130,10 @@ mod tests {
         let host = TestHost::default();
         assert!(videos(&host, "https://voe.sx/e/x", "").is_none(), "VOE is not supported");
         assert!(videos(&host, "https://mega.nz/embed/x", "").is_none());
+        assert!(videos(&host, "https://uqload.example/x", "").is_none() && videos(&host, "https://vidmoly.example/x", "").is_none());
+        for known in ["http://ok.ru/videoembed/1", "https://www.yourupload.com/embed/x", "https://uqload.ws/embed-x.html", "https://vidmoly.net/embed-x.html"] {
+            assert!(matches!(videos(&host, known, ""), Some(Err(_))), "{known}");
+        }
         assert!(is_dood("playmogo.com") && is_dood("d0000d.com") && !is_dood("mixdrop.co"));
         // a known host whose page fails gives an error, not None
         assert!(matches!(videos(&host, "https://playmogo.com/e/x", ""), Some(Err(_))));

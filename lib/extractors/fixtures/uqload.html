@@ -1,0 +1,459 @@
+<HTML>
+<HEAD>
+<link rel="stylesheet" href="/css/main.css">
+<script src="/js/jquery.min.js"></script>
+<script src="/js/xupload.js"></script>
+<script src="/js/jquery.cookie.js"></script>
+<script>
+$.cookie('file_id', '12620767', { expires: 10 });
+$.cookie('aff', '120048', { expires: 10 });
+
+</script>
+<script src="/player/jw8/vast.js"></script>
+<!-- Privacy-friendly analytics by Plausible --><script async src="https://pla.uqload.vc/js/pa-goXS7XjHByR3ra1IS9oLZ.js"></script><script>window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init()</script></head>
+<BODY topmargin=0 leftmargin=0 style="background:transparent;">
+<!-- casino revshare (Linebet, promo UQEARN) 2026-10-05: GEO-scoped by index_dl.pm (casino_geos). 2026-10-07: Linebet image creatives (/i2/q/w|m|s.jpg) -->
+<style>
+#uqcs-bar{position:fixed;top:4px;left:50%;transform:translateX(-50%);z-index:2147483646;display:block;line-height:0;max-width:calc(100% - 8px);
+ box-shadow:0 2px 10px rgba(0,0,0,.5);border-radius:4px;overflow:visible;cursor:pointer}
+#uqcs-bar .uqp{display:block;width:728px;max-width:calc(100vw - 8px);aspect-ratio:728/90;background:center/contain no-repeat;border-radius:4px}
+#uqcs-bar .uqp.m{width:320px;aspect-ratio:320/50}
+.uqcs-x{position:absolute;top:-7px;right:-7px;width:20px;height:20px;line-height:18px;text-align:center;z-index:2;
+ border-radius:50%;background:#111;border:1px solid rgba(255,255,255,.5);color:#fff;font:700 13px Arial,sans-serif;cursor:pointer}
+#uqcs-box{position:fixed;inset:0;z-index:2147483647;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.45)}
+#uqcs-box .uqcs-card{position:relative;display:block;line-height:0;width:300px;max-width:86vw;box-shadow:0 6px 24px rgba(0,0,0,.6);border-radius:6px;cursor:pointer}
+#uqcs-box .uqcs-card .uqp{display:block;width:100%;aspect-ratio:300/250;max-height:84vh;background:center/contain no-repeat;border-radius:6px}
+#uqcs-box .uqcs-x{top:-8px;right:-8px}
+</style>
+<a id="uqcs-bar" style="display:none;text-decoration:none" target="_blank" rel="noopener"></a>
+<div id="uqcs-box"></div>
+<script>
+(function(){
+  try{
+    var URL='/i2/q/go.html';   // first-party hop -> Linebet tracking link (filter lists hide <a href*=lb-aff.com>)
+    var CC='TN', CODE='UQEARN';
+    var L={
+      en:['Sports betting & casino','Promo code','Sign up'],
+      fr:['Paris sportifs & casino','Code promo','Inscription'],
+      es:['Apuestas deportivas y casino','Código promo','Regístrate'],
+      pt:['Apostas esportivas e cassino','Código promo','Cadastre-se'],
+      ar:['رهانات رياضية وكازينو','كود البونص','سجّل الآن']
+    };
+    var lang=((navigator.language||'en').slice(0,2)).toLowerCase(); var t=L[lang]||L.en;
+    function ev(n,slot){ try{ if(window.plausible) window.plausible(n,{props:{cc:CC,slot:slot}}); }catch(e){} }
+    function go(slot){ ev('Casino Click',slot); }
+    var bar=document.getElementById('uqcs-bar'), box=document.getElementById('uqcs-box'); bar.href=URL;
+    if(lang==='ar'){ bar.dir='rtl'; box.dir='rtl'; }
+    var IMG='/i2/q/';   // first-party, neutral names (filter lists match 'banner'/'728x90' in URLs)
+    var wide=(window.innerWidth||document.documentElement.clientWidth||0)>=740;
+    bar.innerHTML='<span class="uqp'+(wide?'':' m')+'" style="background-image:url('+IMG+(wide?'w':'m')+'.jpg)"></span><span class="uqcs-x" title="Close">\u00d7</span>';
+    box.innerHTML='<a class="uqcs-card" style="text-decoration:none" target="_blank" rel="noopener" href="'+URL+'"><span class="uqcs-x" title="Close">\u00d7</span><span class="uqp" style="background-image:url('+IMG+'s.jpg)"></span></a>';
+    var barClosed=false, played=false, boxShown=0;
+    bar.style.display='block'; ev('Casino Impression','bar');
+    // 2026-10-06: pop networks (now ProfitON on the first click) listen on window/document and may lay an invisible
+    // cover over the page, so they were stealing clicks meant for the casino banner. This script runs BEFORE the async
+    // pop scripts register, so our window-level capture listeners fire first: a press that lands on the strip or the
+    // pause card (hit-tested by coordinates, so it works even through a cover) is stopped here and never reaches the pops.
+    function hit(el,x,y){ if(!el) return false; var r=el.getBoundingClientRect(); return r.width>0 && x>=r.left && x<=r.right && y>=r.top && y<=r.bottom; }
+    function zone(e){
+      var p=(e.touches&&e.touches[0])||(e.changedTouches&&e.changedTouches[0])||e, x=p.clientX, y=p.clientY;
+      if(x==null) return null;
+      if(box.style.display==='flex'){ var card=box.firstChild;
+        if(hit(card.querySelector('.uqcs-x'),x,y)) return 'boxclose';
+        if(hit(card,x,y)) return 'box';
+        return 'boxout'; }
+      if(bar.style.display!=='none'){
+        if(hit(bar.querySelector('.uqcs-x'),x,y)) return 'barclose';
+        if(hit(bar,x,y)) return 'bar'; }
+      return null;
+    }
+    ['pointerdown','mousedown','touchstart','pointerup','mouseup','touchend'].forEach(function(tp){
+      window.addEventListener(tp,function(e){ var z=zone(e); if(z && z!=='boxout') e.stopImmediatePropagation(); },true);
+    });
+    window.addEventListener('click',function(e){
+      var z=zone(e); if(!z) return;
+      if(z==='boxout'){ box.style.display='none'; return; }          // outside the card: close it, let the click go on (pops/player)
+      e.stopImmediatePropagation();
+      if(z==='barclose'){ e.preventDefault(); bar.style.display='none'; barClosed=true; return; }
+      if(z==='boxclose'){ e.preventDefault(); box.style.display='none'; try{ if(window.jwplayer && jwplayer().play) jwplayer().play(); }catch(x){} return; }
+      go(z==='bar'?'bar':'pause');
+      var a=e.target && e.target.closest ? e.target.closest('a') : null;
+      if(!(a && (bar.contains(a)||box.contains(a)))){ e.preventDefault(); try{ window.open(URL,'_blank','noopener'); }catch(x){} }   // a cover took the click: open it ourselves
+      if(z==='box') setTimeout(function(){ box.style.display='none'; },50);
+    },true);
+    // media events do not bubble - capture on document catches the player's <video>
+    var barTimer=null;
+    document.addEventListener('playing',function(){
+      played=true; box.style.display='none';
+      // 2026-10-07 owner: strip stays until the viewer closes it with the X (no auto-hide; the 20 s timer was removed)
+      if(!barClosed) bar.style.display='block';
+    },true);
+    document.addEventListener('pause',function(ev2){
+      try{
+        return;   // 2026-10-07 owner: pause card REMOVED (Linebet: ~10k clicks/day, 0 registrations -> mostly accidental taps on resume). Delete this line to restore.
+        var v=ev2.target; if(!played || !v || v.ended || v.seeking) return;
+        if(boxShown>=3) return;   // cap per page load
+        setTimeout(function(){ if(v.paused && !v.ended){ bar.style.display='none'; box.style.display='flex'; boxShown++; ev('Casino Impression','pause'); } },400);
+      }catch(x){}
+    },true);
+  }catch(e){}
+})();
+</script>
+
+
+
+
+	<!-- 2026-10-06 ad-block wall (WALL=1). Every page also reports what each probe found (Plausible "Adblock Probe").
+     ?adbdebug=1 shows a results panel (and still shows the wall). Not included at all when the page has no ad tags.
+     Probes: bait  = first-party /ad/pop.adsbox.js did not run (window.cRAds unset)
+             elem  = ad-classed bait box collapsed by cosmetic filters
+             google= no-cors fetch of Google's ad script rejected (Brave Shields / uBlock / Pi-hole)
+             adfail/adok = ad-network script tags that errored / loaded (window capture listeners, set before the ad tags) -->
+<style>
+#uqab685608{display:none;position:fixed;inset:0;z-index:2147483647;background:#000;color:#fff;
+ font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;text-align:center;align-items:center;justify-content:center;padding:16px;box-sizing:border-box}
+#uqab685608 .lk{font-size:34px;line-height:1;margin-bottom:10px}
+#uqab685608 h2{margin:0 0 8px;font-size:20px;font-weight:800;color:#fff!important}
+#uqab685608 p{margin:0 auto 14px;max-width:420px;font-size:13px;line-height:1.45;font-weight:500;color:#ddd!important}
+#uqab685608 button{background:#00ADEF;color:#fff;border:0;border-radius:6px;padding:7px 18px;font-size:13px;font-weight:700;cursor:pointer}
+#uqabdbg{position:fixed;left:8px;bottom:8px;z-index:2147483647;background:rgba(0,0,0,.85);color:#0f0;font:12px/1.45 monospace;padding:8px 10px;border-radius:6px;max-width:94vw;white-space:pre-wrap}
+@media (max-height:300px){#uqab685608 .lk{font-size:22px;margin-bottom:4px}#uqab685608 h2{font-size:15px;margin-bottom:4px}#uqab685608 p{font-size:11px;margin-bottom:8px}}
+</style>
+<script>
+(function(){
+  var WALL = 0;   // 2026-10-06 21:5x local: SILENT per owner (wall cost ~35% of mainstream plays); was ON 19:30-21:5x (rule validated: ABP/uBO via google/elem/bait, Brave via navigator.brave + our ad scripts blocked)
+  var ON = 1;
+  var SOFT = 0;   // 2026-10-12 owner: non-blocking 'disable ad blocker or go Premium' card
+  var DEBUG = /[?&]adbdebug=1/.test(location.search);
+  var REF = '' || 'direct';
+  var LS='uqab_walled';
+  function ev(n,props){ try{ if(window.plausible) window.plausible(n,{props:props}); }catch(e){} }
+  function lsGet(){ try{ return localStorage.getItem(LS); }catch(e){ return null; } }
+  function lsSet(v){ try{ if(v) localStorage.setItem(LS,v); else localStorage.removeItem(LS); }catch(e){} }
+  var AD = /scrubsrha|uniolaicecaps|todditehexarch|rapidfire|buzukiabateful|heatenpyropus|4xfreedom|benchform|pgo99|namebrain|autorepairworcester|vitting|mayhemsrewind|runative-syndicate|biomanos|dcengg|fallpane|quge5|kokamamimmest/i;
+  var R = {bait:'?', elem:'?', google:'?', net:'?', brave:'no', adfail:{}, adok:{}}, shown=false, reported=false;
+  try{ if(navigator.brave && navigator.brave.isBrave){ R.brave='yes'; } }catch(e){}
+  // Reload button: our window-level capture listeners are registered BEFORE the async pop scripts, so a press on the
+  // button is handled here first (pop networks listening on window/document were swallowing the button's own onclick).
+  var reloading=false;
+  function wallBtnHit(e){
+    if(!shown) return false;
+    var b=document.querySelector('#uqab685608 button'); if(!b) return false;
+    var p=(e.touches&&e.touches[0])||(e.changedTouches&&e.changedTouches[0])||e, x=p.clientX, y=p.clientY;
+    var r=b.getBoundingClientRect();
+    return (e.target===b || b.contains(e.target) || (x!=null && x>=r.left-6 && x<=r.right+6 && y>=r.top-6 && y<=r.bottom+6));
+  }
+  ['pointerdown','mousedown','touchstart','pointerup','mouseup','touchend','click'].forEach(function(tp){
+    window.addEventListener(tp,function(e){
+      if(!wallBtnHit(e)) return;
+      e.stopImmediatePropagation(); e.preventDefault();
+      if((tp==='click'||tp==='pointerup'||tp==='touchend'||tp==='mouseup') && !reloading){
+        reloading=true; ev('Adblock Wall Reload',{site:REF}); setTimeout(function(){ location.reload(); },120);
+      }
+    },{capture:true,passive:false});
+  });
+  // any other press on the wall itself is swallowed too, so pops can't fire through the black screen
+  window.addEventListener('click',function(e){ if(shown){ var d=document.getElementById('uqab685608'); if(d && d.contains(e.target)){ e.stopImmediatePropagation(); } } },true);
+  function hostOf(src){ var m=String(src).match(AD); return m ? m[0].toLowerCase() : null; }
+  window.addEventListener('error',function(e){ var t=e&&e.target; if(t&&t.tagName==='SCRIPT'&&t.src){ var h=hostOf(t.src); if(h){ R.adfail[h]=1; early(); } } },true);
+  // element 'load' events never reach window (spec), so listen on document in capture phase
+  document.addEventListener('load', function(e){ var t=e&&e.target; if(t&&t.tagName==='SCRIPT'&&t.src){ var h=hostOf(t.src); if(h) R.adok[h]=1; } },true);
+  // 2026-10-12 owner: SOFT prompt (WALL off, uploader opted in). Small card at the bottom; the video keeps playing.
+  // Dismiss is remembered 24 h on this browser. Plausible "Adblock Soft" step=shown/premium/dismiss.
+  var softShown=false;
+  function soft(why){
+    if(softShown) return; softShown=true;
+    try{ var t=+localStorage.getItem('uqab_soft')||0; if(Date.now()-t<864e5) return; }catch(e){}
+    ev('Adblock Soft',{step:'shown', why:why, site:REF});
+    var fr=/^fr/i.test(navigator.language||'');
+    var d=document.createElement('div');
+    d.setAttribute('style','position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:2147483647;max-width:92%;width:440px;'
+      +'background:rgba(5,12,28,.92);border:1px solid rgba(125,184,255,.4);border-radius:14px;padding:12px 14px;color:#fff;'
+      +'font:13px/1.4 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;box-shadow:0 8px 30px rgba(0,0,0,.5);text-align:left');
+    d.innerHTML='<div style="font-weight:700;font-size:14px;margin-bottom:4px">'+(fr?'Bloqueur de pub détecté':'Ad blocker detected')+'</div>'
+      +'<div style="opacity:.85">'+(fr?'Uqload est gratuit grâce à la publicité. Merci de désactiver votre bloqueur de pub.'
+                                     :'Uqload is free thanks to ads. Please turn off your ad blocker.')+'</div>'
+      +'<div style="display:flex;gap:8px;margin-top:10px;justify-content:flex-end">'
+      +'<button type="button" style="background:transparent;color:#fff;border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:7px 14px;font:inherit;cursor:pointer">'+(fr?'Continuer':'Continue')+'</button></div>';
+    d.querySelector('button').addEventListener('click',function(){ ev('Adblock Soft',{step:'dismiss', site:REF}); try{ localStorage.setItem('uqab_soft',String(Date.now())); }catch(e){} d.remove(); });
+    (document.body||document.documentElement).appendChild(d);
+  }
+  function show(){
+    if(!ON || shown) return;
+    if(!WALL){ if(SOFT) soft(arguments[0]||'adblock'); return; }
+    shown=true;
+    var why = arguments[0]||'adblock';
+    ev('Adblock Wall',{why:why, site:REF});
+    lsSet(String(Date.now())+'|'+why);
+    var fr=/^fr/i.test(navigator.language||'');
+    var d=document.createElement('div'); d.id='uqab685608';
+    d.innerHTML='<div><div class="lk">&#128274;</div><h2>'+(fr?'Bloqueur de pub détecté':'Ad Blocker Detected')+'</h2>'+
+      '<p>'+(fr?'Merci de désactiver votre bloqueur de pub pour regarder cette vidéo. Une fois désactivé, rechargez la page.'
+              :'Please disable your ad blocker to watch this video. Once disabled, reload the page to continue.')+'</p>'+
+      '<button type="button">'+(fr?'Recharger':'Reload')+'</button></div>';
+    d.querySelector('button').onclick=function(){ if(!reloading){ reloading=true; ev('Adblock Wall Reload',{site:REF}); setTimeout(function(){ location.reload(); },120); } };
+    (document.body||document.documentElement).appendChild(d); d.style.display='flex';
+    try{ if(window.jwplayer && jwplayer().pause) jwplayer().pause(true); }catch(e){}
+    document.addEventListener('play',function(e){ try{ e.target.pause(); }catch(x){} },true);
+  }
+  function verdict(){
+    var nf=Object.keys(R.adfail).length, nok=Object.keys(R.adok).length;
+    // 10-06 real-traffic check: google/elem/bait = 26.7% of visitors (matches the known ~27% ad-block rate) -> reliable.
+    // "ad scripts failed, none loaded" alone = 24.3% (network/ISP failures too) -> only trusted inside Brave, whose Shields
+    // let the Google fetch + bait box through but block our ad networks.
+    // Brave Shields block some of our ad networks but may let others load (e.g. ShuffleBox) -> any failure counts in Brave
+    var braveShields = (R.brave==='yes' && nf>=1);
+    // 10-06: uBlock Origin (Firefox) passes google (surrogate redirect) + bait box but blocks our ad scripts. Logged only for now:
+    var adsOnlyBlocked = (R.brave!=='yes' && nf>=1 && nok===0 && R.net==='ok');
+    var blocked = (R.google==='blocked') || (R.elem==='hidden') || (R.bait==='blocked') || braveShields;
+    return {blocked:blocked, nf:nf, nok:nok, brave:braveShields, adsonly:adsOnlyBlocked};
+  }
+  // decide as soon as any probe is conclusive, so the wall is up before the viewer can start the video
+  // instant probes (google/elem/bait) decide at once; the Brave rule waits until 2.5 s so the other ad scripts had a chance to load
+  // (an ad network briefly down must never wall a Brave user whose Shields are off)
+  // window.adbon is what the player's op=view ping reports (JW8.pm: adb=1) -> Views.adb -> payout rule m5 (adb_money_percent)
+  function early(){ try{ var v=verdict(); if(v.blocked && !v.brave){ window.adbon=1; show('adblock'); } }catch(e){} }
+  setTimeout(function(){ try{ var v=verdict(); if(v.blocked){ window.adbon=1; show(v.brave?'brave':'adblock'); } }catch(e){} }, 2500);
+  function report(){
+    if(reported) return; reported=true;
+    var v=verdict();
+    try{ if(window.plausible) window.plausible('Adblock Probe',{props:{blocked:String(v.blocked),google:R.google,elem:R.elem,bait:R.bait,brave:R.brave,net:R.net,adsonly:String(v.adsonly&&!v.blocked),adfail:String(v.nf),adok:String(v.nok)}}); }catch(e){}
+    if(DEBUG){
+      var p=document.createElement('div'); p.id='uqabdbg';
+      p.textContent='AD-BLOCK DEBUG\n google fetch : '+R.google+'\n bait element : '+R.elem+'\n bait script  : '+R.bait+'\n brave browser: '+R.brave+'\n neutral net  : '+R.net+
+        '\n ad scripts failed: '+(Object.keys(R.adfail).join(', ')||'none')+'\n ad scripts loaded: '+(Object.keys(R.adok).join(', ')||'none')+
+        '\n => verdict: '+(v.blocked?('AD BLOCKER'+(v.brave?' (Brave Shields)':'')):'clean')+(v.adsonly&&!v.blocked?'  [ads-only block: would be walled by the uBlock rule]':'')+'   (wall '+(WALL?'ON':'off')+', page eligible '+(ON?'yes':'no')+')';
+      (document.body||document.documentElement).appendChild(p);
+    }
+    if(v.blocked){ window.adbon=1; show(v.brave?'brave':'adblock'); }
+    else if(ON){ var prev=lsGet(); if(prev){ ev('Adblock Disabled',{site:REF, was:(prev.split('|')[1]||'?')}); lsSet(null); } }
+  }
+  function probes(){
+    try{
+      if(window.fetch){
+        var to=setTimeout(function(){ if(R.google==='?') R.google='timeout'; },5000);
+        fetch('https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js',{mode:'no-cors',cache:'no-store',credentials:'omit'})
+          .then(function(){ clearTimeout(to); R.google='ok'; })
+          .catch(function(){ clearTimeout(to); R.google='blocked'; early(); });
+      } else R.google='n/a';
+    }catch(e){ R.google='err'; }
+    try{
+      if(window.fetch){
+        var to2=setTimeout(function(){ if(R.net==='?') R.net='timeout'; },5000);
+        fetch('https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js?uq='+Date.now(),{mode:'no-cors',cache:'no-store',credentials:'omit'})
+          .then(function(){ clearTimeout(to2); R.net='ok'; }).catch(function(){ clearTimeout(to2); R.net='fail'; });
+      } else R.net='n/a';
+    }catch(e){ R.net='err'; }
+    try{
+      var b=document.createElement('div');
+      b.className='adsbox ad-banner pub_300x250 pub_728x90 text-ad textAd text_ad adsbygoogle';
+      b.setAttribute('style','position:absolute;left:-9999px;top:-9999px;width:300px;height:250px;');
+      b.innerHTML='&nbsp;';
+      (document.body||document.documentElement).appendChild(b);
+      setTimeout(function(){
+        try{ var cs=getComputedStyle(b); R.elem=(b.offsetHeight===0 || cs.display==='none' || cs.visibility==='hidden') ? 'hidden' : 'visible'; early(); }catch(e){ R.elem='err'; }
+        try{ b.parentNode && b.parentNode.removeChild(b); }catch(e){}
+      },400);
+    }catch(e){ R.elem='err'; }
+    // bait: 'blocked' ONLY on a real load error (onerror on the tag below) - a slow network must never wall a viewer
+    function baitCheck(final){ if(window.__uqBaitErr){ R.bait='blocked'; early(); } else if(window.cRAds!==undefined){ R.bait='ok'; } else if(final){ R.bait='slow'; } }
+    setTimeout(function(){ baitCheck(false); }, 400); setTimeout(function(){ baitCheck(true); }, 4500);
+    setTimeout(report, 5500);
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',probes); else probes();
+  window.setADBFlag=function(){};
+})();
+</script>
+
+<script src="/ad/pop.adsbox.js" onerror="window.__uqBaitErr=1"></script>
+
+
+
+
+
+
+    <div style="position:relative;">
+    
+        <!-- Over player banner ADs code start here -->
+
+        <!-- Over player banner ADs code end here -->
+    
+
+		<div id="adbd" class="overdiv">
+			<div>Disable ADBlock plugin and allow pop-ups in your browser to watch video</div>
+		</div>
+
+		<div id="play_limit_box">
+		<a href="https://uqload.vc/?op=payments" target="_blank">Upgrade you account</a> to watch videos with no limits!
+		</div>
+
+    <script>localStorage.setItem('jwplayer.bitrateSelection', '0');</script><script type='text/javascript' src='/player/jw8/jwplayer.js?v='></script>
+				<script type="text/javascript">jwplayer.key="";</script>
+				<style>
+					.jw-nextup-container{display:none !important; }
+					.jw-share-item, .jw-info-overlay-item, .jw-stats-item{display:none !important;}
+					.jw-display-icon-container .jw-icon-inline { display: none !important; } /*hide rewind+forward big buttons*/
+					.jw-button-container .jw-icon-rewind {display:none !important;}
+					.jw-display-icon-rewind { xdisplay: block !important; }
+					.jw-featured, .jw-rightclick { display:none !important; }
+					.audio-buttons {position: absolute; bottom: 100%; z-index: 9;}
+					.captions-buttons {position: absolute; bottom: 100%; margin-bottom:40px; z-index: 9;}
+				</style>
+				<script src="/js/localstorage-slim.js"></script><link rel="stylesheet" type="text/css" href="/player/jw8/skins/netflix2.css"></link>
+				<div id='vplayer' style="width:100%;height:100%;text-align:center;"><img src="https://strm6.uqload.vc/i/04/02524/kuxf8lwhlz9w.jpg" style="width:100%;height:100%;"></div>
+
+    </div>
+
+
+
+
+<script type='text/javascript'>eval(function(p,a,c,k,e,d){while(c--)if(k[c])p=p.replace(new RegExp('\\b'+c.toString(a)+'\\b','g'),k[c]);return p}('p("49").bd({bc:[{23:"1i://2s.1a.18/bb/2r/2q/ba/b9.b8?t=b7-b6&s=4s&e=b5&v=4t&i=0.0&b4=0"}],b3:"1i://2s.1a.18/i/2r/2q/2h.b2",2k:"1n%",2j:"1n%",b1:"b0",az:"ay",ax:"aw",av:\'au\',j:[{23:"1i://2s.1a.18/55/2r/2q/as.55",53:"ar"},{23:"/54/4m.54",aq:"ap 1o",53:"1o"}],1o:{ao:1,an:\'#am\',al:\'#ak\',aj:"ai",ah:30,ag:\'1n\',},"af":{"ae":"ad","ac":"ab"},\'aa\':{"a9":"a8 (a7 a6)"},a5:"a4",a3:"a2",a1:"/a0",52:{23:"1i://1a.18/9z/52-w.q",9y:"1i://1a.18",1d:"9x-9w",4g:"5",1s:1l},9v:{},9u:1l,34:[1,1.25,1.5,2]});k 2o,2p;k 9t=0,9s=0;k f=p();k 50=0,9r=0,9q=0,15=0;$.9p({9o:{\'9n-9m\':\'4d-9l\'}});f.r(\'9k\',b(x){g(5>0&&x.1d>=5&&2p!=1){2p=1;$(\'1c.9j\').9i(\'9h\')}g(x.1d>=15+5||x.1d<15){15=x.1d;2n.9g(\'2m\',9f.9e(15),{9d:60*60*24*7})}});f.r(\'1u\',b(x){50=x.1d});f.r(\'4b\',b(x){4v(x)});f.r(\'9c\',b(){$(\'1c.4u\').9b();2n.4c(\'2m\')});f.r(\'4l\',b(x){});f.r(\'9a\',b(x){});99 98=16=>4y.4x.97(4z 4n(`(^|)${16}=([^;]+)`))?.at(2);b 94(16,4w,1v){k 22=4z 93();22.92(22.91()+(1v*90));4y.4x=16+"="+4w+"; 8z="+22.8y()+"; 8x=.1a.18; 1m=/; 8w=8v; 8u"}b 4v(x){$(\'1c.4u\').1s();$(\'#8t\').1s();g(2o)28;2o=1;k 20=0;g(37.8s==1){20=1}g(\'1\'!=\'\'){$.4p(\'/8r?4k=4r&8q=4t&8p=4s-8o&20=\'+20,b(4q){1r.1q(\'4r:\'+4q)})}k 15=2n.4p(\'2m\');g(15>0){p().1u(15)}}b 8n(){k j=f.2x(4o);1r.1q(j);g(j.1j>1){2w(i=0;i<j.1j;i++){g(j[i].16==4o){1r.1q(\'!!=\'+i);f.2t(i)}}}}f.r(\'8m\',b(){f.r(\'8l\',b(2l){g(4n(\'4m\').8k(2l.j[2l.8j].8i)){p().4l(1l);p().8h(0);4j(\'/?4k=8g&8f=2h\')}});b 4j(4e){k $1z=$("<1c />").4i({1d:"8e",2k:"1n%",2j:"1n%",8d:0,4f:0,4h:8c,8b:"8a(10%, 10%, 10%, 0.4)","89-88":"87"});$("<86 />").4i({2k:"60%",2j:"60%",4h:85,"4g-4f":"84"}).83({\'82\':4e,\'81\':\'0\',\'80\':\'4d\'}).4a($1z);$1z.7z(b(){$(7y).4c();p().4b()});$1z.4a($(\'#49\'))}p().1p(\'<q 3q="3p://3o.3n.3m/3k/q" 3j="a-q-1b a-q-1b-7x" 3i="0 0 1x 1x" 3h="1f"><1m d="m 25.7w,57.7u v 7t.3 c 0.7s,2.7r 2.7q,4.7p 4.8,4.8 h 62.7 v -19.3 h -48.2 v -96.4 45 7o.7n v 19.3 c 0,5.3 3.6,7.2 8,4.3 l 41.8,-27.9 c 2.7m,-1.7k 4.7j,-5.7i 2.7,-8 -0.7h,-1.7g -1.7f,-2.7e -2.7,-2.7 l -41.8,-27.9 c -4.4,-2.9 -8,-1 -8,4.3 v 19.3 45 30.7d c -2.7c,0.7b -4.7a,2.79 -4.9,4.9 z m 78.77,73.76 c -3.42,-6.40 -10.3z,-10.3y -17.7,-10.6 -7.3x,0.3w -13.3v,4.3u -17.7,10.6 -8.1y,14.3t -8.1y,32.3s 0,46.3 3.42,6.40 10.3z,10.3y 17.7,10.6 7.3x,-0.3w 13.3v,-4.3u 17.7,-10.6 8.1y,-14.3t 8.1y,-32.3s 0,-46.3 z m -17.7,47.2 c -7.8,0 -14.4,-11 -14.4,-24.1 0,-13.1 6.6,-24.1 14.4,-24.1 7.8,0 14.4,11 14.4,24.1 0,13.1 -6.5,24.1 -14.4,24.1 z m -47.75,9.74 v -51 l -4.8,4.8 -6.8,-6.8 13,-12.72 c 3.71,-3.70 8.6z,-0.6y 8.2,3.4 v 62.6x z"></1m></q>\',"6w 10 1v",b(){p().1u(p().3b()+10)},"3r");$("1c[3a=3r]").38().6u(\'.a-1b-2i\');p().1p(\'<q 3q="3p://3o.3n.3m/3k/q" 3j="a-q-1b a-q-1b-2i" 3i="0 0 1x 1x" 3h="1f"><1m d="6t.2,6s.6r.y,21.y,0,0,0-17.7-10.6,21.y,21.y,0,0,0-17.7,10.6,44.1w,44.1w,0,0,0,0,46.3,21.y,21.y,0,0,0,17.7,10.6,21.y,21.y,0,0,0,17.7-10.6,44.1w,44.1w,0,0,0,0-46.6q-17.7,47.2c-7.8,0-14.4-11-14.4-24.6p.6-24.1,14.4-24.1,14.4,11,14.4,24.6o.4,3g.6n,95.5,3g.6m-43.4,9.7v-6l-4.8,4.8-6.8-6.8,13-6k.8,4.8,0,0,1,8.2,3.6j.7l-9.6-.6i-6h.6g.6f.3f,4.3f,0,0,1-4.8,4.6e.6v-19.6d.2v-96.6c.6b.6a,5.3-3.6,7.2-8,4.3l-41.8-27.69.3e,6.3e,0,0,1-2.7-8,5.3d,5.3d,0,0,1,2.7-2.68.8-27.67.4-2.9,8-1,8,4.66.65.64.3c,4.3c,0,0,1,63.1,57.61"></1m></q>\',"5z 10 1v",b(){k 1t=p().3b()-10;g(1t<0)1t=0;p().1u(1t)},"39");$("1c[3a=39]").38().5y(\'.a-1b-5x\');$("1c.a-1b-2i").1s()});p().1p("/35/5w.5v","5u r 5t",b(){k 36=37.2g(\'1i://1a.18/2h.5s\',\'5r\');36.5q()},"5p");f.r("u",b(1e){k 2b=1e.2b;k j=1e.j;1r.1q(j);g(j.1j<2)28;$(\'.a-n-5o-5n\').5m(b(){$(\'#a-n-o-u\').2d(\'a-n-o-1k\');$(\'.a-o-u\').1h(\'1g-2e\',\'1f\')});f.1p("/35/5l.q","5k 5j",b(){$(\'.a-33\').5i(\'a-n-2g\');$(\'.a-n-1o, .a-n-34\').1h(\'1g-2f\',\'1f\');g($(\'.a-33\').5h(\'a-n-2g\')){$(\'.a-o-u\').1h(\'1g-2f\',\'1l\');$(\'.a-o-u\').1h(\'1g-2e\',\'1l\');$(\'.a-n-o-5g\').2d(\'a-n-o-1k\');$(\'.a-n-o-u\').31(\'a-n-o-1k\');$(\'.a-n-5f :5e-5d\').31(\'a-n-o-1k\')}5c{$(\'.a-o-u\').1h(\'1g-2f\',\'1f\');$(\'.a-o-u\').1h(\'1g-2e\',\'1f\');$(\'.a-n-o-u\').2d(\'a-n-o-1k\')}},"5b");f.r("5a",b(1e){2a.59(\'29\',1e.j[1e.2b].16)});g(2a.2z(\'29\')){58("2y(2a.2z(\'29\'));",56)}});k 26;b 2y(2u){k j=f.2x();g(j.1j>1){2w(i=0;i<j.1j;i++){g(j[i].16==2u){g(i==26){28}26=i;f.2t(i)}}}}',36,410,'||||||||||jw|function||||player|if|||tracks|var|||settings|submenu|jwplayer|svg|on|||audioTracks||||589|||||||lastt|name||vc||uqload|icon|div|position|event|false|aria|attr|https|length|active|true|path|100|captions|addButton|log|console|hide|tt|seek|sec|769|240|60009|dd|adb||date|file|||current_audio||return|default_audio|localStorage|currentTrack||removeClass|expanded|checked|open|kuxf8lwhlz9w|rewind|height|width|tr|ttkuxf8lwhlz9w|ls|vvplay|vvad|02524|04|strm6|setCurrentAudioTrack|audio_name||for|getAudioTracks|audio_set|getItem||addClass||controls|playbackRates|images|win|window|detach|ff00|button|getPosition|974|887|013|867|178|focusable|viewBox|class|2000||org|w3|www|http|xmlns|ff11|06475|23525|29374|97928|30317|31579|29683|38421|30626||72072|||H||||vplayer|appendTo|play|remove|no|url|top|margin|zIndex|css|openIframeOverlay|op|pause|empty|RegExp|track_name|get|data|view|1792957893|5861395|video_ad|doPlay|value|cookie|document|new|prevt||logo|kind|srt|vtt|300||setTimeout|setItem|audioTrackChanged|dualSound|else|child|last|menu|quality|hasClass|toggleClass|Track|Audio|dualy|mousedown|buttons|topbar|download11|focus|_blank|html|site|Watch|png|download2|playback|insertBefore|Rewind||778Z||214|2A4|3H209|3v19|9c4|7l41|9a6|3c0|1v19|4H79|3h48|8H146|3a4|2v125|130|1Zm162|4v62|13a4|51l|278Zm|278|1S103|1s6|3Zm|078a21|131|M113|insertAfter||Forward|69999|88605|21053|03598|02543|99999||72863|77056|04577|422413|163|210431|860275|03972|689569|893957|124979|52502|174985|57502|04363|13843|480087||93574|99396|160|76396|164107|63589|03604|125|778||993957|rewind2|this|click|scrolling|frameborder|src|prop|50px|1000001|iframe|center|align|text|rgba|background|1000000|left|absolute|file_code|upload_srt|setCurrentCaptions|id|track|test|captionsChanged|ready|set_audio_track|603f70fe80d8fa5469b00a9a70e5536f|hash|view_id|dl|adbon|over_player_msg|Secure|None|SameSite|domain|toGMTString|expires|1000|getTime|setTime|Date|createCookieSec|||match|readCookie|const|bufferChange|show|complete|ttl|round|Math|set|slow|fadeIn|video_ad_fadein|time|cache|Cache|Content|headers|ajaxSetup|v2done|tott|vastdone2|vastdone1|playbackRateControls|cast|bar|control|link|images2|premium|aboutlink|UQLOAD|abouttext|netflix2|skin|kbps|946|1080p|945|qualityLabels|enabled|vpaidmode|vast|client|advertising|fontOpacity|backgroundOpacity|Tahoma|fontFamily|303030|backgroundColor|FFFFFF|color|userFontScale|Upload|label|thumbnails|kuxf8lwhlz9w_sli||metadata|preload|landscape|fullscreenOrientationLock|1555|duration|uniform|stretching|jpg|image|sp|14400|APZHkmMVt3CLHpQ5kOXjnkKx0KMYvrb8|hX8DpREmJF|m3u8|master|kuxf8lwhlz9w_n|hls2|sources|setup'.split('|')))
+</script>
+
+
+
+<script src="/js/pop.js"></script>
+<Script>
+$(function() {
+ 
+	if( window.cRAds === undefined ){ $('#adbd').css('display','table'); }
+
+	
+ 
+});
+</Script>
+
+
+<!-- pop diagnostics v3 (2026-09-10): can the popunder open at all on this embedder?
+     Installed BEFORE the ad tag. Samples 25% of loads, watches the WHOLE session and
+     reports ONE Plausible event (20s after the first real click, or on page hide):
+        Pop Fired       - window.open returned a window (pop works here)
+        Pop Blocked     - window.open was called and returned null => sandboxed
+        Pop Fired Focus - no open() seen, but the page lost focus within 3s of a click
+        Pop No Attempt  - nothing tried (no fill, capped, or the tag was blocked)
+     Plausible stores the referrer on custom events, so the per-embedder rate comes from
+     GROUP BY domainWithoutWWW(referrer). Purely observational: window.open is called
+     through unchanged and its return value / exceptions are passed straight back. -->
+<script>
+(function(){
+  try{
+    if(Math.random() >= 0.25) return;   // 25% sample - keeps event volume sane
+    var attempted=false, opened=false, focusLost=false, clicked=0, done=false, timer=null;
+
+    var _open = window.open;
+    if(typeof _open === 'function'){
+      window.open = function(){
+        attempted = true;
+        var w = _open.apply(window, arguments);   // exceptions propagate unchanged
+        if(w) opened = true;
+        return w;
+      };
+    }
+    // a pop that dodges the hook still steals focus - catch that within 3s of a click
+    function maybeFocusLost(){ if(clicked && (Date.now()-clicked) < 3000) focusLost = true; }
+    window.addEventListener('blur', maybeFocusLost, true);
+    document.addEventListener('visibilitychange', function(){ if(document.hidden) maybeFocusLost(); }, true);
+
+    function report(){
+      if(done) return; done = true;
+      var name = opened   ? 'Pop Fired'          // window.open returned a window
+               : attempted  ? 'Pop Blocked'        // window.open called, returned null
+               : focusLost  ? 'Pop Fired Focus'    // something opened without our hook seeing it
+               :              'Pop No Attempt';
+      try{ if(window.plausible) window.plausible(name); }catch(e){}
+    }
+    document.addEventListener('click', function(e){
+      if(!e || !e.isTrusted) return;
+      clicked = Date.now();
+      if(!timer) timer = setTimeout(report, 20000);   // whole-session view, not just click 1
+    }, true);
+    window.addEventListener('pagehide', function(){ if(clicked) report(); });
+  }catch(e){}
+})();
+</script>
+
+<!-- Ads: served from the Ads table = admin Ads Management panel (?op=my_ads).
+     2026-09-15: the hardcoded rotating loader was removed on owner request; all ad
+     delivery on embeds, landing and /d/ now comes from that one panel. -->
+	<script data-cfasync="false" src="https://pgo99.com/1/e75aa56ff8c1c1e201509ee1bfeaf015"></script>
+<script data-cfasync="false">(function(){var s=document.createElement("script");s.src="/js2/x7qf3m2v.js";s.async=true;s.onload=function(){try{aclib.runPop({zoneId:"12183638"});}catch(e){}};(document.head||document.documentElement).appendChild(s);})();</script>
+<script data-cfasync="false" async type="text/javascript" src="//uj.uniolaicecaps.com/ryNY4BYp7MeOyd/152863"></script>
+<script type="text/javascript" src="/js2/tsl.js?v=4" data-ts-vertical="mainstream" data-ts-spot="6851bf7569124c878aabe59bd5c91d82" data-ts-type="tabup" data-ts-session-duration="30" data-ts-count="3" data-ts-delay="5" async defer></script>
+<script data-cfasync="false" async type="text/javascript" src="//eo.todditehexarch.com/s7OTtYZQx47iED/156249"></script>
+<!-- Ads end -->
+
+
+<!-- sandbox wall: always rendered, independent of ad settings (mobile-safe) -->
+<!-- TrafficStars adult VAST preroll 2026-10-09: adult embeds only (index_dl.pm, ts_vast_* config). Tag host = rotating
+     domainator domain (/js2/tsd.txt), spot picked per embedding site. JW8 VAST client enabled in JW8.pm (uq_vast_tag);
+     the ad is started here with playAd() on the first play so the cap lives client-side (3rd-party cookies are blocked). -->
+<script>
+(function(){
+  try{
+    var TAG="https://cysyjucymudity.com/do2/d058c89a33ff454e96c7c7cf7d5848fc/vast?subid=direct", CAP_MS=4*3600*1000, KEY='uqtv_ts';
+    function ev(n,p){ try{ if(window.plausible) window.plausible(n, {props:Object.assign({net:'ts'}, p||{})}); }catch(e){} }
+    function capped(){ try{ var t=+localStorage.getItem(KEY)||0; return (Date.now()-t) < CAP_MS; }catch(e){ return false; } }
+    function mark(){ try{ localStorage.setItem(KEY, String(Date.now())); }catch(e){} }
+    var tries=0;
+    (function hook(){
+      var p=null; try{ p=window.jwplayer && jwplayer(); }catch(e){}
+      if(!p || typeof p.on!=='function' || typeof p.getState!=='function'){ if(++tries<150) setTimeout(hook,200); return; }
+      var done=false;
+      p.on('beforePlay', function(){
+        if(done) return; done=true;
+        if(capped()) return;
+        mark();
+        try{ p.playAd(TAG); }catch(e){ ev('Preroll Dropped',{reason:'playad-throw'}); }
+      });
+      p.on('adImpression', function(){ ev('Preroll Impression'); });
+      p.on('adClick',      function(){ ev('Preroll Click',{via:'video'}); });
+      p.on('adSkipped',    function(){ ev('Preroll Skipped'); });
+      p.on('adError',      function(e){ ev('Preroll Dropped',{reason:'ad-error-'+((e && (e.code||e.message))||'x')}); });
+    })();
+  }catch(e){}
+})();
+</script>
+
+
+<!-- Javascript Alt Ads code start -->
+	
+	<script>console.log('AD1');</script>
+	<script>console.log('AD2');</script>
+	<script>console.log('AD3');</script>
+<!-- Javascript Alt Ads code end -->
+
+
+
+<!-- playback telemetry: independent of the view counters, fires into Plausible -->
+<script>
+(function(){
+  try{
+    var attempted=false, succeeded=false, stalled=null;
+    function ev(name,props){
+      try{ if(window.plausible) window.plausible(name, props?{props:props}:undefined); }catch(e){}
+    }
+    // media events do not bubble - capture on document catches any <video> the player creates
+    document.addEventListener('play', function(){
+      if(attempted) return; attempted=true;
+      ev('Play Attempt');
+      // if nothing is playing 10s after the attempt, record the failure explicitly
+      stalled = setTimeout(function(){ if(!succeeded) ev('Play Blocked'); }, 10000);
+    }, true);
+
+    function ok(e){
+      if(succeeded) return;
+      var t = e && e.target && e.target.currentTime;
+      if(!(t > 0.5)) return;            // real progress, not just a ready event
+      succeeded=true;
+      if(stalled) clearTimeout(stalled);
+      if(!attempted){ attempted=true; ev('Play Attempt'); }   // autoplay path
+      ev('Play Success');
+    }
+    document.addEventListener('timeupdate', ok, true);
+    document.addEventListener('playing',  ok, true);
+  }catch(e){}
+})();
+</script>
+
+
+</BODY></HTML>

@@ -3,7 +3,7 @@ name = "Latanime"
 description = "Anime in Spanish, dubbed and subbed, from several video servers"
 lang = "es"
 kind = "anime"
-version = 2
+version = 3
 # The site, and the video hosts whose player pages the extractors read (lib/extractors HOSTS). The videos themselves load
 # in the app, from any host.
-hosts = ["latanime.org", "www.mp4upload.com", "mp4upload.com", "hexload.com", "playmogo.com", "dood.wf", "dood.so", "dood.re", "dood.pm", "dood.yt", "dood.li", "d000d.com", "d0000d.com", "ds2play.com", "doodstream.com", "dooood.com", "mixdrop.co", "mixdrop.to", "mixdrop.ag", "mixdrop.top", "mixdrop.ps", "mixdrop.sx", "mixdrop.bz", "mxdrop.click"]
+hosts = ["latanime.org", "www.mp4upload.com", "mp4upload.com", "hexload.com", "playmogo.com", "dood.wf", "dood.so", "dood.re", "dood.pm", "dood.yt", "dood.li", "d000d.com", "d0000d.com", "ds2play.com", "doodstream.com", "dooood.com", "mixdrop.co", "mixdrop.to", "mixdrop.ag", "mixdrop.top", "mixdrop.ps", "mixdrop.sx", "mixdrop.bz", "mxdrop.click", "ok.ru", "www.yourupload.com", "yourupload.com", "uqload.vc", "uqload.ws", "uqload.is", "uqload.com", "uqload.co", "uqload.io", "uqload.net", "uqload.cx", "vidmoly.biz", "vidmoly.net", "vidmoly.me", "vidmoly.to"]

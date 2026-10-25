@@ -18,7 +18,7 @@ Kotlin one: `MD5("latanime/es/1")` taken as its first 8 bytes, big-endian, with 
 | `details` | the title page: title, summary, genres |
 | `episodes` | the same page, newest first, numbered from "Capitulo N" |
 | `hosters` | the episode page: one server per `a.play-video` whose embed address (base64 in `data-player`) an extractor reads |
-| `videos` | the server's embed page, read by [`lib/extractors`](../../lib/extractors): DoodStream (playmogo and other Dood domains), Hexload, MixDrop, Mp4Upload |
+| `videos` | the server's embed page, read by [`lib/extractors`](../../lib/extractors): DoodStream (playmogo and other Dood domains), Hexload, MixDrop, Mp4Upload, Okru, Uqload, YourUpload (and Vidmoly, which Latanime does not use) |
 
 The manifest lists the site and every host in `kuro_extractors::HOSTS`; a test checks that it does. The videos load in
 the app, from any host, with the headers each extractor gives.
@@ -27,7 +27,7 @@ the app, from any host, with the headers each extractor gives.
 
 - The search filters (year, genre, letter).
 - The servers of video hosts that move to new domains all the time or need more than a page read: VOE, Filemoon,
-  StreamWish, VidGuard, Okru, Uqload, YourUpload, MEGA, savefiles. An episode shows only the servers that play.
+  StreamWish, VidHide (filelions), VidGuard (listeamed), MEGA, savefiles. An episode shows only the servers that play.
 
 ## Test
 
@@ -36,4 +36,6 @@ cargo test -p kuro-latanime -p kuro-extractors
 ```
 
 The fixtures were saved from the live site and the video hosts on 2026-10-25. Checked live the same day through the
-app's runtime: every op, and a video from each of the four servers.
+app's runtime: every op, and a video from each of the four servers; later that day a video from a YourUpload and
+an Uqload server (older titles). The Okru servers seen on Latanime were all removed by ok.ru; the Okru extractor was
+checked on a public ok.ru video.
