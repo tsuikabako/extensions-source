@@ -1,4 +1,4 @@
-//! Mangakakalot (<https://www.mangakakalot.gg>), a manga source plug-in for Kurobayomi, ABI 1.5 (`wit/kuro-source.wit`). Ported from
+//! Mangakakalot (<https://www.kakamanga.com>), a manga source plug-in for Kurobayomi, ABI 1.5 (`wit/kuro-source.wit`). Ported from
 //! the keiyoushi `en/mangakakalot` extension and its MangaBox base (Apache-2.0). This file is the ABI glue: the ops and the one network path, the
 //! `http` import. The URLs and parsers are in `site.rs`.
 
@@ -59,12 +59,12 @@ fn descriptor() -> Value {
 
 /// The headers of a page image and a cover: the CDN answers 403 without the site as Referer.
 fn image_headers() -> Value {
-    json!([["Referer", "https://www.mangakakalot.gg/"]])
+    json!([["Referer", "https://www.kakamanga.com/"]])
 }
 
 /// Fetches a page of the site through the host, which refuses any host outside `hosts` in `manifest.toml`.
 fn get(url: &str) -> Res<String> {
-    let request = json!({ "method": "GET", "url": url, "headers": [["Referer", "https://www.mangakakalot.gg/"]] });
+    let request = json!({ "method": "GET", "url": url, "headers": [["Referer", "https://www.kakamanga.com/"]] });
     let response: HttpResponse = serde_json::from_str(&host::http(&request.to_string())?).map_err(|e| format!("invalid http reply: {e}"))?;
     if !(200..300).contains(&response.status) {
         return Err(format!("HTTP {} from {url}", response.status));

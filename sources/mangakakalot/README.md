@@ -1,6 +1,6 @@
 # Mangakakalot
 
-Mangakakalot (<https://www.mangakakalot.gg>) as a manga source plug-in for Kurobayomi (ABI 1.5, `wit/kuro-source.wit`, manga ops).
+Mangakakalot (<https://www.kakamanga.com>) as a manga source plug-in for Kurobayomi (ABI 1.5, `wit/kuro-source.wit`, manga ops).
 
 The site answers plain clients with Cloudflare's browser check. The app handles that, not this plug-in: when a request gets
 the check, the app opens the site once in a hidden web page, which passes it, and sends the site's requests from that page
