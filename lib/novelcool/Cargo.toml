@@ -1,0 +1,12 @@
+[package]
+name = "kuro-novelcool"
+version = "0.1.0"
+edition.workspace = true
+publish.workspace = true
+
+[dependencies]
+chrono = { workspace = true }
+kuro-guest = { workspace = true, features = ["html"] }
+serde = { workspace = true }
+serde_json = { workspace = true }
+url = { workspace = true }

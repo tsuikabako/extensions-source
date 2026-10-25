@@ -1,0 +1,8 @@
+id = "novelcooles"
+name = "NovelCool"
+description = "Manga in Spanish from NovelCool: hot, latest, search, chapters with dates"
+lang = "es"
+kind = "manga"
+version = 1
+# The only hosts the plug-in may reach through the `http` import: the site and its app API. Covers and page images load in the app.
+hosts = ["es.novelcool.com", "api.novelcool.com"]

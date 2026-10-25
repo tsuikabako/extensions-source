@@ -1,0 +1,8 @@
+id = "leercapitulo"
+name = "LeerCapitulo"
+description = "Manga, manhwa and manhua in Spanish: trending, latest releases, search, chapters with dates"
+lang = "es"
+kind = "manga"
+version = 1
+# The only host the plug-in may reach through the `http` import. Covers and page images (a CDN host) load in the app.
+hosts = ["www.leercapitulo.co"]
