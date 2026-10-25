@@ -74,9 +74,12 @@ fn is_dood(host: &str) -> bool {
     HOSTS.contains(&host) && (host.contains("dood") || host.starts_with("d000") || host == "ds2play.com" || host == "playmogo.com")
 }
 
-/// "Label Name" or "Name".
-fn title(label: &str, name: &str) -> String {
-    if label.is_empty() { name.to_owned() } else { format!("{label} {name}") }
+/// A video's title: its height ("1080p") when the host says it, else "Auto". The player lists heights in its Quality
+/// menu and the server (the hoster's name) in its Server menu, so the title does not repeat the host's name; videos
+/// without a height all read "Auto" and merge into one Quality entry. `label` ("Latino") starts it when not empty.
+fn title(label: &str, height: Option<i32>) -> String {
+    let quality = height.map_or_else(|| "Auto".to_owned(), |h| format!("{h}p"));
+    if label.is_empty() { quality } else { format!("{label} {quality}") }
 }
 
 #[cfg(test)]
@@ -90,8 +93,9 @@ mod tests {
         assert_eq!(host_of("https://a3.mp4upload.com:183/d/x/video.mp4"), Some("a3.mp4upload.com"));
         assert_eq!(origin_of("https://mxdrop.click/e/1?x=2"), Some("https://mxdrop.click".to_owned()));
         assert_eq!(host_of("nope"), None);
-        assert_eq!(title("", "MixDrop"), "MixDrop");
-        assert_eq!(title("Latino", "MixDrop"), "Latino MixDrop");
+        assert_eq!(title("", None), "Auto");
+        assert_eq!(title("", Some(1080)), "1080p");
+        assert_eq!(title("Latino", Some(720)), "Latino 720p");
     }
 
     #[test]

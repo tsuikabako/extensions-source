@@ -37,11 +37,11 @@ fn quality(page: &str) -> Option<String> {
 pub fn video(start: &str, pass: &str, origin: &str, quality: Option<String>, now: u64, label: &str) -> Video {
     let token = pass.rsplit('/').next().unwrap_or_default();
     let filler: String = token.chars().chain("abcdefghij".chars()).filter(char::is_ascii_alphanumeric).take(10).collect();
-    let name = format!("DoodStream {}", quality.as_deref().unwrap_or("mirror"));
+    let height = quality.and_then(|q| q.trim_end_matches('p').parse().ok());
     Video {
         video_url: format!("{}{filler}?token={token}&expiry={}", start.trim(), now * 1000),
-        video_title: title(label, &name),
-        resolution: quality.and_then(|q| q.trim_end_matches('p').parse().ok()),
+        video_title: title(label, height),
+        resolution: height,
         headers: vec![("Referer".into(), format!("{origin}/"))],
         ..Default::default()
     }
@@ -68,7 +68,7 @@ mod tests {
         let video = video(START, "/pass_md5/1-2/tfnvc5m7rf59fe8nkmeysjgk", "https://playmogo.com", None, 1_792_943_929, "");
         assert!(video.video_url.starts_with("https://gv675rt.cloudatacdn.com/"), "{}", video.video_url);
         assert!(video.video_url.ends_with("~tfnvc5m7rf?token=tfnvc5m7rf59fe8nkmeysjgk&expiry=1792943929000"), "{}", video.video_url);
-        assert_eq!(video.video_title, "DoodStream mirror");
+        assert_eq!(video.video_title, "Auto");
         assert_eq!(video.headers, vec![("Referer".to_owned(), "https://playmogo.com/".to_owned())]);
     }
 
@@ -76,7 +76,7 @@ mod tests {
     fn both_requests_go_to_the_embed_s_domain() {
         let host = TestHost::answering(|request| if request.url.contains("/pass_md5/") { (200, START.into()) } else { (200, PAGE.into()) });
         let videos = videos(&host, "https://playmogo.com/e/59zpn0j4eoqz", "Latino").unwrap();
-        assert_eq!(videos[0].video_title, "Latino DoodStream mirror");
+        assert_eq!(videos[0].video_title, "Latino Auto");
         let sent = host.sent();
         assert!(sent[1].url.starts_with("https://playmogo.com/pass_md5/"));
         assert_eq!(sent[1].headers, vec![("Referer".to_owned(), "https://playmogo.com/e/59zpn0j4eoqz".to_owned())]);

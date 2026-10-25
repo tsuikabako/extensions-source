@@ -23,7 +23,7 @@ pub fn parse(page: &str, label: &str) -> Option<Video> {
     let subtitle = value_of(&unpacked, "Core.remotesub=\"").filter(|s| !s.is_empty()).map(|s| Track { url: percent_decode(s), lang: "sub".into() });
     Some(Video {
         video_url: if url.starts_with("//") { format!("https:{url}") } else { url.to_owned() },
-        video_title: title(label, "MixDrop"),
+        video_title: title(label, None),
         headers: vec![("Referer".into(), REFERER.into()), ("User-Agent".into(), USER_AGENT.into())],
         subtitle_tracks: subtitle.into_iter().collect(),
         ..Default::default()
@@ -67,7 +67,7 @@ mod tests {
     fn the_packed_script_gives_the_mp4() {
         let video = parse(include_str!("../fixtures/mixdrop.html"), "").unwrap();
         assert!(video.video_url.starts_with("https://") && video.video_url.contains(".mxcontent.net/v2/366pk6q4cv14w1.mp4?"), "{}", video.video_url);
-        assert_eq!(video.video_title, "MixDrop");
+        assert_eq!(video.video_title, "Auto");
         assert!(parse("<html>no player</html>", "").is_none());
     }
 

@@ -40,7 +40,7 @@ pub fn parse(answer: &str, label: &str) -> Res<Video> {
     let file = answer.result.filter(|_| answer.msg == "OK").ok_or("Hexload: the file is not available")?;
     Ok(Video {
         video_url: file.url,
-        video_title: title(label, "Hexload"),
+        video_title: title(label, None),
         headers: vec![("Referer".into(), "https://hexload.com/".into())],
         ..Default::default()
     })
@@ -55,7 +55,7 @@ mod tests {
     fn the_download_answer_gives_the_mp4() {
         let video = parse(include_str!("../fixtures/hexload-download.json"), "").unwrap();
         assert!(video.video_url.ends_with("/HB3-01.mp4"), "{}", video.video_url);
-        assert_eq!(video.video_title, "Hexload");
+        assert_eq!(video.video_title, "Auto");
         assert!(parse(r#"{"msg":"File not found","result":null}"#, "").is_err());
     }
 
@@ -66,7 +66,7 @@ mod tests {
         assert_eq!(file_id("https://hexload.com/"), None);
         let host = TestHost::with_body(include_str!("../fixtures/hexload-download.json"));
         let videos = videos(&host, "https://hexload.com/embed-6lvybdub3dse", "Sub").unwrap();
-        assert_eq!(videos[0].video_title, "Sub Hexload");
+        assert_eq!(videos[0].video_title, "Sub Auto");
         let sent = host.sent();
         assert_eq!((sent[0].method.as_str(), sent[0].url.as_str()), ("POST", "https://hexload.com/download"));
         assert_eq!(sent[0].body.as_deref(), Some("op=download3&id=6lvybdub3dse&ajax=1&method_free=1&dataType=json"));
