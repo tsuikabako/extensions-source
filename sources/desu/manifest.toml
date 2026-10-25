@@ -1,0 +1,9 @@
+id = "desu"
+name = "Desu"
+description = "Russian manga, manhwa and manhua translations"
+lang = "ru"
+kind = "manga"
+version = 1
+# The only host the plug-in reaches through the `http` import: the API and the quick search. Covers (static.desu.uno)
+# and page images (img*.desu.uno) load in the app, not here.
+hosts = ["desu.uno"]

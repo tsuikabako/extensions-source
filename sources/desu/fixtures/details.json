@@ -1,0 +1,110 @@
+{
+ "manga": {
+  "id": 29,
+  "name": "Naruto",
+  "russian": "Наруто",
+  "kind": "manga",
+  "status": "released",
+  "trans_status": "completed",
+  "content_rating": "16+",
+  "aired_on": 937872000,
+  "released_on": 1415577600,
+  "updated_date": 1450211524,
+  "score": {
+   "value": 9.08,
+   "votes": 322
+  },
+  "views": 229269,
+  "cover": {
+   "preview": "https://static.desu.uno/data/manga/covers/preview/29.jpg?1654158600",
+   "snippet": "https://static.desu.uno/data/manga/covers/snippet/29.jpg?1654158600",
+   "x120": "https://static.desu.uno/data/manga/covers/x120/29.jpg?1654158600"
+  },
+  "view_url": "https://desu.uno/manga/naruto.29/",
+  "synonyms": [],
+  "reading_direction": "right-to-left",
+  "reading_mode": "page",
+  "description": "Двенадцать лет назад, мощный Девятихвостый Демон-Лис напал на деревню ниндзя — Коноху. Демон был быстро побеждён и запечатан в младенце по имени Наруто Узумаки. Но для этого, главному ниндзя Конохи, четвёртому хокаге пришлось пожертвовать жизнью... Теперь, по прошествии 12-и лет, Наруто является номером один среди придурков ниндзя, который полон решимости стать следующим Хокаге и получить признание всех, кто когда-либо сомневался в нем!",
+  "genres": [
+   {
+    "genre_id": 56,
+    "type": "genre",
+    "slug": "Action",
+    "name": "Экшен"
+   },
+   {
+    "genre_id": 68,
+    "type": "genre",
+    "slug": "Adventure",
+    "name": "Приключения"
+   },
+   {
+    "genre_id": 66,
+    "type": "genre",
+    "slug": "Martial Arts",
+    "name": "Боевые искусства"
+   },
+   {
+    "genre_id": 47,
+    "type": "genre",
+    "slug": "Shounen",
+    "name": "Сёнен"
+   },
+   {
+    "genre_id": 82,
+    "type": "genre",
+    "slug": "Super Power",
+    "name": "Супер сила"
+   },
+   {
+    "genre_id": 57,
+    "type": "genre",
+    "slug": "Fantasy",
+    "name": "Фэнтези"
+   },
+   {
+    "genre_id": 49,
+    "type": "genre",
+    "slug": "Comedy",
+    "name": "Комедия"
+   },
+   {
+    "genre_id": 48,
+    "type": "genre",
+    "slug": "Supernatural",
+    "name": "Сверхъестественное"
+   },
+   {
+    "genre_id": 91,
+    "type": "genre",
+    "slug": "Tragedy",
+    "name": "Трагедия"
+   }
+  ],
+  "authors": [
+   {
+    "author_id": 2655,
+    "name": "Masashi Kishimoto"
+   }
+  ],
+  "translators": [
+   {
+    "name": "Манга - Русский проект",
+    "website": null
+   },
+   {
+    "name": "Death Note - KIRA Revival Project",
+    "website": "http://deathnote.ru/"
+   },
+   {
+    "name": "LiteratureLib",
+    "website": "https://vk.com/literaturelibvk"
+   }
+  ],
+  "external_ids": {
+   "shikimori": 11,
+   "myanimelist": 11,
+   "mangadex": "5"
+  }
+ }
+}

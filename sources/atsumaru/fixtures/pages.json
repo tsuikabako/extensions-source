@@ -1,0 +1,37 @@
+{
+ "readChapter": {
+  "id": "prIIkU",
+  "number": 99,
+  "title": "Chapter 99",
+  "scanlationMangaId": "cmrsjj6s100002eqvm319u8nr",
+  "pages": [
+   {
+    "id": "prIIkU-0",
+    "image": "/static/pages/cmrsjj6s100002eqvm319u8nr/prIIkU/2fcc8efe01d30477.avif",
+    "number": 0,
+    "width": 1125,
+    "height": 3175,
+    "aspectRatio": 0.3543307086614173,
+    "spreadStart": false
+   },
+   {
+    "id": "prIIkU-1",
+    "image": "/static/pages/cmrsjj6s100002eqvm319u8nr/prIIkU/c259750f44584825.avif",
+    "number": 1,
+    "width": 1125,
+    "height": 1600,
+    "aspectRatio": 0.703125,
+    "spreadStart": false
+   },
+   {
+    "id": "prIIkU-2",
+    "image": "/static/pages/cmrsjj6s100002eqvm319u8nr/prIIkU/ace24bd9c505bd15.avif",
+    "number": 2,
+    "width": 1125,
+    "height": 1600,
+    "aspectRatio": 0.703125,
+    "spreadStart": false
+   }
+  ]
+ }
+}

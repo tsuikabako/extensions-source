@@ -1,0 +1,32 @@
+{
+ "chapter": {
+  "id": 52364,
+  "volume": "72",
+  "number": "700",
+  "title": "Узумаки Наруто",
+  "publish_date": 1415294434,
+  "status": "saved",
+  "is_readable": true,
+  "view_url": "https://desu.uno/manga/naruto.29/vol72/ch700/rus",
+  "pages": [
+   {
+    "page": 1,
+    "url": "https://img2.desu.uno/manga/rus/naruto/vol72_ch700/naruto_vol72_ch700_p001.jpg?1415294434",
+    "width": 850,
+    "height": 1230
+   },
+   {
+    "page": 2,
+    "url": "https://img2.desu.uno/manga/rus/naruto/vol72_ch700/naruto_vol72_ch700_p002.jpg?1415294434",
+    "width": 850,
+    "height": 1230
+   },
+   {
+    "page": 3,
+    "url": "https://img2.desu.uno/manga/rus/naruto/vol72_ch700/naruto_vol72_ch700_p003.jpg?1415294434",
+    "width": 850,
+    "height": 1230
+   }
+  ]
+ }
+}

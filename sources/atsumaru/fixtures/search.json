@@ -1,0 +1,100 @@
+{
+ "facet_counts": [],
+ "found": 4,
+ "hits": [
+  {
+   "document": {
+    "id": "2VgNt",
+    "title": "Witch Hat Atelier",
+    "poster": "/static/posters/N3HO30V76uWZV9iG.jpg",
+    "isAdult": false,
+    "type": "Manga",
+    "status": "Ongoing",
+    "synopsis": "In a world where everyone takes wonders like magic spells and dragons for granted, Coco is a girl with a simple dream: she wants to be a witch. But everybody knows magicians are born, not made, and Coco was not born with a gift for magic. Resigned to her un-magical life, Coco is about to give up on her dream to become a witch … until the day she meets Qifrey, a mysterious, traveling magician. After secretly seeing Qifrey perform magic in a way she’s never seen before, Coco soon learns what everybody “knows” might not be the truth, and discovers that her magical dream may not be as far away as it may seem... \n\n(Source: Kodansha USA) \n\n*Notes:\n\\- Nominated for the 11th Manga Taishou Award in 2018.\n\\- Won the Daruma d'Or at Japan Expo in 2019.\n\\- Won Best U.S. Edition of International Material - Asia at the Eisner Awards in 2020.\n\\- Won the Best Manga Award at the Harvey Awards in 2020.*"
+   },
+   "text_match": 1157451471441100834,
+   "text_match_info": {
+    "best_field_score": "2211897868288",
+    "best_field_weight": 4,
+    "fields_matched": 2,
+    "num_tokens_dropped": 0,
+    "score": "1157451471441100834",
+    "tokens_matched": 2,
+    "typo_prefix_score": 0
+   }
+  },
+  {
+   "document": {
+    "id": "XM4un",
+    "title": "Witch Hat Atelier Kitchen",
+    "poster": "/static/posters/0F9IE99h5HCK9i1x.jpg",
+    "isAdult": false,
+    "type": "Manga",
+    "status": "Ongoing",
+    "synopsis": "Evening falls on Qifrey’s atelier, and Coco and her fellow witches-in-training take to their beds. In the quiet of midnight, Qifrey and Olruggio are finally free to pursue their culinary experiments. The kitchen comes alive as they whip up puddings, stews, parfaits, and jellies, and when the sun rises, Coco and the gang are there to savor every bite!\n\nIncludes a variety of real sweet and savory recipes with step-by-step instructions.\n\n(Source: Kodansha USA)"
+   },
+   "text_match": 1157451471441100834,
+   "text_match_info": {
+    "best_field_score": "2211897868288",
+    "best_field_weight": 4,
+    "fields_matched": 2,
+    "num_tokens_dropped": 0,
+    "score": "1157451471441100834",
+    "tokens_matched": 2,
+    "typo_prefix_score": 0
+   }
+  },
+  {
+   "document": {
+    "id": "s88Sp",
+    "title": "Although I swapped bodies with a hated witch, I am still living a healthy life today!",
+    "poster": "/static/posters/i3lMKGyFssGubScK.jpg",
+    "isAdult": false,
+    "type": "Manga",
+    "status": "Ongoing",
+    "synopsis": "A happy slow life begins with a switch! Marietta, princess of the snow country of Snow, is trapped in a magic tower because she can't use magic. 8 years later, on her wedding day with the prince of the Silver country, she thought she had succeeded in summoning a holy beast, but then... What appeared was...?"
+   },
+   "text_match": 1157451437081362466,
+   "text_match_info": {
+    "best_field_score": "2211881091072",
+    "best_field_weight": 4,
+    "fields_matched": 2,
+    "num_tokens_dropped": 0,
+    "score": "1157451437081362466",
+    "tokens_matched": 2,
+    "typo_prefix_score": 1
+   }
+  },
+  {
+   "document": {
+    "id": "urGqp",
+    "title": "Unnamed Memory",
+    "poster": "/static/posters/nPrFLZhJj7wKzgzK.jpg",
+    "isAdult": false,
+    "type": "Manga",
+    "status": "Ongoing",
+    "synopsis": "Once upon a time in a faraway land, a beautiful witch lived atop a tall tower with no intention of descending. Instead, she awaited the brave knight who would overcome many perils to meet her. Should someone triumph over her many traps, she would grant them any one wish. One day, such a courageous prince did arrive, and he asked her to rid him of the curse preventing him from siring an heir. But the curse of another witch cannot be so easily lifted, and the only way to save his bloodline... is to become his bride?! \n\n(Source: Yen Press)"
+   },
+   "text_match": 1155190841308872721,
+   "text_match_info": {
+    "best_field_score": "1108074561536",
+    "best_field_weight": 2,
+    "fields_matched": 1,
+    "num_tokens_dropped": 0,
+    "score": "1155190841308872721",
+    "tokens_matched": 2,
+    "typo_prefix_score": 1
+   }
+  }
+ ],
+ "out_of": 27561,
+ "page": 1,
+ "request_params": {
+  "collection_name": "manga",
+  "first_q": "witch hat",
+  "per_page": 40,
+  "q": "witch hat"
+ },
+ "search_cutoff": false,
+ "search_time_ms": 18
+}

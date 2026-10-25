@@ -1,0 +1,143 @@
+{
+ "mangaPage": {
+  "id": "2VgNt",
+  "title": "Witch Hat Atelier",
+  "poster": {
+   "id": "posters/N3HO30V76uWZV9iG.jpg",
+   "image": "posters/N3HO30V76uWZV9iG.jpg",
+   "smallImage": "posters/N3HO30V76uWZV9iG-small.avif",
+   "mediumImage": "posters/N3HO30V76uWZV9iG-medium.avif",
+   "largeImage": "posters/N3HO30V76uWZV9iG-large.avif"
+  },
+  "authors": [
+   {
+    "id": "cmobw26gc031z6nm1m8qqfkln",
+    "name": "Kamome Shirahama",
+    "slug": "kamome-shirahama",
+    "type": "Author"
+   },
+   {
+    "id": "cmobw27za032i6nm1dg0vwth7",
+    "name": "Kamome Shirahama",
+    "slug": "kamome-shirahama",
+    "type": "Artist"
+   }
+  ],
+  "synopsis": "In a world where everyone takes wonders like magic spells and dragons for granted, Coco is a girl with a simple dream: she wants to be a witch. But everybody knows magicians are born, not made, and Coco was not born with a gift for magic. Resigned to her un-magical life, Coco is about to give up on her dream to become a witch … until the day she meets Qifrey, a mysterious, traveling magician. After secretly seeing Qifrey perform magic in a way she’s never seen before, Coco soon learns what everybody “knows” might not be the truth, and discovers that her magical dream may not be as far away as it may seem... \n\n(Source: Kodansha USA) \n\n*Notes:\n\\- Nominated for the 11th Manga Taishou Award in 2018.\n\\- Won the Daruma d'Or at Japan Expo in 2019.\n\\- Won Best U.S. Edition of International Material - Asia at the Eisner Awards in 2020.\n\\- Won the Best Manga Award at the Harvey Awards in 2020.*",
+  "genres": [
+   {
+    "id": "37",
+    "name": "Adventure",
+    "weight": "Defining"
+   },
+   {
+    "id": "180",
+    "name": "Boys Love",
+    "weight": "Unweighted"
+   },
+   {
+    "id": "6",
+    "name": "Comedy",
+    "weight": "Defining"
+   },
+   {
+    "id": "31",
+    "name": "Drama",
+    "weight": "Defining"
+   },
+   {
+    "id": "36",
+    "name": "Fantasy",
+    "weight": "Defining"
+   },
+   {
+    "id": "7",
+    "name": "Slice of Life",
+    "weight": "Defining"
+   },
+   {
+    "id": "5",
+    "name": "Tragedy",
+    "weight": "Defining"
+   }
+  ],
+  "released": 1451606400000,
+  "status": "Ongoing",
+  "type": "Manga",
+  "views": "17M",
+  "otherNames": [
+   "Witch Hat Atelier",
+   "Atelier of Witch Hat",
+   "Tongari Booshi no Atorie",
+   "Tongari Bōshi no Atelier",
+   "Tongari Bōshi no Atorie",
+   "Tongari Boushi no Atelier",
+   "Tongari Boushi no Atelier ~ Atelier of Witch Hat",
+   "Tongari Boushi no Atorie",
+   "고깔모자의 아틀리에",
+   "Asrama Topi Lancip",
+   "Atelier of Witch Hat: Das Geheimnis der Hexen",
+   "Atelier of Witch Hat: El Atelier de Sombreros de Mago",
+   "Ateliér špičatých klobouků",
+   "Atelier spiczastych kapeluszy",
+   "Atelierul Vrăjitoarelor",
+   "Boszorkánysüveg–műhely",
+   "Cadı Şapkası Atölyesi",
+   "El Atelier del Sombrero Puntiagudo",
+   "Heksehatt-atelieret",
+   "L'Atelier des Sorciers",
+   "Pondok Penyihir Topi Lancip",
+   "Xưởng phép thuật",
+   "Δ帽子",
+   "Ателие за островърхи шапки",
+   "Ателье колдовских колпаков",
+   "Ательє чаклунських капелюхів",
+   "ورشة قبعة الساحرة",
+   "बोक्सी टोपीको एटलिएर",
+   "จอมเวทฝึกหัดกับหมวกมหัศจรรย์",
+   "とんがり帽子のアトリエ",
+   "とんがり帽子のアトリエ ~ Atelier of Witch Hat",
+   "尖帽子的魔法工坊",
+   "尖帽子的魔法工房",
+   "魔法帽的工作室"
+  ],
+  "avgRating": 8.48138,
+  "scanlators": [
+   {
+    "id": "cmm95e2pq001a0gp2lb5dv0uq",
+    "name": "Gamma",
+    "score": 9,
+    "myVote": null,
+    "firstChapter": {
+     "id": "mzO0tF",
+     "title": "Chapter 1",
+     "number": 1
+    }
+   },
+   {
+    "id": "cmrsjj6s100002eqvm319u8nr",
+    "name": "Thunder",
+    "score": -9,
+    "myVote": null,
+    "firstChapter": {
+     "id": "0S_52R",
+     "title": "Chapter 0",
+     "number": 0
+    }
+   },
+   {
+    "id": "cmgzkynrz5nvxm191t8wd2zk5",
+    "name": "Alpha",
+    "score": 42,
+    "myVote": null,
+    "firstChapter": {
+     "id": "vJly4Skj",
+     "title": "Chapter 1",
+     "number": 1
+    }
+   }
+  ],
+  "isAdult": false
+ },
+ "moments": {}
+}
