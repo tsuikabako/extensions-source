@@ -1,0 +1,9 @@
+id = "vostfree"
+name = "Vostfree"
+description = "Anime in French, subbed (VOSTFR) and dubbed (VF), from the Uqload, Okru, DoodStream and MixDrop servers"
+lang = "fr"
+kind = "anime"
+version = 1
+# The site (vostfree.ws sends every visitor to ipv4.vostfree.ws), and the video hosts whose player pages the extractors
+# read (lib/extractors HOSTS). The videos themselves load in the app, from any host.
+hosts = ["ipv4.vostfree.ws", "vostfree.ws", "www.mp4upload.com", "mp4upload.com", "hexload.com", "playmogo.com", "dood.wf", "dood.so", "dood.re", "dood.pm", "dood.yt", "dood.li", "d000d.com", "d0000d.com", "ds2play.com", "doodstream.com", "dooood.com", "mixdrop.co", "mixdrop.to", "mixdrop.ag", "mixdrop.top", "mixdrop.ps", "mixdrop.sx", "mixdrop.bz", "mxdrop.click", "mxdrop.to", "ok.ru", "www.yourupload.com", "yourupload.com", "uqload.vc", "uqload.ws", "uqload.is", "uqload.com", "uqload.co", "uqload.io", "uqload.net", "uqload.cx", "vidmoly.biz", "vidmoly.net", "vidmoly.me", "vidmoly.to", "", ""]
