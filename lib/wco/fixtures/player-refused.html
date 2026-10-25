@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Announcement</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta name="description" content="Adblock users, click to learn how to get ad-free experience with WCO Premium!">
+  <style>
+    /* page-wide base */
+    body {
+      margin: 0;
+      padding: 0;
+      background: #0b0b0b;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    /* backdrop */
+    .announcement-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(128, 128, 128, 0.6);
+      z-index: 1;
+      transition: opacity .3s ease;
+    }
+
+    /* container */
+    .image-container {
+      position: relative;
+      width: 90vw;
+      max-width: 949px;
+      aspect-ratio: 949 / 549;
+      margin: 0px auto;
+      overflow: hidden;
+      background: #000;
+      border-radius: 6px;
+      z-index: 2;
+      transition: opacity .3s ease;
+    }
+
+    /* fallback for browsers without aspect-ratio */
+    .ratio-box {
+      position: relative;
+      width: 100%;
+      padding-top: calc(525 / 949 * 100%);
+    }
+
+    .ratio-box img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* top link inside ad */
+    .top-link {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      color: #fff;
+      text-align: center;
+      padding: 3px 10px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      z-index: 3;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .top-link:hover {
+      background: rgba(255, 215, 0, 0.85);
+      color: #000;
+    }
+
+    /* button wrapper */
+    .buttons {
+  position: absolute;
+  bottom: 5px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  z-index: 2;
+}
+
+/* bigger than 901px */
+@media (min-width: 901px) {
+  .buttons {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+    /* Visit button */
+    .btn-overlay {
+      display: inline-block;
+      padding: 8px;
+      background: linear-gradient(135deg, #ff8c00 0%, #ff6600 100%);
+      color: #fff;
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 650;
+      border-radius: 4px;
+      position: relative;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+      box-shadow: 0 4px 10px rgb(0 0 0 / 70%);
+      transition:
+        transform 0.2s ease-out,
+        box-shadow 0.2s ease-out;
+      min-height: 20px;
+      line-height: 1;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .btn-overlay:hover {
+        transform: translateY(-0.5px);
+        box-shadow: 0 6px 14px rgba(255,140,0,0.6);
+      }
+    }
+
+.btn-overlay {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-overlay::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255,255,255,0.4),
+    transparent
+  );
+  animation: shine 3s infinite;
+}
+
+.btn-overlay:hover {
+  transform: translateY(-2px) scale(1.05);
+}
+@keyframes shine {
+  0% { left: -75%; }
+  100% { left: 125%; }
+}
+
+    /* small screens */
+    @media (max-width: 900px) {
+      .buttons {
+        right: 10px;
+        left: 10px;
+        bottom: 5px;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .btn-overlay {
+        width: 60%;
+        box-sizing: border-box;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 700px) {
+    .btn-overlay {
+    padding: 10px 10px;
+    }
+    }
+
+
+    /* focus outlines for keyboard/controller */
+    .btn-overlay:focus-visible,
+    .top-link:focus-visible {
+      outline: 3px solid #ffd700;
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- backdrop + announcement -->
+  <div class="image-container" id="announcement" role="dialog" aria-label="Site announcement" aria-modal="true">
+    <a href="https://www.wco.tv/all-about-operation-ad-free-no-panic-it-is-real" target="_blank" rel="noopener" class="top-link">
+      Looks fake? It’s not. Click to Learn more!
+    </a>
+    <div style="padding-top:25px"></div>
+    <div class="ratio-box">
+
+      <img src="/inc/premium10.jpg" alt="Announcement">
+    </div>
+    <div class="buttons">
+      <a href="https://free.wcopremium.tv/wp-login.php?action=register" class="btn-overlay" target="_blank" rel="noopener" id="visit-btn">Get PREMIUM Now!</a>
+
+    </div>
+  </div>
+
+</body>
+</html>

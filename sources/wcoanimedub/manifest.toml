@@ -1,0 +1,9 @@
+id = "wcoanimedub"
+name = "WcoAnimeDub"
+description = "English dubbed anime from the WCO family, mp4 up to 1080p"
+lang = "en"
+kind = "anime"
+version = 1
+# The site, the sites it sends titles of the other kind to (301) and the WCO player. The mp4 files (*.wcostream.com) and
+# covers load in the app.
+hosts = ["www.wcoanimedub.tv", "www.wco.tv", "www.wcoanimesub.tv", "embed.wcostream.com"]

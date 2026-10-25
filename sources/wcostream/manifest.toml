@@ -1,0 +1,8 @@
+id = "wcostream"
+name = "WCOStream"
+description = "English dubbed and subbed anime and cartoons from the WCO family, mp4 up to 1080p"
+lang = "en"
+kind = "anime"
+version = 1
+# The site and the WCO player. The mp4 files (*.wcostream.com) and covers load in the app.
+hosts = ["www.wcostream.tv", "embed.wcostream.com"]

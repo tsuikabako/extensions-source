@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Watch Cartoon Online</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel='stylesheet prefetch' href='//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>
+    <link href="/inc/video-js/video-js.min.css?v8.13.0" rel="stylesheet">
+    <link href="/inc/videojs-qualityselector/videojs-qualityselector.css" rel="stylesheet">
+    <link href="/inc/videojs-seek-buttons/videojs-seek-buttons.css" rel="stylesheet">
+    <link href="/node_modules/@silvermine/videojs-chromecast/dist/silvermine-videojs-chromecast.css" rel="stylesheet">
+    <link href="/node_modules/@theonlyducks/videojs-zoom/dist/videojs-zoom.css" rel="stylesheet">
+    <script src="/inc/video-js/videojs-ie8.min.js"></script>
+    <script src="/inc/embed/ad_728.js"></script>
+    <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
+
+    <style>
+    html, body {
+  margin: 0;
+  padding: 0;
+  background: #000;
+  width: 100%;
+  height: 100%;
+}
+
+/* 16:9 wrapper */
+.player-16x9 {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* 9/16 = 56.25% — gerçek 16:9 */
+  background: #000;
+}
+
+/* Video, 16:9 wrapper'ı tamamen doldurur */
+.player-16x9 .video-js {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+}
+    .adBanner {
+     background-color: transparent;
+        height: 1px;
+        width: 1px;
+    }
+    /* page-wide base */
+    body {
+      margin: 0;
+      padding: 0;
+      background: black;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    /* backdrop */
+    .announcement-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 1);
+      z-index: 1;
+      transition: opacity .3s ease;
+    }
+
+    /* container: responsive with aspect ratio fallback */
+    .image-container {
+      position: relative;
+      width: 90vw;
+      max-width: 530px;
+      aspect-ratio: 530 / 440;
+      margin: 0px auto;
+      overflow: hidden;
+      background: #000;
+      border-radius: 6px;
+      z-index: 2;
+      transition: opacity .3s ease;
+    }
+
+    /* fallback for browsers without aspect-ratio */
+    .ratio-box {
+      position: relative;
+      width: 100%;
+      padding-top: calc(440 / 530 * 100%);
+    }
+
+    .ratio-box img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* button wrapper */
+    .buttons {
+      position: absolute;
+      bottom: 16px;
+      right: 16px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+      z-index: 2;
+    }
+
+    /* Visit button */
+    .btn-overlay {
+      display: inline-block;
+      padding: 15px 20px;
+      background: linear-gradient(135deg, #ff8c00 0%, #ffd700 100%);
+      color: #fff;
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 650;
+      border-radius: 4px;
+      position: relative;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+      box-shadow: 0 4px 10px rgb(0 0 0 / 70%);
+      transition:
+        transform 0.2s ease-out,
+        box-shadow 0.2s ease-out;
+      min-height: 20px;
+      line-height: 1;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .btn-overlay:hover {
+        transform: translateY(-0.5px);
+        box-shadow: 0 6px 14px rgba(255,140,0,0.6);
+      }
+    }
+
+    /* Close button */
+    .btn-close {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 10px 16px;
+      background: #444;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      font-weight: 600;
+      position: relative;
+      cursor: not-allowed;
+      opacity: 0.85;
+      transition: filter 0.2s ease, opacity 0.2s ease;
+      min-height: 44px;
+      line-height: 1;
+    }
+
+    .btn-close[disabled] {
+      filter: brightness(0.9);
+    }
+
+    .btn-close:not([disabled]) {
+      cursor: pointer;
+      opacity: 1;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .btn-close:not([disabled]):hover {
+        filter: brightness(1.1);
+      }
+    }
+
+    /* small screens */
+    @media (max-width: 500px) {
+      .buttons {
+        right: 10px;
+        left: 10px;
+        bottom: 12px;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .btn-overlay,
+      .btn-close {
+        width: 100%;
+        box-sizing: border-box;
+        text-align: center;
+      }
+    }
+
+    /* focus outlines for keyboard/controller */
+    .btn-overlay:focus-visible,
+    .btn-close:focus-visible {
+      outline: 3px solid #ffd700;
+      outline-offset: 2px;
+    }
+    /* top link inside ad */
+    .top-link {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      color: #fff;
+      text-align: center;
+      padding: 8px 10px;
+      font-size: 1.25rem;
+      font-weight: 600;
+      text-decoration: none;
+      z-index: 3;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .top-link:hover {
+      background: rgba(255, 215, 0, 0.85);
+      color: #000;
+    }
+    .top-link:focus-visible {
+      outline: 3px solid #ffd700;
+      outline-offset: 2px;
+    }
+    </style>
+    <script>
+    var vsd    = '';
+    var vhd    = '';
+    var server = '';
+    var cdn    = '';
+    var isAA=true;
+    </script>
+	<script src="ads.js?1"></script>
+  </head>
+  <body>
+
+    <div class="">
+
+        <div class="row" id="r-reklam"  style="display: none;">
+          <div class="col-xs-12" style="float:none; margin: 0 auto;">
+            <div align="center" style="width:530px; height:410px;background: url(/back.jpg) repeat;">
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <a href="#" class="round-button" id="b-reklam"><i class="fa fa-play fa-4x"></i></a>
+                          <!--   <button type="submit" class="btn btn-default" id="-b-reklam">Click Here to Watch Free!!</button>
+              <div id="d-timer" style="display: none;">
+                  <button type="button" class="btn btn-danger btn-lg">Adblock detected ! Please wait ... <span class="badge badge-light"><b id="show-time">30</b></span></button>
+              </div>   -->
+            </div>
+          </div>
+        </div>
+        <div id="r_player">
+          <div>
+            <div id="d-player" class="text-center">
+
+              <div class="player-overlay-actions left" id="b-report2"><a href="/inc/embed/embed.php?file=neptun2%2Fongoing2%2FOvergeared.2026.S01E05.1080p.CR.WEB-DL.DUAL.DDP2.0.H.264-AnoZu.flv&pid=1075584&h=03a176b159762a4ee09fe709f67bbd7e&t=1792975054&embed=neptun&fullhd=1" class="player-overlay-btn auto-delete">Chromecast Player (2. Player)</a></div>
+
+
+<style>
+
+.player-overlay-btn {
+  pointer-events: auto;
+  background: rgba(0,0,0,.65);
+  color: #fff !important;
+  border: 1px solid rgba(255,255,255,.25);
+  border-radius: 12px;
+  padding: 6px 10px;
+  font-size: 12px;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,.35);
+}
+.player-with-overlay { position: relative; }
+
+/* base overlay style */
+.player-overlay-actions{
+  position: absolute;
+  top: 10px;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity .35s ease;
+}
+
+/* sides */
+.player-overlay-actions.right { right: 10px; }
+.player-overlay-actions.left  { left: 10px; }
+
+/* hidden state (used by Video.js events) */
+.player-overlay-actions.is-hidden{
+  opacity: 0;
+}
+
+/* buttons */
+.player-overlay-actions button{
+  pointer-events: auto;
+  background: rgba(0,0,0,.65);
+  color:#fff;
+  border:1px solid rgba(255,255,255,.25);
+  border-radius: 12px;
+  padding: 6px 10px;
+  font-size: 12px;
+  touch-action: manipulation;
+}
+
+/* mobile */
+@media (max-width: 600px){
+  .player-overlay-actions{ top: 8px; }
+  .player-overlay-actions.right{ right: 8px; }
+  .player-overlay-actions.left{ left: 8px; }
+
+  .player-overlay-actions button{
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+}
+</style>
+
+              <div class="player-16x9 player-with-overlay">
+
+   <!-- RIGHT SIDE -->
+  <div class="player-overlay-actions right" id="playerOverlayRight">
+    <button type="button" id="b-report">
+      Report
+    </button>
+
+
+
+
+  <script>
+  (function () {
+    const buttons = [
+      { el: document.getElementById('b-report'), delay: 5000 },
+      { el: document.getElementById('b-report2'), delay: 5100 }
+    ];
+
+    buttons.forEach(btn => {
+      if (!btn.el) return;
+
+      let hideTimer;
+
+      function hideButton() {
+        btn.el.classList.add('hidden');
+      }
+
+      function showButton() {
+        btn.el.classList.remove('hidden');
+        resetTimer();
+      }
+
+      function resetTimer() {
+        clearTimeout(hideTimer);
+        hideTimer = setTimeout(hideButton, btn.delay);
+      }
+
+      // Desktop activity
+      document.addEventListener('mousemove', showButton, { passive: true });
+      document.addEventListener('keydown', showButton);
+
+      // Mobile activity
+      document.addEventListener('touchstart', showButton, { passive: true });
+      document.addEventListener('touchmove', showButton, { passive: true });
+
+      // Start timer on load
+      resetTimer();
+    });
+  })();
+</script>
+  </div>
+
+
+
+
+                <video id="video-js" class="video-js vjs-default-skin vjs-big-play-centered" data-setup='{"controls": true, "autoplay": false, "preload": "none"}' poster="//images.wcostream.com/thumbs/overgeared-episode-5-english-dubbed.jpg" >
+                  <p class="vjs-no-js">
+                    To view this video please enable JavaScript, and consider upgrading to a web browser that
+                    <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+                  </p>
+                </video>
+              </div>
+              <div id="7897a95f17">
+                <div class="adBanner ads.js"></div>
+              </div>
+            </div>
+           <!-- <div id="d-notice" style="display: none;">
+              <p class="text-center">
+                <img src="https://www.wcostream.com/inc/cat.jpg" height="350" width="530">
+              </p>
+              <p class="text-center" style="color: white;">
+                If you closed the Adblock please
+                <button id="b-yenile" class="btn btn-danger btn-xs">Refresh Page !</button>
+              </p>
+
+            </div> -->
+          </div>
+        </div>
+
+        <div class="row" id="r-baslik" style="display: none;">
+          <div class="col-xs-12">
+            <p class="text-center">
+              <button class="btn btn-default btn-xs" type="submit" id="b-player">Player</button>
+            </p>
+            <h3><span class="white">Do you see a problem ? Please Select</span></h3>
+          </div>
+        </div>
+
+        <div class="row" id="r-liste" style="display: none;">
+          <div class="col-xs-12">
+            <ul class="list-group">
+              <a href="#" class="list-group-item r-liste" id="liste-1"><strong>1.</strong> 404 : Video Not Found</a>
+              <a href="#" class="list-group-item r-liste" id="liste-2"><strong>2.</strong> SYNC issues : Sound and Pictures do not match</a>
+              <a href="#" class="list-group-item r-liste" id="liste-3"><strong>3.</strong> Audio or Video Freezes</a>
+              <a href="#" class="list-group-item r-liste" id="liste-4"><strong>4.</strong> Video Buffers/Loads too Slow!</a>
+              <a href="#" class="list-group-item r-liste" id="liste-5"><strong>5.</strong> Not DUB or Japanese with No Subtitle</a>
+              <a href="#" class="list-group-item r-liste" id="liste-6"><strong>6.</strong> Missing Plugin/403 Not Player Source/Video</a>
+              <a href="#" class="list-group-item r-liste" id="liste-7"><strong>7.</strong> Something else...</a>
+            </ul>
+          </div>
+        </div>
+
+        <div class="row" id="r-liste-1" style="display: none;">
+          <div class="col-xs-12">
+            <ul class="list-group">
+              <li class="list-group-item"><a href="#" class="l-geri"><strong><< Go Back !</strong></a> - <strong>404 : Video Not Found</strong></li>
+              <li class="list-group-item">
+                <p><strong>Please read !!!</strong><p>
+                <p>Even you might see 404 errors on Youtube so before you start swearing/reporting the video PLEASE try both players. There are seperated players and you are watching on Player 1. Also you can find HTML5/Mp4 player on the second player.</p>
+                <form id="f-mesaj-1">
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" name="evet" id="c-mesaj-1"> Tried All Players and None Works
+                    </label>
+                  </div>
+                  <div class="form-group">
+                    <textarea class="form-control" rows="3" name="mesaj" id="t-mesaj-1" placeholder="Do you want to tell us anything else ?"></textarea>
+                  </div>
+                  <input type="hidden" name="hata" value="1">
+                  <input type="hidden" name="zaman" value="1792964687">
+                  <input type="hidden" name="hash" value="27e4ba68bbd3b8723efccf900f489559">
+                  <input type="hidden" name="pid" value="1075584">
+                  <button type="submit" class="btn btn-default b-gonder" id="mesaj-1">Submit</button>
+                </form>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="row" id="r-liste-2" style="display: none;">
+          <div class="col-xs-12">
+            <ul class="list-group">
+              <li class="list-group-item"><a href="#" class="l-geri"><strong><< Go Back !</strong></a> - <strong>SYNC issues : Sound and Pictures do not match</strong></li>
+              <li class="list-group-item">
+                <p><strong>Please read !!!</strong><p>
+                <p>Could you tell us in which minutes and seconds you see the problem? I apologize for the trouble.</p>
+                <form id="f-mesaj-2">
+                  <div class="form-group">
+                    <textarea class="form-control" rows="3" name="mesaj" id="t-mesaj-2" placeholder="Please type in here."></textarea>
+                  </div>
+                  <input type="hidden" name="hata" value="2">
+                  <input type="hidden" name="zaman" value="1792964687">
+                  <input type="hidden" name="hash" value="27e4ba68bbd3b8723efccf900f489559">
+                  <input type="hidden" name="pid" value="1075584">
+                  <button type="submit" class="btn btn-default b-gonder" id="mesaj-2">Submit</button>
+                </form>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="row" id="r-liste-3" style="display: none;">
+          <div class="col-xs-12">
+            <ul class="list-group">
+              <li class="list-group-item"><a href="#" class="l-geri"><strong><< Go Back !</strong></a> - <strong>Audio or Video Freezes</strong></li>
+              <li class="list-group-item">
+                <p><strong>Please read !!!</strong><p>
+                <p>This issue is often seens on flv players. If you see this just change to player 2 (also try HTML5 Player) and it will sort out the problem. If you see the same problem on all players, report us.</p>
+                <form id="f-mesaj-3">
+                  <div class="form-group">
+                    <textarea class="form-control" rows="3" name="mesaj" id="t-mesaj-3" placeholder="Could you tell us in details ?"></textarea>
+                  </div>
+                  <input type="hidden" name="hata" value="3">
+                  <input type="hidden" name="zaman" value="1792964687">
+                  <input type="hidden" name="hash" value="27e4ba68bbd3b8723efccf900f489559">
+                  <input type="hidden" name="pid" value="1075584">
+                  <button type="submit" class="btn btn-default b-gonder" id="mesaj-3">Submit</button>
+                </form>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="row" id="r-liste-4" style="display: none;">
+          <div class="col-xs-12">
+            <ul class="list-group">
+              <li class="list-group-item"><a href="#" class="l-geri"><strong><< Go Back !</strong></a> - <strong>Video Buffers/Loads too Slow!</strong></li>
+              <li class="list-group-item">
+                <p><strong>Please read !!!</strong><p>
+                <p>I know it is frustrating to have this issue. If you see the player doesn't load just stop player for a few seconds then start it will sort out or change to the other player. You don't have to stick on a single player. You can use any player you wish.</p>
+                <p><strong>Do you still want to report ?</strong></p>
+                <form id="f-mesaj-4">
+                  <div class="form-group">
+                    <textarea class="form-control" rows="3" name="mesaj" id="t-mesaj-4" placeholder="Could you tell us in details ?"></textarea>
+                  </div>
+                  <input type="hidden" name="hata" value="4">
+                  <input type="hidden" name="zaman" value="1792964687">
+                  <input type="hidden" name="hash" value="27e4ba68bbd3b8723efccf900f489559">
+                  <input type="hidden" name="pid" value="1075584">
+                  <button type="submit" class="btn btn-default b-gonder" id="mesaj-4">Submit</button>
+                </form>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="row" id="r-liste-5" style="display: none;">
+          <div class="col-xs-12">
+            <ul class="list-group">
+              <li class="list-group-item"><a href="#" class="l-geri"><strong><< Go Back !</strong></a> - <strong>Not DUB or Japanese with No Subtitle</strong></li>
+              <li class="list-group-item">
+                <p><strong>Please read !!!</strong><p>
+                <p>Before swear just think we are human like you and we might make mistake !!</p>
+                <p><strong>Could you tell us the problem ?</strong></p>
+                <form id="f-mesaj-5">
+                  <div class="form-group">
+                    <textarea class="form-control" rows="3" name="mesaj" id="t-mesaj-5" placeholder="Could you tell us in details ?"></textarea>
+                  </div>
+                  <input type="hidden" name="hata" value="5">
+                  <input type="hidden" name="zaman" value="1792964687">
+                  <input type="hidden" name="hash" value="27e4ba68bbd3b8723efccf900f489559">
+                  <input type="hidden" name="pid" value="1075584">
+                  <button type="submit" class="btn btn-default b-gonder" id="mesaj-5">Submit</button>
+                </form>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="row" id="r-liste-6" style="display: none;">
+          <div class="col-xs-12">
+            <ul class="list-group">
+              <li class="list-group-item"><a href="#" class="l-geri"><strong><< Go Back !</strong></a> - <strong>Missing Plugin/403 Not Player Source/Video</strong></li>
+              <li class="list-group-item">
+                <p><strong>Please read !!!</strong><p>
+                <p>If you see this problem that means your device doesn't support the video player you tried. Please try the second player (located at bottom) if still doesn't work click on "Click to Watch on Html5 Player !!!" and try. Still not working open the windows and throw it away!! joking :) Just report us which device you use ? If PC please tell use your browser and OS (like Windows 7).</p>
+                <form id="f-mesaj-6">
+                  <div class="form-group">
+                    <textarea class="form-control" rows="3" name="mesaj" id="t-mesaj-6" placeholder="Please tell us in details."></textarea>
+                  </div>
+                  <input type="hidden" name="hata" value="6">
+                  <input type="hidden" name="zaman" value="1792964687">
+                  <input type="hidden" name="hash" value="27e4ba68bbd3b8723efccf900f489559">
+                  <input type="hidden" name="pid" value="1075584">
+                  <button type="submit" class="btn btn-default b-gonder" id="mesaj-6">Submit</button>
+                </form>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="row" id="r-liste-7" style="display: none;">
+          <div class="col-xs-12">
+            <ul class="list-group">
+              <li class="list-group-item"><a href="#" class="l-geri"><strong><< Go Back !</strong></a> - <strong>Something Else</strong></li>
+              <li class="list-group-item">
+                <p><strong>Please read !!!</strong><p>
+                <p>We do our best to help you out. Please tell us the issue in details so we can help you. I apologize for the trouble in adcance.</p>
+                <p><strong>What's the problem ?</strong></p>
+                <form id="f-mesaj-7">
+                  <div class="form-group">
+                    <textarea class="form-control" rows="3" name="mesaj" id="t-mesaj-7" placeholder="Could you tell us in details ?"></textarea>
+                  </div>
+                  <input type="hidden" name="hata" value="7">
+                  <input type="hidden" name="zaman" value="1792964687">
+                  <input type="hidden" name="hash" value="27e4ba68bbd3b8723efccf900f489559">
+                  <input type="hidden" name="pid" value="1075584">
+                  <button type="submit" class="btn btn-default b-gonder" id="mesaj-7">Submit</button>
+                </form>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="row" id="s-basari" style="display: none;">
+          <div class="col-xs-12"></div>
+          <div class="col-xs-12">
+            <p>
+              <div class="alert alert-success">
+                <strong>Success!</strong> Report send.
+              </div>
+            </p>
+          </div>
+        </div>
+
+        <div class="row" id="s-hata" style="display: none;">
+          <div class="col-xs-12">
+            <div class="alert alert-danger">
+              <strong>Error!</strong> Try again.
+            </div>
+          </div>
+        </div>
+        <div class="ad-unit ad-banner adsbox" id="ads-test" style="height: 10px;"></div>
+    </div><!-- /.container -->
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <!-- <script src="/inc/embed/report.js?v=202410292121"></script> -->
+    <script src="/inc/video-js/video.min.js?v=7.20.3"></script>
+    <script src="/inc/videojs-errors/videojs-errors.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/videojs-qualityselector@0.0.4/dist/videojs-qualityselector.min.js"></script>
+    <script src="/inc/videojs-hotkeys/videojs.hotkeys.min.js"></script>
+    <script src="/inc/videojs-seek-buttons/videojs-seek-buttons.min.js"></script>
+    <script src="/node_modules/@silvermine/videojs-chromecast/dist/silvermine-videojs-chromecast.min.js"></script>
+    <script src="/node_modules/@theonlyducks/videojs-zoom/dist/videojs-zoom.js"></script>
+    <script type="text/javascript">
+    document.getElementById("b-report").addEventListener("click", reportP);
+    function reportP() {
+      var cerceve = "https://embed.wcostream.com/inc/embed/report-new.php" + window.location.search;
+      window.location.replace(cerceve);
+    }
+        </script>
+   <script>
+/* ==========================================================
+   OLD PLAYER (kept) + NEW QUALITY PERSIST + FALLBACK (added)
+   - I did NOT remove your old code.
+   - When I had to change a line, I kept the old one as a quote comment.
+   ========================================================== */
+
+(function () {
+
+  /* =========================
+     NEW: PERSISTED QUALITY PICK
+     ========================= */
+  const STORAGE_KEY = "vjs_preferred_format";
+  const DEFAULT_FORMAT = "hd576"; // SD default (your SD is hd576)
+
+  function getSavedFormat() {
+    try { return localStorage.getItem(STORAGE_KEY) || DEFAULT_FORMAT; } catch (e) { return DEFAULT_FORMAT; }
+  }
+  function saveFormat(code) {
+    try { if (code) localStorage.setItem(STORAGE_KEY, String(code)); } catch (e) {}
+  }
+
+  // FHD -> HD -> SD,  HD -> SD,  SD -> SD
+  const ORDER_BY_PREFERENCE = {
+    hd1080: ["hd1080", "hd720", "hd576"],
+    hd720:  ["hd720",  "hd576"],
+    hd576:  ["hd576"]
+  };
+
+  function pickSourceForEpisode(sources, preferredCode) {
+    const byCode = new Map(sources.map(s => [s.format, s]));
+    const order = ORDER_BY_PREFERENCE[preferredCode] || ORDER_BY_PREFERENCE.hd1080;
+
+    for (const code of order) {
+      if (byCode.has(code)) return { chosenCode: code, source: byCode.get(code) };
+    }
+    const first = sources[0] || null;
+    return { chosenCode: first ? first.format : preferredCode, source: first };
+  }
+
+  /* =========================
+     NEW: UI SYNC (dropdown + button)
+     ========================= */
+  const FORMAT_LABELS = [
+    { code: "hd1080", name: "FHD" },
+    { code: "hd720",  name: "HD"  },
+    { code: "hd576",  name: "SD"  }
+  ];
+
+  function codeToLabel(code) {
+    const f = FORMAT_LABELS.find(x => x.code === code);
+    return f ? f.name : "Quality";
+  }
+
+  function paintCurrent(code) {
+    if (!code) return;
+    document.querySelectorAll(".vjs-quality-dropdown").forEach(dropdown => {
+      dropdown.querySelectorAll("li.current").forEach(li => li.classList.remove("current"));
+      const li = dropdown.querySelector('li[data-code="' + code + '"]');
+      if (li) li.classList.add("current");
+    });
+  }
+
+  function updateQualityButtonText(code) {
+    const btn = document.querySelector(".vjs-brand-quality-link");
+    if (!btn) return;
+    btn.textContent = codeToLabel(code);
+  }
+
+  function applyUI(code) {
+    const times = [0, 50, 150, 300];
+    times.forEach(t => setTimeout(() => paintCurrent(code), t));
+    times.forEach(t => setTimeout(() => updateQualityButtonText(code), t));
+  }
+
+  // Capture direct clicks in dropdown (extra safety)
+  document.addEventListener("click", function (e) {
+    const li = e.target && e.target.closest ? e.target.closest(".vjs-quality-dropdown li[data-code]") : null;
+    if (!li) return;
+    const code = li.getAttribute("data-code");
+    if (!code) return;
+    saveFormat(code);
+    applyUI(code);
+  }, true);
+
+
+  /* ==========================================================
+     ======== YOUR OLD PLAYER CODE STARTS (kept) ===============
+     ========================================================== */
+
+  var yonlendirmeUrl = null;
+  var yonlendirmePathname = null;
+  var yonlendirmeSearch = null;
+
+  var vp     = videojs('video-js', {techOrder:['chromecast','html5'], playbackRates: [0.5, 1, 1.5, 2]});
+  // "QUOTE OLD (unchanged):"
+  // var vp     = videojs('video-js', {techOrder:['chromecast','html5'], playbackRates: [0.5, 1, 1.5, 2]});
+
+  //var vp     = videojs('video-js', {playbackRates: [0.5, 1, 1.5, 2]});
+  /*
+  setupVjsErrorLogging(vp, {
+    endpoint: '/inc/embed/logs-vjs-error.php',
+    throttleMs: 10000,
+    includeRecentRequests: 3
+  });
+  */
+
+  var hata   = 0;
+
+  vp.ready(function() {
+    this.hotkeys({
+      volumeStep: 0.1,
+      seekStep: 10,
+      enableModifiersForNumbers: false
+    });
+
+    this.seekButtons({
+      forward: 10,
+      back: 10
+    });
+
+    this.errors();
+    this.errors.timeout(20 * 1000);
+
+    this.on('error', function() {
+      if (hata > 0) {
+        vp.src([{type: 'video/mp4', src: '/error.mp4'}]);
+        vp.play();
+        hata += 1;
+      } else {
+        setTimeout(function() {
+          vp.src([{type: 'video/mp4', src: cdn+'/getvid?evid='+vsd}]);
+          vp.play();
+          hata += 1;
+        }, 1500);
+      }
+      if(hata > 3) {
+        vp.stop();
+        return false;
+      }
+    });
+
+    this.chromecast();
+
+    const zoomPlugin = this.zoomPlugin({
+      showZoom: true,
+      showMove: false,
+      showRotate: false,
+      gestureHandler: false
+    });
+  });
+
+  /* ==========================================================
+     NEW: subtitles helper (safe, does NOT remove old behavior)
+     ========================================================== */
+  function addEnglishSubtitlesOnce() {
+    if (typeof sub === "undefined" || sub == null || !server) return;
+
+    try {
+      const tracks = vp.remoteTextTracks && vp.remoteTextTracks();
+      if (tracks && tracks.length) {
+        for (let i = 0; i < tracks.length; i++) {
+          // some browsers expose .src, some expose .src_
+          const tSrc = (tracks[i].src || tracks[i].src_ || "");
+          if (tSrc === (server + "/getvid?evid=" + sub)) return;
+        }
+      }
+    } catch (e) {}
+
+    try {
+      vp.addRemoteTextTrack({
+        kind: 'captions',
+        src: server + '/getvid?evid=' + sub,
+        srclang: 'en',
+        label: 'English',
+        "default": true
+      }, false);
+    } catch (e) {}
+  }
+
+  /* ==========================================================
+     NEW: Build sources list + pick best for episode using saved choice
+     - We do NOT remove your PHP-generated vp.qualityselector blocks.
+     - We only "wrap" them so we can:
+         1) auto-pick (fallback) if preferred quality not available
+         2) persist choice when user selects
+         3) update UI badge/button
+     ========================================================== */
+
+  function tryInitPreferredStart(sources, resolvedSdUrl) {
+    if (!sources || !sources.length) return;
+
+    // If SD has a resolved redirected URL, replace SD src with that
+    if (resolvedSdUrl) {
+      for (let i = 0; i < sources.length; i++) {
+        if (sources[i].format === "hd576") {
+          sources[i].src = resolvedSdUrl;
+          break;
+        }
+      }
+    }
+
+    const preferred = getSavedFormat();
+    const picked = pickSourceForEpisode(sources, preferred);
+
+    // Start with chosen quality (only if we actually have something)
+    if (picked && picked.source && picked.source.src) {
+      vp.src({ src: picked.source.src, type: picked.source.type || "video/mp4" });
+      vp.load();
+      applyUI(picked.chosenCode);
+    } else {
+      applyUI(preferred);
+    }
+  }
+
+  function wrapQualitySelector(sources, formats) {
+    if (!vp || !vp.qualityselector) return;
+
+    vp.qualityselector({
+      sources: sources,
+      formats: formats,
+      onFormatSelected: function(format) {
+        // NEW: persist selected format
+        var code = null;
+        if (typeof format === "string") code = format;
+        else if (format && (format.code || format.format)) code = (format.code || format.format);
+
+        if (code) {
+          saveFormat(code);
+          applyUI(code);
+        }
+        vp.load();
+      }
+    });
+
+    // keep subtitles after res change (like your old code)
+    vp.on('resolutionchange', function() {
+      addEnglishSubtitlesOnce();
+    });
+  }
+
+
+  /* ==========================================================
+     ======== YOUR OLD getJSON BLOCK (kept) ====================
+     - Only ADDITIONS inside: we capture resolved SD url and
+       then initialize preferred start + qualityselector wrap.
+     ========================================================== */
+
+  $.getJSON("/inc/embed/getvidlink.php?v=neptun/neptun2/ongoing2/Overgeared.2026.S01E05.1080p.CR.WEB-DL.DUAL.DDP2.0.H.264-AnoZu.mp4&embed=neptun&fullhd=1", function(response){
+    vsd     = response.enc;
+    vhd     = response.hd;
+    vfhd    = response.fhd;
+    cdn     = response.cdn;
+    server  = response.server;
+    sub     = null;
+    const videoUrl = server + '/getvid?evid=' + vsd + '&json';
+
+    fetchJsonData(videoUrl).then(data => {
+      // NEW: subdomain yok -> kapasite sayfasina gidiliyor, oynatmayi baslatma
+      if (kapasiteDolu) return;
+
+      if (data) {
+        vp.src({ src: data, type: 'video/mp4' });
+
+        if (sub != null) {
+          vp.addRemoteTextTrack({
+            kind: 'captions',
+            src: server + '/getvid?evid=' + sub,
+            srclang: 'en',
+            label: 'English',
+            default: true
+          }, false);
+        }
+      } else {
+        console.error("404: Video play error.");
+        vp.src({src: server+'/getvid?evid='+vsd, type: 'video/mp4'});
+      }
+
+      vp.load();
+
+      // NEW: ensure subtitles are present (safe)
+      addEnglishSubtitlesOnce();
+
+      // NEW: build sources list for preferred start (depends on flags)
+      // We will only use what exists in this episode.
+      var sourcesForPick = [];
+      if (typeof vfhd !== "undefined" && vfhd && true) {
+        sourcesForPick.push({ format: "hd1080", src: server + "/getvid?evid=" + vfhd, type: "video/mp4" });
+      }
+      if (typeof vhd !== "undefined" && vhd && (true || false)) {
+        sourcesForPick.push({ format: "hd720", src: server + "/getvid?evid=" + vhd, type: "video/mp4" });
+      }
+      // SD always
+      sourcesForPick.push({ format: "hd576", src: (data ? data : (server + "/getvid?evid=" + vsd)), type: "video/mp4" });
+
+      // NEW: start at preferred quality (fallback if missing)
+      tryInitPreferredStart(sourcesForPick, data || null);
+
+    });
+
+/*
+    getRedirectedUrl(videoUrl).then(redirectedUrl => {
+      if (redirectedUrl) {
+        vp.src({ src: redirectedUrl, type: 'video/mp4' });
+      } else {
+        console.error("404: Video play error.");
+        vp.src({src: server+'/getvid?evid='+vsd, type: 'video/mp4'});
+      }
+      vp.load();
+    });
+*/
+
+    /* QUOTE OLD:
+      vp.ready(function() {
+        var obj1080       = {};
+        var obj720        = {};
+        var obj576        = {};
+        obj1080['format'] = 'hd1080';
+        obj1080['src']    = server + '/getvid?evid=' + vfhd;
+        obj1080['type']   = 'video/mp4';
+        obj720['format']  = 'hd720';
+        obj720['src']     = server + '/getvid?evid=' + vhd;
+        obj720['type']    = 'video/mp4';
+        obj576['format']  = 'hd576';
+        obj576['src']     = server + '/getvid?evid=' + vsd;
+        obj576['type']    = 'video/mp4';
+        vp.qualityselector({
+          sources: [ obj1080, obj720, obj576 ],
+          formats: [
+            { code: 'hd1080', name: 'FHD' },
+            { code: 'hd720', name: 'HD' },
+            { code: 'hd576', name: 'SD' }
+          ],
+          onFormatSelected: function(format) { vp.load(); }
+        });
+        vp.on('resolutionchange', function() {
+          if (sub != null) {
+            vp.addRemoteTextTrack({
+              kind: 'captions',
+              src: server + '/getvid?evid=' + sub,
+              srclang: 'en',
+              label: 'English',
+              default: true
+            }, false);
+          }
+        });
+      });
+      */
+vp.ready(function() {
+        var sources = [];
+        var formats = [
+          { code: 'hd1080', name: 'FHD' },
+          { code: 'hd720',  name: 'HD'  },
+          { code: 'hd576',  name: 'SD'  }
+        ];
+
+        if (vfhd) sources.push({ format: 'hd1080', src: server + '/getvid?evid=' + vfhd, type: 'video/mp4' });
+        if (vhd)  sources.push({ format: 'hd720',  src: server + '/getvid?evid=' + vhd,  type: 'video/mp4' });
+
+        // SD uses server link by default (your fetchJsonData may replace actual playback separately)
+        sources.push({ format: 'hd576', src: server + '/getvid?evid=' + vsd, type: 'video/mp4' });
+
+        wrapQualitySelector(sources, formats);
+
+        // Also sync UI on load to whatever is saved
+        applyUI(getSavedFormat());
+      });
+  });
+
+  /* ==========================================================
+     YOUR OLD helpers (kept)
+     ========================================================== */
+
+  /* ==========================================================
+     NEW: SUBDOMAIN KONTROLU
+     - Origin subdomain'siz host donerse (".wcostream.com" gibi
+       bos etiket, ya da apex "wcostream.com") oynatma denenmez,
+       "tum sunucular dolu" sayfasi gosterilir.
+     ========================================================== */
+
+  const KAPASITE_SAYFASI = "/inc/embed/full-capacity.html";
+  // Ayarlar: kapasite-ayar.php (subdomain kurali ac/kapa, sure)
+  const KAPASITE_SUBDOMAIN_AKTIF = true;
+  const KAPASITE_SURE = 3600;
+  var kapasiteDolu = false;
+
+  function subdomainYok(host) {
+    if (!host) return true;
+
+    // sondaki noktayi at: "lb.wcostream.com." -> "lb.wcostream.com"
+    var h = String(host).trim().toLowerCase().replace(/\.+$/, "");
+    if (!h) return true;
+
+    var parts = h.split(".");
+
+    // bos etiket: ".wcostream.com" veya "a..b"
+    for (var i = 0; i < parts.length; i++) {
+      if (parts[i] === "") return true;
+    }
+
+    // apex: "wcostream.com" -> subdomain yok
+    if (parts.length < 3) return true;
+
+    return false;
+  }
+
+  function kapasiteDoluGoster(host) {
+    if (kapasiteDolu) return;
+    kapasiteDolu = true;
+
+    console.warn("Subdomain yok, tum sunucular dolu:", host || "(bos)");
+
+    // 1 saatlik kilit. Bundan sonraki isteklerde PHP tarafi oynaticiyi
+    // hic render etmez. iframe (third-party) baglaminda geri gonderilmesi
+    // icin session cookie'si ile ayni ayarlar: domain + secure + samesite=None
+    try {
+      document.cookie = "wco_full_capacity=1"
+        + "; path=/; domain=wcostream.com"
+        + "; max-age=" + KAPASITE_SURE
+        + "; secure; samesite=None";
+    } catch (e) {}
+
+    try { saveVideoError(host || ""); } catch (e) {}
+    try { sessionStorage.setItem("lastEmbedUrl", location.href); } catch (e) {}
+
+    try { vp.pause(); } catch (e) {}
+
+    window.location.replace(KAPASITE_SAYFASI);
+  }
+
+  async function fetchJsonData(url) {
+    try {
+      const response = await fetch(url);
+      if (response.ok) {
+        const jsonData = await response.json();
+        const redirectedUrl = new URL(jsonData);
+        yonlendirmeUrl = redirectedUrl.hostname;
+        yonlendirmePathname = redirectedUrl.pathname;
+        yonlendirmeSearch = redirectedUrl.search;
+        saveVideoError(yonlendirmeUrl);
+        console.log("Hostname: ", yonlendirmeUrl);
+
+        // NEW: subdomain yoksa oynatma, daima kapasite sayfasina gonder
+        // (1 saat kilit). Kural kapaliysa null ile yedek akisa duser
+        // (server/getvid -> oynatamazsa error.mp4).
+        if (subdomainYok(yonlendirmeUrl)) {
+          if (KAPASITE_SUBDOMAIN_AKTIF) kapasiteDoluGoster(yonlendirmeUrl);
+          return null;
+        }
+
+        return redirectedUrl.href;
+      } else {
+        console.error("Server Error: ", response.status);
+        return null;
+      }
+    } catch (error) {
+      console.error("Error: ", error);
+      return null;
+    }
+  }
+
+  async function getRedirectedUrl(videoUrl) {
+    try {
+      const response = await fetch(videoUrl, { method: 'HEAD', redirect: 'follow' });
+      if (response.ok) {
+        const redirectedUrl = new URL(response.url);
+        console.log("Hostname:", redirectedUrl.hostname);
+
+        // NEW: subdomain yoksa oynatma, daima kapasite sayfasina gonder
+        // (1 saat kilit). Kural kapaliysa null ile yedek akisa duser
+        // (server/getvid -> oynatamazsa error.mp4).
+        if (subdomainYok(redirectedUrl.hostname)) {
+          if (KAPASITE_SUBDOMAIN_AKTIF) kapasiteDoluGoster(redirectedUrl.hostname);
+          return null;
+        }
+
+        return redirectedUrl.href;
+      } else {
+        console.error("Server Error:", response.status);
+        return null;
+      }
+    } catch (error) {
+      console.error("Fetch Error:", error);
+      return null;
+    }
+  }
+
+  function setupVjsErrorLogging(player, { endpoint, throttleMs = 10000, includeRecentRequests = 3 }) {
+    const CODE_NAMES = {1:'MEDIA_ERR_ABORTED',2:'MEDIA_ERR_NETWORK',3:'MEDIA_ERR_DECODE',4:'MEDIA_ERR_SRC_NOT_SUPPORTED',5:'MEDIA_ERR_ENCRYPTED'};
+    const recentNet = [];
+    let netLast = null;
+
+    tapVhsRequests(player, (entry) => {
+      recentNet.push(entry);
+      if (recentNet.length > 20) recentNet.shift();
+      netLast = entry;
+    });
+
+    function tapVhsRequests(player, sink){
+      if (player.__vhsTapped) return;
+      player.__vhsTapped = true;
+
+      const wrapXhr = (holder) => {
+        if (!holder || !holder.xhr || holder.xhr.__tapped) return false;
+
+        const orig = holder.xhr;
+        const tapped = function(options, cb){
+          const startedAt = Date.now();
+          const reqUrl = options && (options.uri || options.url || options.href) || '';
+          const reqHost = hostOf(reqUrl);
+
+          return orig.call(this, options, function(err, resp, body){
+            const finalUrl = resp && (resp.responseURL || resp.url || null);
+            const finalHost = hostOf(finalUrl) || reqHost;
+            const status = (resp && (resp.status || resp.statusCode)) || null;
+
+            const entry = {
+              startedAt,
+              endedAt: Date.now(),
+              requestUrl: reqUrl || null,
+              requestHost: reqHost || null,
+              finalUrl: finalUrl || null,
+              finalHost: finalHost || null,
+              status,
+              type: classifyUrl(finalUrl || reqUrl || '')
+            };
+            try { sink && sink(entry); } catch {}
+            cb && cb(err, resp, body);
+          });
+        };
+        tapped.__tapped = true;
+        tapped.__orig = orig;
+        holder.xhr = tapped;
+        return true;
+      };
+
+      try {
+        if (window.videojs && videojs.Vhs) wrapXhr(videojs.Vhs);
+      } catch {}
+      try {
+        const tech = player.tech?.(true) || player.tech?.();
+        if (tech && tech.vhs) wrapXhr(tech.vhs);
+      } catch {}
+    }
+
+    function classifyUrl(u){
+      const s = (u || '').toLowerCase();
+      if (s.includes('.m3u8') || s.includes('.mpd')) return 'manifest';
+      if (s.includes('.m4s') || s.includes('.ts') || s.includes('.mp4')) return 'segment';
+      if (s.includes('.vtt')) return 'subtitle';
+      if (s.includes('.key')) return 'key';
+      return 'other';
+    }
+
+    function hostOf(u){
+      if (!u) return null;
+      try { return new URL(u, location.href).hostname; } catch { return null; }
+    }
+
+    const lastMap = new Map();
+
+    const getTechName = () => {
+      try {
+        const tech = player.tech?.(true) || player.tech?.();
+        return tech?.name_ || tech?.constructor?.name || player.techName_ || 'unknown';
+      } catch { return 'unknown'; }
+    };
+
+    const buildPayload = (extra = {}) => {
+      const source = player.currentSource?.() || {};
+      const src = source.src || player.currentSrc?.() || '';
+      const u = (()=>{ try { return new URL(src, location.href); } catch { return null; } })();
+      const srcHost = u ? u.hostname : (src || 'unknown');
+
+      const netSummary = netLast ? {
+        requestHost: netLast.requestHost,
+        finalHost: netLast.finalHost,
+        finalUrl: netLast.finalUrl,
+        status: netLast.status,
+        type: netLast.type,
+        redirected: !!(netLast.finalHost && netLast.requestHost && netLast.finalHost !== netLast.requestHost)
+      } : null;
+
+      const recent = includeRecentRequests > 0 && recentNet.length
+        ? recentNet.slice(-includeRecentRequests).map(e => ({
+          type: e.type, status: e.status,
+          requestHost: e.requestHost, finalHost: e.finalHost
+        }))
+        : undefined;
+
+      return {
+        at: new Date().toISOString(),
+        vjsVersion: (window.videojs && videojs.VERSION) || 'unknown',
+        tech: getTechName(),
+        pageUrl: location.href,
+        pageHost: location.hostname,
+        src,
+        srcType: source.type || 'unknown',
+        srcHost,
+        netLast: netSummary,
+        netRecent: recent,
+        autoplay: !!player.autoplay?.(),
+        muted: !!player.muted?.(),
+        userAgent: navigator.userAgent,
+        ...extra
+      };
+    };
+
+    const send = (payload) => {
+      const sig = JSON.stringify([
+        payload.srcHost,
+        payload.netLast && payload.netLast.finalHost,
+        payload.code, payload.event, payload.tech
+      ]);
+      const now = Date.now();
+      const lastAt = lastMap.get(sig) || 0;
+      if (now - lastAt < throttleMs) return;
+      lastMap.set(sig, now);
+
+      const body = JSON.stringify(payload);
+      if (endpoint) {
+        if (navigator.sendBeacon) {
+          const ok = navigator.sendBeacon(endpoint, new Blob([body], { type: 'application/json' }));
+          if (ok) return;
+        }
+        fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body })
+          .catch(() => {});
+      } else {
+        console.warn('[vjs-log]', payload);
+      }
+    };
+
+    player.on('error', () => {
+      const err = player.error?.() || {};
+      const code = err.code ?? null;
+      const message = err.message || err.cause?.message || '';
+      send(buildPayload({
+        event: 'player.error',
+        code,
+        codeName: CODE_NAMES[code] || 'UNKNOWN',
+        message,
+        retriable: Boolean(err.retriable)
+      }));
+    });
+  }
+
+})();
+</script>
+
+
+
+  <script>
+/*
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-96267981-1', 'auto');
+    ga('send', 'pageview');
+*/
+  </script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JQR4RS4BZ0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-JQR4RS4BZ0');
+</script>
+
+       <!--<script>
+    window.addEventListener("load", () => {
+      yukleP();
+      farkli();
+    });
+    $( document ).ready(function() {
+      //console.log("JQuery Ready");
+      //yukleP();
+    });
+
+    function uyku(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    async function yukleP(ms = 5000) {
+      await new Promise(r => setTimeout(r, ms));
+      const script = document.createElement('script');
+      script.src = 'https://platform.pubadx.one/pubadx-ad.js';
+      script.async = true;
+
+      script.onload = function() {
+        //console.log("Script Loaded...");
+      };
+
+      script.onerror = function() {
+        embed();
+      };
+      document.head.appendChild(script);
+    }
+    function embed() {
+      //window.location.replace("/inc/embed/embed.html");
+    }
+    </script>-->
+    <div style="margin-top:30px;">
+    </div>
+    <script>
+  function saveVideoError(videoSrc) {
+    const err = {
+      type: "VIDEO_ERROR",
+      hostname: videoSrc,
+      ts: Date.now()
+    };
+
+    try {
+      localStorage.setItem("lastHostname", JSON.stringify(err));
+    } catch (e) {}
+
+    try {
+      document.cookie = "lastHostname=" + encodeURIComponent(JSON.stringify(err))
+        + "; path=/; max-age=" + (60 * 60) + "; samesite=Lax";
+    } catch (e) {}
+  }
+</script>
+
+  </body>
+</html>

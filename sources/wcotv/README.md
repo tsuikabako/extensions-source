@@ -1,0 +1,43 @@
+# WcoTv
+
+WcoTv (<https://www.wco.tv>) as an anime source plug-in for Kurobayomi (ABI 1.5, `wit/kuro-source.wit`, anime ops):
+English dubbed and subbed cartoons and anime from WCO.tv, mp4 up to 1080p. A WCO site: the ops, the player and the
+parsers are the shared [`lib/wco`](../../lib/wco) crate, and `src/lib.rs` holds only the site.
+
+## Licence and origin
+
+Licensed under the Apache License 2.0. Ported from the yuzono `en/wcotv` extension and its `wcotheme` theme
+(`lib-multisrc/wcotheme`, Apache-2.0). The source id is the Kotlin one: the extension sets none, so it is
+`MD5("wcotv/en/1")` taken as its first 8 bytes, big-endian, with the top bit cleared: `648702763126013078`. Stored
+addresses are the site's paths: `/anime/<slug>` for a title, `/<slug>-episode-<n>-english-dubbed` for an episode.
+
+## Ops
+
+| Op | Request |
+|---|---|
+| `info`, `create-sources` | the descriptor; Latest; 500 ms between requests |
+| `popular` | `GET /`: the home page's "Recently Added Series", one page |
+| `latest` | `GET /`: the home page's "Recent Releases" (episode pages, kept as titles as the Kotlin does), one page |
+| `search` | `POST /search` with `catara=...&konuara=series`, one page (an empty search is `popular`) |
+| `details` | the title page: title, summary, genres, cover (an episode page: its series' name) |
+| `episodes` | the same page, newest first (WCOStream's episode pages list oldest first and are turned), numbered from "Season S Episode N" ((S - 1) * 100 + N); an episode page is its own one episode |
+| `hosters` | the episode page: one server per WCO player (`embed.wcostream.com`), from its iframe or from the script that writes it |
+| `videos` | the player: its page, the "clear" ad-check beacon, a 13 s wait (the server refuses the player before its 12 s countdown), the player page (the newer one; the older one, which the Kotlin asks first, as the fallback), then its JSON: up to three mp4 files, 1080p, 720p, 480p |
+
+The wait is spent on the guest's clock (ABI 1.5 has no sleep import): about 13 s of the call's 30 s of run time. The
+file server plays a video only to the User-Agent that asked the player for it, so the player's requests and each video
+carry one fixed desktop User-Agent (the Kotlin's).
+
+## Not ported
+
+- The genre filter.
+- The settings: preferred quality (the player starts with the best) and the countdown length.
+- The premium player (`vhs.watchanimesub`): no episode used it on 2026-10-25.
+
+## Test
+
+```
+cargo test -p kuro-wcotv -p kuro-wco
+```
+
+The theme's fixtures were saved from WcoTv and WCOStream on 2026-10-25.
