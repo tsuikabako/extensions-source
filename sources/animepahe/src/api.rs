@@ -2,76 +2,14 @@
 //! `extractor/KwikExtractor.kt` (yuzono, Apache-2.0; the Kwik part is MIT, CloudStream). Fixed at the Kotlin defaults:
 //! HLS links, "Sub" first, 1080p first, AV1 last, the site's own episode numbers off.
 
-use scraper::{Html, Selector};
-use serde::{Deserialize, Serialize};
+use kuro_guest::Res;
+use kuro_guest::html::{Html, sel, text_of};
+use kuro_guest::wire::{Anime, AnimesPage, Episode, Hoster, Video};
 
 use crate::dto::{EpisodeDto, LatestAnimeDto, ResponseDto, SearchResultDto};
 
-pub type Res<T> = Result<T, String>;
-
 pub const BASE_URL: &str = "https://animepahe.pw";
 pub const KWIK_ORIGIN: &str = "https://kwik.cx";
-
-// ============================ Output (wire) ============================
-
-#[derive(Debug, Clone, PartialEq, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct Anime {
-    pub url: String,
-    pub title: String,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub description: Option<String>,
-    pub thumbnail_url: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub genre: Option<String>,
-    /// SAnime status: 0 unknown, 1 ongoing, 2 completed.
-    #[serde(skip_serializing_if = "is_zero")]
-    pub status: i32,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub author: Option<String>,
-}
-
-fn is_zero(n: &i32) -> bool {
-    *n == 0
-}
-
-#[derive(Debug, Clone, PartialEq, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct AnimesPage {
-    pub animes: Vec<Anime>,
-    pub has_next_page: bool,
-}
-
-#[derive(Debug, Clone, PartialEq, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct Episode {
-    pub url: String,
-    pub name: String,
-    pub episode_number: f32,
-    /// Epoch milliseconds of `created_at`.
-    pub date_upload: i64,
-}
-
-/// A fansub and audio of an episode. `internal_data` holds its streams, one `kwik link\tquality` per line; the
-/// videos are read from it later, with the `videos` op.
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct Hoster {
-    pub hoster_url: String,
-    pub hoster_name: String,
-    #[serde(default)]
-    pub internal_data: String,
-}
-
-#[derive(Debug, Clone, PartialEq, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct Video {
-    pub video_url: String,
-    pub video_title: String,
-    pub resolution: Option<i32>,
-    pub headers: Vec<(String, String)>,
-    pub preferred: bool,
-}
 
 // ================================ URLs =================================
 
@@ -127,7 +65,7 @@ pub fn parse_airing(body: &str) -> Res<(AnimesPage, Vec<(i64, String)>)> {
     let animes = page
         .items
         .into_iter()
-        .map(|a| Anime { url: anime_url(a.id), title: a.title, description: None, thumbnail_url: Some(a.snapshot), genre: None, status: 0, author: None })
+        .map(|a| Anime { url: anime_url(a.id), title: a.title, thumbnail_url: Some(a.snapshot), ..Default::default() })
         .collect();
     Ok((AnimesPage { animes, has_next_page: page.current_page < page.last_page }, sessions))
 }
@@ -138,7 +76,7 @@ pub fn parse_search(body: &str) -> Res<(AnimesPage, Vec<(i64, String)>)> {
     let animes = page
         .items
         .into_iter()
-        .map(|a| Anime { url: anime_url(a.id), title: a.title, description: None, thumbnail_url: Some(a.poster), genre: None, status: 0, author: None })
+        .map(|a| Anime { url: anime_url(a.id), title: a.title, thumbnail_url: Some(a.poster), ..Default::default() })
         .collect();
     Ok((AnimesPage { animes, has_next_page: page.current_page < page.last_page }, sessions))
 }
@@ -162,14 +100,6 @@ pub fn search_hits(body: &str) -> Res<Vec<Hit>> {
 pub fn query_of(title: &str) -> String {
     let q: String = title.chars().map(|c| if c.is_alphanumeric() || c.is_whitespace() { c } else { ' ' }).collect();
     q.split_whitespace().collect::<Vec<_>>().join(" ")
-}
-
-fn sel(css: &str) -> Selector {
-    Selector::parse(css).expect("a valid selector")
-}
-
-fn text_of(element: scraper::ElementRef) -> String {
-    element.text().collect::<String>().split_whitespace().collect::<Vec<_>>().join(" ")
 }
 
 /// The details page. The info lines are `<p><strong>Label: </strong>value</p>`.
@@ -200,6 +130,7 @@ pub fn parse_details(html: &str) -> Res<Anime> {
         genre: Some(genres.join(", ")).filter(|g| !g.is_empty()),
         status,
         author: line("Studios:"),
+        ..Default::default()
     })
 }
 
@@ -215,6 +146,7 @@ pub fn parse_release(body: &str, session: &str) -> Res<(Vec<Episode>, bool)> {
             name: format!("Episode {}", number_text(e.episode_number)),
             episode_number: e.episode_number,
             date_upload: millis(&e.created_at),
+            ..Default::default()
         })
         .collect();
     Ok((episodes, more))
@@ -277,7 +209,8 @@ pub fn parse_hosters(html: &str, play_url: &str) -> Vec<Hoster> {
             // 1080p first, then lower; at one height the non-AV1 stream first
             streams.sort_by_key(|(res, av1, ..)| (std::cmp::Reverse(*res), *av1));
             let internal_data = streams.iter().map(|(_, _, src, title)| format!("{src}\t{title}")).collect::<Vec<_>>().join("\n");
-            Hoster { hoster_url: play_url.to_owned(), hoster_name: name, internal_data }
+            // `internal_data` holds the streams, one `kwik link\tquality` per line; the `videos` op reads them later
+            Hoster { hoster_url: play_url.to_owned(), hoster_name: name, internal_data, ..Default::default() }
         })
         .collect()
 }
@@ -305,6 +238,7 @@ pub fn video(playlist: String, title: &str, kwik_page: &str, preferred: bool) ->
         resolution,
         headers: vec![("Referer".into(), kwik_page.to_owned()), ("Origin".into(), KWIK_ORIGIN.into())],
         preferred,
+        ..Default::default()
     }
 }
 

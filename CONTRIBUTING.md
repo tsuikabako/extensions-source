@@ -1,7 +1,8 @@
 # Contributing
 
-Fixes for broken sources and new sources are welcome. This page covers how a source is built, how to try it in the app,
-and what a pull request needs.
+Fixes for broken sources and new sources are welcome. This page covers what is where in this repository, how to try a
+source in the app, and what a pull request needs. How to write a source (recipes, Madara sites, plug-ins on the toolkit)
+is explained step by step at **https://tsuikabako.github.io/make/**.
 
 ## Before you start
 
@@ -10,14 +11,14 @@ and what a pull request needs.
 - **Ports only:** every source here is a port of an open-source Aniyomi, Mihon or keiyoushi extension under
   Apache-2.0. Name the original in the source's README. Do not copy code under another licence.
 
-## Two kinds of source
+## Three ways to write a source
 
-| | Text recipe | WASM plug-in |
-|---|---|---|
-| File | `recipe.toml` | a Rust crate built to `.wasm` |
-| Good for | simple HTML sites: lists, pages, links | APIs, signed requests, JavaScript unpacking, HLS |
-| Runs code | no, only CSS selectors and a few rules | yes, in the app's sandbox, with no file or system access |
-| Reference | [source-recipes.md](https://github.com/kurobayomi/kurobayomi/blob/main/docs/source-recipes.md) | [source-abi.md](https://github.com/kurobayomi/kurobayomi/blob/main/docs/source-abi.md) |
+| | Text recipe | Theme site | WASM plug-in |
+|---|---|---|---|
+| File | `recipe.toml` | a `Site` value in a tiny crate | a Rust crate built to `.wasm` |
+| Good for | simple HTML sites: lists, pages, links | Madara WordPress sites | APIs, POST requests, relative dates, video hosts |
+| Runs code | no, only CSS selectors and a few rules | yes, the shared `lib/madara` | yes, in the app's sandbox, with no file or system access |
+| Guide | [Recipes](https://tsuikabako.github.io/make/recipe) | [Madara sites](https://tsuikabako.github.io/make/madara) | [Plug-ins](https://tsuikabako.github.io/make/plugin) |
 
 Try a recipe first. Use a plug-in when the site needs real logic.
 
@@ -27,14 +28,17 @@ Try a recipe first. Use a plug-in when the site needs real logic.
 sources/<id>/         one folder per source; <id> is lower-case letters, digits, '.', '_', '-'
   recipe.toml         a recipe: id, name, lang, kind, version, base_urls, selectors
   manifest.toml       or a plug-in: id, name, lang, kind, version, hosts
-  Cargo.toml, src/    the plug-in crate (standalone, not in a workspace)
+  Cargo.toml, src/    the plug-in crate, a member of the workspace (the root Cargo.toml)
   fixtures/           saved pages and responses the tests read
   icon.png            the site's icon, square PNG
   health.toml         the page the health check fetches to see the site is up (url, expect, cloudflare)
   README.md           what it does, what was left out, the original extension
 parked/<id>/          sources kept but not offered; never read by the tools
+lib/guest/            the toolkit every plug-in is built on: the glue to the app, requests, the JSON shapes, test host
 lib/<theme>/          code shared by the plug-ins of one site theme (lib/madara: every Madara WordPress site)
-template/             starter crate for a new plug-in
+wit/                  the contract with the app (kuro-source.wit), one copy for every plug-in
+template/example/     a complete example plug-in to copy for a new source
+Cargo.toml, Cargo.lock the workspace: one set of dependency versions and one build for everything
 status.toml           sources marked blocked or broken by hand (overrides health.toml)
 health.toml           written by tools/check-health.py: sources found broken (do not edit)
 health-state.json     the failures in a row per source, for the next check
@@ -66,37 +70,27 @@ One-time setup:
 
 ```bash
 rustup target add wasm32-unknown-unknown
+cargo install --locked wasm-component-ld
 ```
 
-`wasm-component-ld` ships with Rust's wasip2 support, so there is nothing else to install.
-
-1. Copy the template and rename the package in `Cargo.toml`:
+1. Copy the example and rename the package in `Cargo.toml` to `kuro-<id>`:
 
    ```bash
-   cp -r template sources/<id>
+   cp -r template/example sources/<id>
    ```
 
-2. Write the operations in `src/lib.rs` against `wit/kuro-source.wit`. The existing plug-ins (`sources/mangadex` for an
-   API, `sources/mangapill` for HTML, `sources/animepahe` for HLS) are good models.
-3. Create `sources/<id>/manifest.toml`:
-
-   ```toml
-   id = "example"            # must equal the folder name
-   name = "Example"
-   lang = "en"
-   kind = "manga"            # or "anime"
-   version = 1
-   hosts = ["example.org"]   # the only hosts the plug-in may call
-   ```
-
-   List only the hosts the plug-in requests itself. Images and videos load in the app and do not need to be listed.
-4. Save responses into `fixtures/` and test the parsing against them:
+2. Set `manifest.toml` (`id` is the folder name; `hosts` are the only hosts the plug-in requests itself, since images
+   and videos load in the app), then write the site's operations in `src/lib.rs`. The example is a whole manga source
+   with every part to change marked `CHANGE`; [the plug-in guide](https://tsuikabako.github.io/make/plugin) walks
+   through the toolkit (`lib/guest`). Existing sources are good models: `sources/mangadex` for a JSON API,
+   `sources/mangapill` for HTML, `sources/animepahe` for HLS video.
+3. Save responses into `fixtures/` and test the operations against them:
 
    ```bash
-   cd sources/<id> && cargo test
+   cargo test -p kuro-<id>
    ```
 
-5. Add `icon.png` and a `README.md`.
+4. Add `icon.png` (square, about 192 px) and a `README.md`.
 
 A built plug-in must be under 1 MiB. `tools/build.sh` fails when it is bigger, and also when it imports anything but the
 app's host interface. Build for `wasm32-unknown-unknown` through the script, never for `wasm32-wasip2`: the sandbox has
@@ -105,15 +99,14 @@ no WASI, so a wasip2 build cannot start.
 ## Add a Madara site
 
 Many manga sites run the Madara WordPress theme. Its ops, URLs and parsers live once in `lib/madara`, so a Madara site is
-a small plug-in: copy `sources/topmanhuafan`, rename the package, and set the `Site` in `src/lib.rs` (id, name, lang,
-address, title folder, and how the site lists titles and chapters: see the keiyoushi extension's `chapterMode` and
-whether it extends `MadaraNoAjax`). A fix to the theme goes in `lib/madara` and reaches every Madara site; bump the
-`version` of each site whose behaviour changes.
+only its settings: copy `sources/topmanhuafan`, rename the folder and package, and set the `Site` in `src/lib.rs` (id,
+name, lang, address, title folder, and how the site lists titles and chapters). [The Madara guide](https://tsuikabako.github.io/make/madara)
+explains how to tell each setting. A fix to the theme goes in `lib/madara` and reaches every Madara site.
 
 ## Fix a source
 
-Make the change, then bump `version` in its `manifest.toml` or `recipe.toml`. Without a new version the app keeps
-the copy it already has.
+Make the change, then bump `version` in its `manifest.toml` or `recipe.toml`. The app downloads a source's file again
+whenever its checksum in the index changes, so users get any rebuilt file; the version says that the source changed.
 
 If a source stops working and you cannot fix it, mark it in `status.toml` so users see why:
 

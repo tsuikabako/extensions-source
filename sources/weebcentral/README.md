@@ -50,7 +50,7 @@ Apache License 2.0: https://www.apache.org/licenses/LICENSE-2.0
 ## Files
 
 - `src/site.rs`: URLs, filters and parsers (pure, with the tests over `fixtures/`).
-- `src/lib.rs`: the ABI glue, wire shapes, `request-headers`, `info`, and the `http` call.
+- `src/lib.rs`: the ops, the manga wire shape (it keeps `updateStrategy` and `initialized`), `request-headers` and `info`, on the `kuro_guest` toolkit.
 - `fixtures/`: pages saved from the site on 2026-10-10.
 - `manifest.toml`: id, name, language, kind and the host allow-list.
 

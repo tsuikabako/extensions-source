@@ -1,56 +1,16 @@
 //! Kagane's API (`https://kagane.si/api/v2`): the addresses, the request bodies and the parsers. No network here; `lib.rs`
 //! sends the requests through the host.
 
+use kuro_guest::Res;
+use kuro_guest::wire::status::{CANCELLED, COMPLETED, ON_HIATUS, ONGOING};
+use kuro_guest::wire::{Chapter, Manga, MangasPage};
 use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
-
-pub type Res<T> = Result<T, String>;
 
 pub const BASE: &str = "https://kagane.si";
 pub const API: &str = "https://kagane.si/api/v2";
 /// Titles a page of the list or search, as the Kotlin asks for.
 const PAGE_SIZE: u32 = 35;
-
-// `SManga` status codes.
-const ONGOING: i32 = 1;
-const COMPLETED: i32 = 2;
-const CANCELLED: i32 = 5;
-const ON_HIATUS: i32 = 6;
-
-#[derive(Serialize, Debug, PartialEq)]
-#[serde(rename_all = "camelCase")]
-pub struct Manga {
-    pub url: String,
-    pub title: String,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub artist: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub author: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub description: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub genre: Option<String>,
-    pub status: i32,
-    pub thumbnail_url: Option<String>,
-}
-
-#[derive(Serialize, Debug, PartialEq)]
-#[serde(rename_all = "camelCase")]
-pub struct MangasPage {
-    pub mangas: Vec<Manga>,
-    pub has_next_page: bool,
-}
-
-#[derive(Serialize, Debug, PartialEq)]
-#[serde(rename_all = "camelCase")]
-pub struct Chapter {
-    pub url: String,
-    pub name: String,
-    pub date_upload: i64,
-    /// -1 lets the app read the number from the name, as the Kotlin leaves it for most series.
-    pub chapter_number: f32,
-    pub scanlator: String,
-}
 
 fn parse<'a, T: Deserialize<'a>>(body: &'a str, what: &str) -> Res<T> {
     serde_json::from_str(body).map_err(|e| format!("unexpected Kagane {what}: {e}"))
@@ -121,12 +81,8 @@ pub fn parse_search(body: &str) -> Res<MangasPage> {
         .map(|series| Manga {
             url: series.series_id,
             title: series.title.trim().to_owned(),
-            artist: None,
-            author: None,
-            description: None,
-            genre: None,
-            status: 0,
             thumbnail_url: series.cover_image_id.as_deref().map(image_url),
+            ..Default::default()
         })
         .collect();
     Ok(MangasPage { mangas, has_next_page: !dto.last })
@@ -318,8 +274,9 @@ pub fn parse_books(series: &str, body: &str) -> Res<Vec<Chapter>> {
             url: format!("/series/{series}/reader/{book}"),
             name: chapter_name(cell(row, title).as_str().unwrap_or(""), cell(row, chapter_no).as_str(), cell(row, volume_no).as_str()),
             date_upload: cell(row, released).as_i64().map_or(0, |seconds| seconds * 1000),
+            // -1 lets the app read the number from the name, as the Kotlin leaves it for most series.
             chapter_number: -1.0,
-            scanlator,
+            scanlator: Some(scanlator).filter(|s| !s.is_empty()),
         };
         rows.push((cell(row, Some(sort)).as_f64().unwrap_or(0.0), chapter));
     }
@@ -448,7 +405,7 @@ mod tests {
         let oldest = chapters.last().unwrap();
         assert_eq!(oldest.url, "/series/s1/reader/019e2d3b-e841-705c-a47c-c8e4659731d2");
         assert_eq!(oldest.date_upload, 1_778_875_361_000);
-        assert_eq!(oldest.scanlator, "The Hours Between");
+        assert_eq!(oldest.scanlator.as_deref(), Some("The Hours Between"));
         assert!(oldest.name.starts_with("Chapter 1"));
         assert_eq!(book_of(&oldest.url).unwrap(), "019e2d3b-e841-705c-a47c-c8e4659731d2");
     }

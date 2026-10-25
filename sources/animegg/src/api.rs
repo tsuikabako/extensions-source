@@ -1,65 +1,14 @@
 //! The AnimeGG site (<https://www.animegg.org>) as pure functions: the addresses and one parser per page. Ported from
 //! `AnimeGG.kt` (Kohi-den, Apache-2.0); the page selectors are the Kotlin's, checked against the live site.
 
-use scraper::{ElementRef, Html, Selector};
-use serde::{Deserialize, Serialize};
-
-pub type Res<T> = Result<T, String>;
+use kuro_guest::html::{ElementRef, Html, sel, text_of};
+use kuro_guest::wire::{Anime, AnimesPage, Episode, Hoster, Video};
 
 pub const BASE: &str = "https://www.animegg.org";
 
 // SAnime status codes.
 const ONGOING: i32 = 1;
 const COMPLETED: i32 = 2;
-
-// ============================ Output (wire) ============================
-
-#[derive(Debug, Clone, PartialEq, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct Anime {
-    pub url: String,
-    pub title: String,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub description: Option<String>,
-    pub thumbnail_url: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub genre: Option<String>,
-    pub status: i32,
-}
-
-#[derive(Debug, Clone, PartialEq, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct AnimesPage {
-    pub animes: Vec<Anime>,
-    pub has_next_page: bool,
-}
-
-#[derive(Debug, Clone, PartialEq, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct Episode {
-    pub url: String,
-    pub name: String,
-    pub episode_number: f32,
-    pub scanlator: String,
-}
-
-/// One player of an episode: its embed page, read later by the `videos` op.
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct Hoster {
-    pub hoster_url: String,
-    pub hoster_name: String,
-}
-
-#[derive(Debug, Clone, PartialEq, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct Video {
-    pub video_url: String,
-    pub video_title: String,
-    pub resolution: Option<i32>,
-    pub headers: Vec<(String, String)>,
-    pub preferred: bool,
-}
 
 // ================================ Urls =================================
 
@@ -105,36 +54,26 @@ pub fn video_headers() -> Vec<(String, String)> {
 
 // =============================== Parsers ===============================
 
-fn selector(css: &str) -> Selector {
-    Selector::parse(css).expect("a valid selector")
-}
-
-fn text_of(element: ElementRef) -> String {
-    element.text().collect::<String>().split_whitespace().collect::<Vec<_>>().join(" ")
-}
-
 fn first_text(root: ElementRef, css: &str) -> Option<String> {
-    root.select(&selector(css)).next().map(text_of).filter(|t| !t.is_empty())
+    root.select(&sel(css)).next().map(text_of).filter(|t| !t.is_empty())
 }
 
 fn first_attr(root: ElementRef, css: &str, attr: &str) -> Option<String> {
-    root.select(&selector(css)).next().and_then(|e| e.value().attr(attr)).map(str::to_owned).filter(|v| !v.is_empty())
+    root.select(&sel(css)).next().and_then(|e| e.value().attr(attr)).map(str::to_owned).filter(|v| !v.is_empty())
 }
 
 /// The popular and latest lists (`.fea` cards). The site lists them on one page, so there is no next page.
 pub fn parse_list(html: &str) -> AnimesPage {
     let doc = Html::parse_document(html);
     let animes = doc
-        .select(&selector(".fea"))
+        .select(&sel(".fea"))
         .filter_map(|card| {
             let href = first_attr(card, ".rightpop a", "href")?;
             Some(Anime {
                 url: path_of(&href),
                 title: first_text(card, ".rightpop a").unwrap_or_default(),
-                description: None,
                 thumbnail_url: first_attr(card, "img", "src").map(|src| absolute(&src)),
-                genre: None,
-                status: 0,
+                ..Default::default()
             })
         })
         .collect();
@@ -145,16 +84,14 @@ pub fn parse_list(html: &str) -> AnimesPage {
 pub fn parse_search(html: &str) -> AnimesPage {
     let doc = Html::parse_document(html);
     let animes = doc
-        .select(&selector(".mse"))
+        .select(&sel(".mse"))
         .filter_map(|link| {
             let href = link.value().attr("href")?;
             Some(Anime {
                 url: path_of(href),
                 title: first_text(link, ".first h2").unwrap_or_default(),
-                description: None,
                 thumbnail_url: first_attr(link, "img", "src").map(|src| absolute(&src)),
-                genre: None,
-                status: 0,
+                ..Default::default()
             })
         })
         .collect();
@@ -177,8 +114,8 @@ fn status_of(span: &str) -> i32 {
 pub fn parse_details(html: &str, url: &str) -> Anime {
     let doc = Html::parse_document(html);
     let root = doc.root_element();
-    let status = root.select(&selector(".infoami span")).map(text_of).find(|span| span.contains("Status")).map_or(0, |span| status_of(&span));
-    let genres: Vec<String> = root.select(&selector(".tagscat a")).map(text_of).filter(|g| !g.is_empty()).collect();
+    let status = root.select(&sel(".infoami span")).map(text_of).find(|span| span.contains("Status")).map_or(0, |span| status_of(&span));
+    let genres: Vec<String> = root.select(&sel(".tagscat a")).map(text_of).filter(|g| !g.is_empty()).collect();
     Anime {
         url: url.to_owned(),
         title: first_text(root, ".media-body h1").unwrap_or_default(),
@@ -186,6 +123,7 @@ pub fn parse_details(html: &str, url: &str) -> Anime {
         thumbnail_url: first_attr(root, ".media .media-object", "src").map(|src| absolute(&src)),
         genre: Some(genres.join(", ")).filter(|g| !g.is_empty()),
         status,
+        ..Default::default()
     }
 }
 
@@ -201,10 +139,11 @@ fn format_number(number: f32) -> String {
 }
 
 /// The episode list, as the page orders it (newest first). An episode is named by its title when the title already says
-/// the number, else "Episode N - Title"; its audio versions (SUBBED, DUBBED, HD...) are the scanlator.
+/// the number, else "Episode N - Title"; its audio versions (SUBBED, DUBBED, HD...) are the scanlator (none when the row
+/// shows none).
 pub fn parse_episodes(html: &str) -> Vec<Episode> {
     let doc = Html::parse_document(html);
-    doc.select(&selector(".newmanga li div"))
+    doc.select(&sel(".newmanga li div"))
         .enumerate()
         .filter_map(|(index, row)| {
             let href = first_attr(row, ".anm_det_pop", "href")?;
@@ -212,8 +151,8 @@ pub fn parse_episodes(html: &str) -> Vec<Episode> {
             let title = first_text(row, ".anititle").unwrap_or_default();
             let shown = format_number(number);
             let name = if title.contains(&shown) { title } else { format!("Episode {shown} - {title}") };
-            let scanlator = row.select(&selector(".btn-xs")).map(text_of).filter(|t| !t.is_empty()).collect::<Vec<_>>().join(", ");
-            Some(Episode { url: path_of(&href), name, episode_number: number, scanlator })
+            let scanlator = row.select(&sel(".btn-xs")).map(text_of).filter(|t| !t.is_empty()).collect::<Vec<_>>().join(", ");
+            Some(Episode { url: path_of(&href), name, episode_number: number, scanlator: Some(scanlator).filter(|s| !s.is_empty()), ..Default::default() })
         })
         .collect()
 }
@@ -232,11 +171,11 @@ fn mode_of(tab_id: &str) -> &'static str {
 pub fn parse_hosters(html: &str) -> Vec<Hoster> {
     let doc = Html::parse_document(html);
     let mut hosters: Vec<Hoster> = doc
-        .select(&selector(".tab-pane"))
+        .select(&sel(".tab-pane"))
         .filter_map(|tab| {
             let src = first_attr(tab, "iframe", "src")?;
             let mode = mode_of(tab.value().attr("id").unwrap_or(""));
-            Some(Hoster { hoster_url: absolute(&src), hoster_name: format!("{mode} AnimeGG").trim().to_owned() })
+            Some(Hoster { hoster_url: absolute(&src), hoster_name: format!("{mode} AnimeGG").trim().to_owned(), ..Default::default() })
         })
         .collect();
     hosters.sort_by_key(|hoster| !hoster.hoster_name.starts_with("[SUBBED]"));
@@ -271,7 +210,7 @@ pub fn parse_embed(html: &str, embed_url: &str, hoster_name: &str, preferred: bo
                 video_title: format!("{mode} AnimeGG:{label}").trim().to_owned(),
                 resolution: label.trim_end_matches('p').parse().ok(),
                 headers: vec![("Referer".to_owned(), origin.to_owned())],
-                preferred: false,
+                ..Default::default()
             })
         })
         .collect();
@@ -321,7 +260,8 @@ mod tests {
         let newest = &episodes[0];
         assert_eq!((newest.url.as_str(), newest.episode_number), ("/naruto-episode-220", 220.0));
         assert_eq!(newest.name, "Episode 220 - Going on a Journey");
-        assert!(newest.scanlator.contains("SUBBED") && newest.scanlator.contains("DUBBED"));
+        let scanlator = newest.scanlator.as_deref().unwrap();
+        assert!(scanlator.contains("SUBBED") && scanlator.contains("DUBBED"));
     }
 
     #[test]
@@ -336,7 +276,7 @@ mod tests {
     fn hosters_are_the_tabs_subbed_first() {
         let hosters = parse_hosters(EPISODE);
         assert_eq!(hosters.len(), 2);
-        assert_eq!(hosters[0], Hoster { hoster_url: "https://www.animegg.org/embed/25881".into(), hoster_name: "[SUBBED] AnimeGG".into() });
+        assert_eq!(hosters[0], Hoster { hoster_url: "https://www.animegg.org/embed/25881".into(), hoster_name: "[SUBBED] AnimeGG".into(), ..Default::default() });
         assert_eq!(hosters[1].hoster_name, "[DUBBED] AnimeGG");
     }
 

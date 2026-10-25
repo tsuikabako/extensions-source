@@ -2,50 +2,14 @@
 //! keiyoushi `en/mangakakalot` extension and its MangaBox base (Apache-2.0). Without the genre, status and sort filters, the
 //! alternative CDNs and the option that merges strip images.
 
-use scraper::node::Node;
-use scraper::{ElementRef, Html, Selector};
-use serde::{Deserialize, Serialize};
+use kuro_guest::Res;
+use kuro_guest::html::{ElementRef, Html, sel, text_of};
+use kuro_guest::wire::{Chapter, Manga, MangasPage};
+use serde::Deserialize;
 use url::Url;
-
-pub type Res<T> = Result<T, String>;
 
 pub const BASE: &str = "https://www.kakamanga.com";
 pub const HOST: &str = "www.kakamanga.com";
-
-// ============================ Output (wire) ============================
-
-#[derive(Debug, Clone, PartialEq, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct Manga {
-    pub url: String,
-    pub title: String,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub author: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub description: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub genre: Option<String>,
-    /// SManga status: 0 unknown, 1 ongoing, 2 completed.
-    pub status: i32,
-    pub thumbnail_url: Option<String>,
-}
-
-#[derive(Debug, Clone, PartialEq, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct MangasPage {
-    pub mangas: Vec<Manga>,
-    pub has_next_page: bool,
-}
-
-#[derive(Debug, Clone, PartialEq, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct Chapter {
-    pub url: String,
-    pub name: String,
-    pub date_upload: i64,
-    pub chapter_number: f32,
-    pub scanlator: String,
-}
 
 // ================================ URLs =================================
 
@@ -102,14 +66,6 @@ fn slug_of(manga_url: &str) -> Res<&str> {
 
 // =============================== Parsers ===============================
 
-fn sel(css: &str) -> Selector {
-    Selector::parse(css).expect("a valid selector")
-}
-
-fn text_of(element: ElementRef) -> String {
-    element.text().collect::<String>().split_whitespace().collect::<Vec<_>>().join(" ")
-}
-
 /// The path of an address on the site (`/manga/naruto`).
 fn path_of(href: &str) -> String {
     Url::parse(BASE).and_then(|base| base.join(href)).map(|u| u.path().to_owned()).unwrap_or_else(|_| href.to_owned())
@@ -128,15 +84,14 @@ fn card(element: ElementRef) -> Option<Manga> {
     }
     let image = element.select(&sel("img")).next();
     let cover = image.and_then(|i| i.value().attr("data-src").or(i.value().attr("src"))).map(absolute);
-    Some(Manga { url: path_of(link.value().attr("href")?), title, author: None, description: None, genre: None, status: 0, thumbnail_url: cover })
+    Some(Manga { url: path_of(link.value().attr("href")?), title, thumbnail_url: cover, ..Default::default() })
 }
 
 /// Whether a pager has a page after the selected one: the link after `a.page_select` (or `page-select`) that is not "Last".
 fn has_next(doc: &Html) -> bool {
     doc.select(&sel("a.page_select, a.page-select")).any(|selected| {
         selected.next_siblings().filter_map(ElementRef::wrap).find(|e| e.value().name() == "a").is_some_and(|next| {
-            let classes = next.value();
-            !(classes.has_class("page_last", scraper::CaseSensitivity::CaseSensitive) || classes.has_class("page-last", scraper::CaseSensitivity::CaseSensitive))
+            !next.value().classes().any(|class| class == "page_last" || class == "page-last")
         })
     })
 }
@@ -172,7 +127,7 @@ pub fn parse_details(html: &str) -> Res<Manga> {
     let mut description = doc
         .select(&sel("#contentBox"))
         .next()
-        .map(|b| b.children().filter_map(|c| if let Node::Text(t) = c.value() { Some(t.text.trim()) } else { None }).collect::<Vec<_>>().join(" ").trim().to_owned())
+        .map(|b| b.children().filter_map(|c| c.value().as_text().map(|t| t.trim())).collect::<Vec<_>>().join(" ").trim().to_owned())
         .unwrap_or_default();
     if let Some(alternative) = doc.select(&sel(".story-alternative")).next().map(text_of) {
         let alternative = alternative.trim_start_matches("Alternative").trim_start_matches([' ', ':']).trim().to_owned();
@@ -181,13 +136,13 @@ pub fn parse_details(html: &str) -> Res<Manga> {
         }
     }
     Ok(Manga {
-        url: String::new(),
         title,
         author: after_label(&doc, "Author(s)").filter(|a| a != "Unknown"),
         description: Some(description).filter(|d| !d.is_empty()),
         genre: Some(genres.join(", ")).filter(|g| !g.is_empty()),
         status,
         thumbnail_url: doc.select(&sel("div.manga-info-pic img, span.info-image img")).next().and_then(|i| i.value().attr("src")).map(absolute),
+        ..Default::default()
     })
 }
 
@@ -231,7 +186,7 @@ pub fn parse_chapters(body: &str, manga_url: &str) -> Res<Vec<Chapter>> {
                 name: c.chapter_name.unwrap_or_else(|| "Chapter".to_owned()),
                 date_upload: c.updated_at.as_deref().map_or(0, millis),
                 chapter_number: c.chapter_num.unwrap_or(0.0),
-                scanlator: "mangakakalot.gg".to_owned(),
+                scanlator: Some("mangakakalot.gg".to_owned()),
             })
         })
         .collect())

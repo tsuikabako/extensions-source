@@ -1,24 +1,16 @@
 [package]
 name = "kuro-harmonyscan"
 version = "0.1.0"
-edition = "2024"
-publish = false
-
-# A standalone crate: not part of any workspace, so it builds on its own.
-[workspace]
+edition.workspace = true
+publish.workspace = true
 
 [lib]
 crate-type = ["cdylib"]
 
 [dependencies]
-kuro-madara = { path = "../../lib/madara" }
-wit-bindgen = "0.57.1"
+kuro-guest = { workspace = true }
+kuro-madara = { workspace = true }
+wit-bindgen = { workspace = true }
 
 [dev-dependencies]
-serde_json = "1.0.151"
-
-[profile.release]
-opt-level = "s"
-lto = true
-codegen-units = 1
-strip = true
+serde_json = { workspace = true }

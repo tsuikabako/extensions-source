@@ -2,7 +2,7 @@
 
 TopManhua.fan (<https://www.topmanhua.fan>) as a manga source plug-in for Kurobayomi (ABI 1.5, `wit/kuro-source.wit`,
 manga ops). A Madara site: the ops, URLs and parsers are the shared [`lib/madara`](../../lib/madara) crate, and
-`src/lib.rs` holds only the site and the ABI glue.
+`src/lib.rs` holds only the site.
 
 ## Licence and origin
 

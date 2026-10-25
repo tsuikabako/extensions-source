@@ -1,45 +1,12 @@
 //! The MangaPill site (<https://mangapill.com>) as pure functions: URLs and one parser per page. Ported from the keiyoushi
 //! `en/mangapill` extension (Apache-2.0). Without the filters (genre, status, type).
 
-use scraper::{ElementRef, Html, Selector};
-use serde::Serialize;
+use kuro_guest::Res;
+use kuro_guest::html::{ElementRef, Html, sel, text_of};
+use kuro_guest::wire::{Chapter, Manga, MangasPage};
 use url::Url;
 
-pub type Res<T> = Result<T, String>;
-
 pub const BASE: &str = "https://mangapill.com";
-
-// ============================ Output (wire) ============================
-
-#[derive(Debug, Clone, PartialEq, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct Manga {
-    pub url: String,
-    pub title: String,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub description: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub genre: Option<String>,
-    /// SManga status: 0 unknown, 1 ongoing, 2 completed, 5 cancelled, 6 on hiatus.
-    pub status: i32,
-    pub thumbnail_url: Option<String>,
-}
-
-#[derive(Debug, Clone, PartialEq, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct MangasPage {
-    pub mangas: Vec<Manga>,
-    pub has_next_page: bool,
-}
-
-#[derive(Debug, Clone, PartialEq, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct Chapter {
-    pub url: String,
-    pub name: String,
-    pub date_upload: i64,
-    pub chapter_number: f32,
-}
 
 // ================================ URLs =================================
 
@@ -67,14 +34,6 @@ pub fn page(path: &str) -> Res<String> {
 
 // =============================== Parsers ===============================
 
-fn sel(css: &str) -> Selector {
-    Selector::parse(css).expect("a valid selector")
-}
-
-fn text_of(element: ElementRef) -> String {
-    element.text().collect::<String>().split_whitespace().collect::<Vec<_>>().join(" ")
-}
-
 /// The path of an address on the site (`/manga/2/one-piece`).
 fn path_of(href: &str) -> String {
     Url::parse(BASE).and_then(|base| base.join(href)).map(|u| u.path().to_owned()).unwrap_or_else(|_| href.to_owned())
@@ -87,10 +46,8 @@ fn card(element: ElementRef) -> Option<Manga> {
     Some(Manga {
         url: path_of(link.value().attr("href")?),
         title,
-        description: None,
-        genre: None,
-        status: 0,
         thumbnail_url: element.select(&sel("img")).next().and_then(|i| i.value().attr("data-src")).map(str::to_owned),
+        ..Default::default()
     })
 }
 
@@ -152,6 +109,7 @@ pub fn parse_details(html: &str) -> Res<Manga> {
         genre: Some(genres.join(", ")).filter(|g| !g.is_empty()),
         status: status_of(&labelled(&doc, "Status").unwrap_or_default()),
         thumbnail_url: doc.select(&sel("img[data-src]")).next().and_then(|i| i.value().attr("data-src")).map(str::to_owned),
+        ..Default::default()
     })
 }
 
@@ -161,7 +119,7 @@ pub fn parse_chapters(html: &str) -> Vec<Chapter> {
     doc.select(&sel("#chapters a[href^='/chapters/']"))
         .map(|a| {
             let name = text_of(a);
-            Chapter { url: path_of(a.value().attr("href").unwrap_or_default()), chapter_number: number_in(&name), name, date_upload: 0 }
+            Chapter { url: path_of(a.value().attr("href").unwrap_or_default()), chapter_number: number_in(&name), name, ..Default::default() }
         })
         .collect()
 }

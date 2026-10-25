@@ -1,0 +1,28 @@
+# One workspace for every source and the code they share. Each source still builds to its own file:
+# `cargo build -p kuro-<id> --release --target wasm32-unknown-unknown` (tools/build.sh does this for all of them).
+[workspace]
+resolver = "3"
+members = ["lib/*", "sources/*", "template/example"]
+
+[workspace.package]
+edition = "2024"
+publish = false
+
+[workspace.dependencies]
+kuro-guest = { path = "lib/guest" }
+kuro-madara = { path = "lib/madara" }
+base64 = "0.22"
+chrono = { version = "0.4.45", default-features = false, features = ["std"] }
+regex-lite = "0.1"
+scraper = "0.27.0"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1.0.151"
+url = "2.5.8"
+wit-bindgen = "0.57.1"
+
+# Plug-ins must stay under 1 MiB: the smallest code, one unit, no symbols.
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
+strip = true

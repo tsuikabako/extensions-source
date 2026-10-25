@@ -2,12 +2,12 @@
 //! `KickAssAnime.kt`, `KickAssAnimeFilters.kt` and `dto/KickAssAnimeDto.kt` (Apache-2.0, yuzono). The English-title
 //! setting is fixed at its Kotlin default (off).
 
+use kuro_guest::Res;
+use kuro_guest::wire::{Anime, AnimesPage, Episode};
+use serde::Deserialize;
 use serde::de::DeserializeOwned;
-use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use url::Url;
-
-pub type Res<T> = Result<T, String>;
 
 pub const BASE_URL: &str = "https://kaa.lt";
 pub const API_URL: &str = "https://kaa.lt/api/show";
@@ -22,69 +22,6 @@ const LOCALES: [(&str, &str); 5] = [
     ("ko-KR", "Korean"),
     ("zh-CN", "Chinese (Simplified)"),
 ];
-
-// ============================ Output (wire) ============================
-
-/// An anime as the app reads it. `description` is set only by a details read.
-#[derive(Debug, Clone, PartialEq, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct Anime {
-    pub url: String,
-    pub title: String,
-    pub description: Option<String>,
-    pub thumbnail_url: Option<String>,
-    /// Genres joined with ", " (Kotlin `genre`). Set by a details read only.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub genre: Option<String>,
-    /// SAnime status: 0 unknown, 1 ongoing, 2 completed. Set by a details read only.
-    #[serde(skip_serializing_if = "is_zero")]
-    pub status: i32,
-    /// The studio. The show endpoint has none, so it stays empty.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub author: Option<String>,
-}
-
-fn is_zero(n: &i32) -> bool {
-    *n == 0
-}
-
-#[derive(Debug, Clone, PartialEq, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct AnimesPage {
-    pub animes: Vec<Anime>,
-    pub has_next_page: bool,
-}
-
-#[derive(Debug, Clone, PartialEq, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct Episode {
-    pub url: String,
-    pub name: String,
-    pub episode_number: f32,
-    pub scanlator: Option<String>,
-    /// Epoch milliseconds of the episode's `created_at`; 0 when the API gives none (never "now").
-    pub date_upload: i64,
-}
-
-/// A server of an episode. Its videos are read later, with the `videos` op, so `videoList` is absent.
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct Hoster {
-    pub hoster_url: String,
-    pub hoster_name: String,
-}
-
-// ============================ Input (args) =============================
-
-#[derive(Deserialize)]
-pub struct AnimeRef {
-    pub url: String,
-}
-
-#[derive(Deserialize)]
-pub struct EpisodeRef {
-    pub url: String,
-}
 
 // ================================ DTOs =================================
 
@@ -187,11 +124,8 @@ fn anime(item: Item) -> Res<Anime> {
     Ok(Anime {
         url: format!("/{}", item.slug),
         title: item.title,
-        description: None,
         thumbnail_url: Some(poster_url(&item.poster.hq)),
-        genre: None,
-        status: 0,
-        author: None,
+        ..Default::default()
     })
 }
 
@@ -423,7 +357,7 @@ pub fn parse_details(body: &str, languages: &[String]) -> Res<Anime> {
         thumbnail_url: Some(poster_url(&info.poster.hq)),
         genre: Some(info.genres.join(", ")).filter(|g| !g.is_empty()),
         status: parse_status(info.status.as_deref()),
-        author: None,
+        ..Default::default()
     })
 }
 
@@ -496,6 +430,7 @@ impl EpisodePage {
                 episode_number: ep.episode_string.parse().unwrap_or(-1.0),
                 scanlator: Some(locale_name(lang)),
                 date_upload: ep.created_at.as_deref().map(iso_millis).unwrap_or(0),
+                ..Default::default()
             })
             .collect()
     }

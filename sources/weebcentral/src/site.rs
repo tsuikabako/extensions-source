@@ -2,11 +2,12 @@
 //! the pages. Port of `rust-sources/weebcentral/src/lib.rs`, which ports the keiyoushi `en/weebcentral` extension
 //! (Apache-2.0). The parsers are tested over pages saved from the site on 2026-10-10 (`fixtures/`).
 
-use scraper::{ElementRef, Html, Selector};
+use kuro_guest::html::{ElementRef, Html, first, sel};
+use kuro_guest::wire::Chapter;
 use serde_json::Value;
 use url::Url;
 
-use crate::{WireChapter, WireManga, WireMangasPage};
+use crate::{WireManga, WireMangasPage};
 
 pub const BASE_URL: &str = "https://weebcentral.com";
 /// The site always returns 32 entries; the `limit` parameter is ignored.
@@ -146,11 +147,6 @@ fn resolve(base: &Url, href: &str) -> Option<Url> {
     base.join(href.trim()).ok()
 }
 
-fn sel(css: &str) -> Selector {
-    // The selectors are constants of this file, and the fixture tests parse every one of them.
-    Selector::parse(css).unwrap_or_else(|e| panic!("selector {css:?}: {e:?}"))
-}
-
 /// Jsoup `text()`: the text of an element with every whitespace run (NBSP included) collapsed to one space.
 fn text(element: ElementRef<'_>) -> String {
     element
@@ -160,10 +156,6 @@ fn text(element: ElementRef<'_>) -> String {
         .filter(|part| !part.is_empty())
         .collect::<Vec<_>>()
         .join(" ")
-}
-
-fn first<'a>(scope: ElementRef<'a>, css: &str) -> Option<ElementRef<'a>> {
-    scope.select(&sel(css)).next()
 }
 
 /// The element children of `element` with tag `tag` (the CSS `> tag` step).
@@ -326,7 +318,7 @@ fn has_season(name: &str) -> bool {
 }
 
 /// The full chapter list fragment, newest first. `base` is the address the fragment was read from.
-pub fn parse_chapters(html: &str, base: &Url) -> Result<Vec<WireChapter>, String> {
+pub fn parse_chapters(html: &str, base: &Url) -> Result<Vec<Chapter>, String> {
     let document = Html::parse_document(html);
     let entries = sel("div[x-data] > a");
     let links: Vec<ElementRef> = document.root_element().select(&entries).collect();
@@ -335,7 +327,7 @@ pub fn parse_chapters(html: &str, base: &Url) -> Result<Vec<WireChapter>, String
     links
         .into_iter()
         .enumerate()
-        .map(|(index, link)| -> Result<WireChapter, String> {
+        .map(|(index, link)| -> Result<Chapter, String> {
             let name = first(link, "span.flex > span").map(text).ok_or("a chapter has no name")?;
             let href = attr(link, "href").and_then(|h| resolve(base, &h)).ok_or("a chapter has no link")?;
             let date_upload = first(link, "time[datetime]")
@@ -348,7 +340,7 @@ pub fn parse_chapters(html: &str, base: &Url) -> Result<Vec<WireChapter>, String
             let chapter_number = if has_season(&name) { (total - index) as f32 } else { -1.0 };
             // no group is named on the page: send none rather than a placeholder the app would have to hide
             let scanlator = official.then_some("Official");
-            Ok(WireChapter {
+            Ok(Chapter {
                 url: path_of(&href),
                 name,
                 date_upload,

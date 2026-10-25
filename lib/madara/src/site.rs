@@ -1,52 +1,15 @@
 //! The Madara pages as pure functions: URLs, form bodies and one parser per page. Ported from the keiyoushi
 //! `lib-multisrc/madara` theme (Apache-2.0).
 
-use scraper::{ElementRef, Html, Selector};
-use serde::Serialize;
+use kuro_guest::Res;
+use kuro_guest::html::{ElementRef, Html, own_text, sel, text_of};
+use kuro_guest::wire::{Chapter, Manga, MangasPage};
 use url::Url;
 
 use crate::Site;
 
-pub type Res<T> = Result<T, String>;
-
 /// The theme's page size for the ajax lists: a full page means there may be more.
 const PAGE_SIZE: usize = 25;
-
-// ============================ Output (wire) ============================
-
-#[derive(Debug, Clone, PartialEq, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct Manga {
-    pub url: String,
-    pub title: String,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub author: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub artist: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub description: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub genre: Option<String>,
-    /// SManga status: 0 unknown, 1 ongoing, 2 completed, 5 cancelled, 6 on hiatus.
-    pub status: i32,
-    pub thumbnail_url: Option<String>,
-}
-
-#[derive(Debug, Clone, PartialEq, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct MangasPage {
-    pub mangas: Vec<Manga>,
-    pub has_next_page: bool,
-}
-
-#[derive(Debug, Clone, PartialEq, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct Chapter {
-    pub url: String,
-    pub name: String,
-    pub date_upload: i64,
-    pub chapter_number: f32,
-}
 
 // ================================ URLs =================================
 
@@ -139,20 +102,6 @@ pub fn list_style_url(chapter_url: &str) -> String {
 }
 
 // =============================== Parsers ===============================
-
-fn sel(css: &str) -> Selector {
-    Selector::parse(css).expect("a valid selector")
-}
-
-fn text_of(element: ElementRef) -> String {
-    element.text().collect::<String>().split_whitespace().collect::<Vec<_>>().join(" ")
-}
-
-/// The text directly inside an element, without its children's (Jsoup's `ownText`).
-fn own_text(element: ElementRef) -> String {
-    let text: String = element.children().filter_map(|n| n.value().as_text().map(|t| t.to_string())).collect();
-    text.split_whitespace().collect::<Vec<_>>().join(" ")
-}
 
 /// "Updating" stands in for an unknown author or genre on many sites.
 fn is_updating(text: &str) -> bool {
@@ -305,7 +254,7 @@ pub fn parse_chapters(site: &Site, html: &str, now: u64) -> Vec<Chapter> {
             // first that reads as a date wins here
             let release = item.select(&sel("span.chapter-release-date")).next().map(text_of);
             let date_upload = [attr("img:not(.thumb)", "alt"), attr("span a", "title"), release].into_iter().flatten().map(|d| parse_date(&d, now)).find(|&ms| ms != 0).unwrap_or(0);
-            Some(Chapter { url: path_of(site, href), name: text_of(link), date_upload, chapter_number: -1.0 })
+            Some(Chapter { url: path_of(site, href), name: text_of(link), date_upload, ..Default::default() })
         })
         .collect()
 }

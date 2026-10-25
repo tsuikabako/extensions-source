@@ -1,22 +1,17 @@
 //! Senkuro's GraphQL API (`https://api.senkuro.com/graphql`): the queries, the request bodies and the parsers. No
 //! network here; `lib.rs` sends the requests through the host.
 
-use serde::{Deserialize, Serialize, de::DeserializeOwned};
+use kuro_guest::Res;
+use kuro_guest::wire::status::{CANCELLED, COMPLETED, ON_HIATUS, ONGOING};
+use kuro_guest::wire::{Chapter, Manga, MangasPage};
+use serde::{Deserialize, de::DeserializeOwned};
 use serde_json::{Value, json};
-
-pub type Res<T> = Result<T, String>;
 
 /// The site's two addresses, as the Kotlin offers them: the public one first, then the one for Russia (where the public
 /// one may be blocked). The public one is geo-blocked from Russia's side and the Russian one from outside it.
 pub const MIRRORS: [&str; 2] = ["https://senkuro.com", "https://senkuro.me"];
 /// Titles a page of the list or search; the API's fixed page size.
 const PAGE_SIZE: usize = 10;
-
-// `SManga` status codes.
-const ONGOING: i32 = 1;
-const COMPLETED: i32 = 2;
-const CANCELLED: i32 = 5;
-const ON_HIATUS: i32 = 6;
 
 /// The GraphQL endpoint of a mirror: `https://senkuro.com` → `https://api.senkuro.com/graphql`.
 pub fn api_url(base: &str) -> String {
@@ -39,40 +34,6 @@ mangaTachiyomiChapterPages(mangaId: $mangaId, chapterId: $chapterId) { pages { u
 
 fn body(operation: &str, query: &str, variables: Value) -> String {
     json!({ "operationName": operation, "query": query, "variables": variables }).to_string()
-}
-
-#[derive(Serialize, Debug, PartialEq)]
-#[serde(rename_all = "camelCase")]
-pub struct Manga {
-    pub url: String,
-    pub title: String,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub artist: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub author: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub description: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub genre: Option<String>,
-    pub status: i32,
-    pub thumbnail_url: Option<String>,
-}
-
-#[derive(Serialize, Debug, PartialEq)]
-#[serde(rename_all = "camelCase")]
-pub struct MangasPage {
-    pub mangas: Vec<Manga>,
-    pub has_next_page: bool,
-}
-
-#[derive(Serialize, Debug, PartialEq)]
-#[serde(rename_all = "camelCase")]
-pub struct Chapter {
-    pub url: String,
-    pub name: String,
-    pub date_upload: i64,
-    pub chapter_number: f32,
-    pub scanlator: Option<String>,
 }
 
 /// A GraphQL answer: `data`, or the first of `errors` when there is no data.
@@ -182,12 +143,8 @@ pub fn parse_search(body: &str) -> Res<MangasPage> {
         .map(|m| Manga {
             url: manga_url(&m.id, &m.slug),
             title: title_of(&m.titles),
-            artist: None,
-            author: None,
-            description: None,
-            genre: None,
-            status: 0,
             thumbnail_url: cover_url(m.cover),
+            ..Default::default()
         })
         .collect();
     Ok(MangasPage { has_next_page: mangas.len() >= PAGE_SIZE, mangas })

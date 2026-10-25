@@ -2,51 +2,14 @@
 //! GroupLe multisrc (`lib-multisrc/grouple`, Apache-2.0), which `ru/usagi` uses unchanged. Without the filters, the
 //! sign-in and the user hash.
 
-use scraper::{ElementRef, Html, Selector};
-use serde::{Deserialize, Serialize};
+use kuro_guest::Res;
+use kuro_guest::html::{ElementRef, Html, own_text, sel, text_of};
+use kuro_guest::wire::{Chapter, Manga, MangasPage};
+use serde::Deserialize;
 use url::Url;
-
-pub type Res<T> = Result<T, String>;
 
 pub const BASE: &str = "https://web.usagi.one";
 const HOST: &str = "web.usagi.one";
-
-// ============================ Output (wire) ============================
-
-#[derive(Debug, Clone, PartialEq, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct Manga {
-    pub url: String,
-    pub title: String,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub artist: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub author: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub description: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub genre: Option<String>,
-    /// SManga status: 0 unknown, 1 ongoing, 2 completed, 4 publishing finished, 6 on hiatus.
-    pub status: i32,
-    pub thumbnail_url: Option<String>,
-}
-
-#[derive(Debug, Clone, PartialEq, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct MangasPage {
-    pub mangas: Vec<Manga>,
-    pub has_next_page: bool,
-}
-
-#[derive(Debug, Clone, PartialEq, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct Chapter {
-    pub url: String,
-    pub name: String,
-    pub date_upload: i64,
-    pub chapter_number: f32,
-    pub scanlator: String,
-}
 
 // ================================ URLs =================================
 
@@ -110,26 +73,14 @@ pub fn parse_catalog(body: &str) -> Res<MangasPage> {
             .map(|item| Manga {
                 url: format!("/{}", item.element_id.link_name),
                 title: item.name,
-                artist: None,
-                author: None,
-                description: None,
-                genre: None,
-                status: 0,
                 thumbnail_url: item.pic_url,
+                ..Default::default()
             })
             .collect(),
     })
 }
 
 // =============================== Parsers ===============================
-
-fn sel(css: &str) -> Selector {
-    Selector::parse(css).expect("a valid selector")
-}
-
-fn text_of(element: ElementRef) -> String {
-    element.text().collect::<String>().split_whitespace().collect::<Vec<_>>().join(" ")
-}
 
 fn first_text(scope: ElementRef, css: &str) -> Option<String> {
     scope.select(&sel(css)).next().map(text_of)
@@ -250,7 +201,6 @@ pub fn parse_details(html: &str) -> Res<Manga> {
     });
 
     Ok(Manga {
-        url: String::new(),
         title,
         artist: joined(artists),
         author: joined(authors),
@@ -258,6 +208,7 @@ pub fn parse_details(html: &str) -> Res<Manga> {
         genre,
         status: status_of(release.as_deref().unwrap_or(""), translation.as_deref().unwrap_or("")),
         thumbnail_url,
+        ..Default::default()
     })
 }
 
@@ -353,15 +304,13 @@ pub fn parse_chapters(html: &str) -> Res<Vec<Chapter>> {
         };
         let Some(href) = link.value().attr("href") else { continue };
         let number = info.value().attr("data-num").and_then(|n| n.parse::<f32>().ok()).map_or(-1.0, |n| n / 10.0);
-        let own_text: String = link.children().filter_map(|c| c.value().as_text().map(|t| t.to_string())).collect();
-        let own_text = own_text.split_whitespace().collect::<Vec<_>>().join(" ");
         let path = Url::parse(BASE).and_then(|b| b.join(href)).map(|u| u.path().to_owned()).unwrap_or_else(|_| href.to_owned());
         chapters.push(Chapter {
             url: format!("{path}?mtr=true"),
-            name: chapter_name(&own_text, &title, number),
+            name: chapter_name(&own_text(link), &title, number),
             date_upload: row.select(&sel("td.d-none")).last().map_or(0, |d| date_of(&text_of(d))),
             chapter_number: number,
-            scanlator: scanlator_of(link.value().attr("title").unwrap_or("")),
+            scanlator: Some(scanlator_of(link.value().attr("title").unwrap_or(""))),
         });
     }
     Ok(chapters)

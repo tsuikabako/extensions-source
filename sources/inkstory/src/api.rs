@@ -1,54 +1,16 @@
 //! InkStory's API (`https://api.inuko.me/v2`): the addresses, the parsers and the page image key. No network here;
 //! `lib.rs` sends the requests through the host.
 
-use serde::{Deserialize, Serialize};
-
-pub type Res<T> = Result<T, String>;
+use kuro_guest::Res;
+use kuro_guest::wire::status::{COMPLETED, ON_HIATUS, ONGOING};
+use kuro_guest::wire::{Chapter, Manga, MangasPage};
+use serde::Deserialize;
 
 pub const API: &str = "https://api.inuko.me/v2";
 /// The `serviceName` the shared API knows this site by (the Kotlin's `serviceName`).
 pub const SERVICE: &str = "inkstory";
 /// Titles a page, as the Kotlin asks for.
 const PAGE_SIZE: u32 = 30;
-
-// `SManga` status codes.
-const ONGOING: i32 = 1;
-const COMPLETED: i32 = 2;
-const ON_HIATUS: i32 = 6;
-
-#[derive(Serialize, Debug, PartialEq)]
-#[serde(rename_all = "camelCase")]
-pub struct Manga {
-    pub url: String,
-    pub title: String,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub artist: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub author: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub description: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub genre: Option<String>,
-    pub status: i32,
-    pub thumbnail_url: Option<String>,
-}
-
-#[derive(Serialize, Debug, PartialEq)]
-#[serde(rename_all = "camelCase")]
-pub struct MangasPage {
-    pub mangas: Vec<Manga>,
-    pub has_next_page: bool,
-}
-
-#[derive(Serialize, Debug, PartialEq)]
-#[serde(rename_all = "camelCase")]
-pub struct Chapter {
-    pub url: String,
-    pub name: String,
-    pub date_upload: i64,
-    pub chapter_number: f32,
-    pub scanlator: String,
-}
 
 fn parse<'a, T: Deserialize<'a>>(body: &'a str, what: &str) -> Res<T> {
     serde_json::from_str(body).map_err(|e| format!("unexpected InkStory {what}: {e}"))
@@ -115,12 +77,8 @@ impl BookDto {
         Manga {
             title: self.name.resolve(&self.slug),
             url: self.slug,
-            artist: None,
-            author: None,
-            description: None,
-            genre: None,
-            status: 0,
             thumbnail_url: self.poster,
+            ..Default::default()
         }
     }
 }
@@ -341,7 +299,7 @@ pub fn parse_chapters(branches: &str, chapters: &str) -> Res<Vec<Chapter>> {
             name: chapter_name(dto),
             date_upload: dto.created_at.as_deref().map_or(0, iso_millis),
             chapter_number: dto.number.map_or(-1.0, |n| n as f32),
-            scanlator: dto.branch_id.as_deref().map(teams).unwrap_or_default(),
+            scanlator: dto.branch_id.as_deref().map(teams).filter(|t| !t.is_empty()),
         })
         .collect())
 }
@@ -506,7 +464,7 @@ mod tests {
         assert_eq!(first.url, "37ec6a2a-392d-4075-8e44-ffe0e9a61e53");
         assert_eq!(first.name, "Том 3 Глава 200 - КОНЕЦ");
         assert_eq!((first.chapter_number, first.date_upload), (200.0, 1_685_546_401_449));
-        assert_eq!(first.scanlator, "Novate");
+        assert_eq!(first.scanlator.as_deref(), Some("Novate"));
         assert_eq!(chapters[3].name, "Том 1 Глава 0.5");
         assert_eq!(chapters[4].name, "Том 1 Глава 0 - Пролог");
     }

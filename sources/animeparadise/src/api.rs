@@ -5,68 +5,13 @@
 //! `/anime/{slug}`, and an episode's stream comes from `/ep/{uid}?origin={id}` as a `streamLink` the stream host turns
 //! into an HLS playlist. The anime and episode urls stay in the Kotlin's form, so library entries carry over.
 
+use kuro_guest::Res;
+use kuro_guest::wire::{Anime, AnimesPage, Episode, Track, Video};
 use serde::{Deserialize, Serialize};
-
-pub type Res<T> = Result<T, String>;
 
 pub const SITE: &str = "https://www.animeparadise.moe";
 pub const API: &str = "https://api.animeparadise.moe";
 const STREAM: &str = "https://stream.animeparadise.moe/m3u8?url=";
-
-// ============================ Output (wire) ============================
-
-#[derive(Debug, Clone, PartialEq, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct Anime {
-    pub url: String,
-    pub title: String,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub description: Option<String>,
-    pub thumbnail_url: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub genre: Option<String>,
-}
-
-#[derive(Debug, Clone, PartialEq, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct AnimesPage {
-    pub animes: Vec<Anime>,
-    pub has_next_page: bool,
-}
-
-#[derive(Debug, Clone, PartialEq, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct Episode {
-    pub url: String,
-    pub name: String,
-    pub episode_number: f32,
-}
-
-#[derive(Debug, Clone, PartialEq, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct Track {
-    pub url: String,
-    pub lang: String,
-}
-
-#[derive(Debug, Clone, PartialEq, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct Video {
-    pub video_url: String,
-    pub video_title: String,
-    pub headers: Vec<(String, String)>,
-    pub preferred: bool,
-    pub subtitle_tracks: Vec<Track>,
-}
-
-/// The one hoster of an episode, with its video already read (`videoList`), so the app asks nothing more.
-#[derive(Debug, Clone, PartialEq, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct Hoster {
-    pub hoster_url: String,
-    pub hoster_name: String,
-    pub video_list: Vec<Video>,
-}
 
 fn parse<'a, T: Deserialize<'a>>(body: &'a str, what: &str) -> Res<T> {
     serde_json::from_str(body).map_err(|e| format!("unexpected AnimeParadise {what}: {e}"))
@@ -190,9 +135,8 @@ pub fn parse_list(body: &str, show_adult: bool) -> Res<AnimesPage> {
         .map(|anime| Anime {
             url: anime_url(&anime.link, &anime.id),
             title: anime.title,
-            description: None,
             thumbnail_url: anime.poster_image.as_ref().and_then(ImageDto::best),
-            genre: None,
+            ..Default::default()
         })
         .collect();
     Ok(AnimesPage { animes, has_next_page: dto.pagination.is_some_and(|p| p.has_next) })
@@ -226,6 +170,7 @@ pub fn parse_details(body: &str) -> Res<Anime> {
         description: data.synopsys.filter(|s| !s.trim().is_empty()),
         thumbnail_url: data.poster_image.as_ref().and_then(ImageDto::best),
         genre: Some(data.genres.join(", ")).filter(|g| !g.is_empty()),
+        ..Default::default()
     })
 }
 
@@ -260,6 +205,7 @@ pub fn parse_episodes(body: &str) -> Res<Vec<Episode>> {
                 url: format!("/watch/{}?origin={}", episode.uid, episode.origin),
                 name,
                 episode_number: number.and_then(|n| n.parse().ok()).unwrap_or(1.0),
+                ..Default::default()
             }
         })
         .collect();
@@ -307,6 +253,7 @@ pub fn parse_video(body: &str) -> Res<Video> {
         headers: media_headers(),
         preferred: true,
         subtitle_tracks: episode.sub_data.into_iter().map(|sub| Track { url: format!("{API}/stream/file/{}", sub.src), lang: sub.label }).collect(),
+        ..Default::default()
     })
 }
 

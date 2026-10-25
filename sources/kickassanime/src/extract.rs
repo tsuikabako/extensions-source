@@ -8,35 +8,14 @@
 
 use std::cmp::Reverse;
 
-use scraper::{Html, Selector};
-use serde::{Deserialize, Serialize};
+use kuro_guest::html::{ElementRef, Html, Selector};
+use kuro_guest::wire::{Track, Video};
 use serde_json::Value;
 use url::Url;
 
 /// The user agent the Kotlin extractor sends with every stream request.
 pub const VIDEO_USER_AGENT: &str =
     "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Mobile Safari/537.36";
-
-/// A subtitle or audio track: where it is and its label.
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct Track {
-    pub url: String,
-    #[serde(default)]
-    pub lang: String,
-}
-
-/// One playable video, as the app reads it. `headers` are sent with the playlist, the segments and the subtitles.
-#[derive(Debug, Clone, PartialEq, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct Video {
-    pub video_url: String,
-    pub video_title: String,
-    pub resolution: Option<i32>,
-    pub bitrate: Option<i32>,
-    pub headers: Vec<(String, String)>,
-    pub subtitle_tracks: Vec<Track>,
-    pub audio_tracks: Vec<Track>,
-}
 
 /// What the current player page gives: the manifest address and the subtitle tracks.
 #[derive(Debug, Clone, PartialEq)]
@@ -310,11 +289,10 @@ fn video(url: String, title: String, headers: &[(String, String)], subtitles: Ve
     Video {
         video_url: url,
         video_title: title,
-        resolution: None,
-        bitrate: None,
         headers: headers.to_vec(),
         subtitle_tracks: subtitles,
         audio_tracks: audio,
+        ..Default::default()
     }
 }
 
@@ -373,10 +351,10 @@ pub fn dash_videos(
     let base = Url::parse(mpd_url).ok();
     let doc = Html::parse_document(text);
     // The address is the representation's own BaseURL child; one without it (SegmentTemplate only) is skipped.
-    let url_of = |el: scraper::ElementRef| {
+    let url_of = |el: ElementRef| {
         let raw = el
             .children()
-            .filter_map(scraper::ElementRef::wrap)
+            .filter_map(ElementRef::wrap)
             .find(|c| c.value().name() == "baseurl")?
             .text()
             .collect::<String>()
@@ -385,12 +363,12 @@ pub fn dash_videos(
         Some(base.as_ref().and_then(|b| resolve(&raw, b)).unwrap_or(raw)).filter(|u| !u.is_empty())
     };
     // The mime type sits on the Representation or is inherited from its AdaptationSet.
-    let mime = |el: scraper::ElementRef| {
+    let mime = |el: ElementRef| {
         let own = el.value().attr("mimetype");
-        let parent = el.parent().and_then(scraper::ElementRef::wrap).and_then(|p| p.value().attr("mimetype"));
+        let parent = el.parent().and_then(ElementRef::wrap).and_then(|p| p.value().attr("mimetype"));
         own.or(parent).unwrap_or_default().to_lowercase()
     };
-    let bandwidth = |el: &scraper::ElementRef| el.value().attr("bandwidth").and_then(|b| b.parse::<i64>().ok());
+    let bandwidth = |el: &ElementRef| el.value().attr("bandwidth").and_then(|b| b.parse::<i64>().ok());
     let audio: Vec<Track> = doc
         .select(&rep_sel)
         .filter(|el| mime(*el).contains("audio"))

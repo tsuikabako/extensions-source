@@ -9,10 +9,10 @@ Each source is one folder, sources/<id>/, and its kind comes from the file it ho
 
 parked/ is not read. Each entry has id, name, lang, kind, version, file (the raw https link of the dist file), sha256 (of
 the file's bytes) and type ("wasm" or "recipe"), and a description when the source names one (one line, at most
-120 characters, shown under its name in the app). The app fetches a file only when a user first opens its source, and
-checks the bytes against sha256.
+120 characters, shown under its name in the app). The app fetches a source's file when a user turns the source on,
+checks the bytes against sha256, and fetches it again when the sha256 in the index changes.
 
-Usage: python3 tools/make-index.py [--base-url URL] [--out PATH]
+Usage: python3 tools/make-index.py [--base-url URL] [--name NAME] [--website URL] [--out PATH]
 """
 
 import argparse
@@ -66,7 +66,7 @@ def read_meta(folder):
         fail(f"{path}: {error}")
 
 
-def build_index(root, base_url):
+def build_index(root, base_url, name="Tsuikabako", website="https://tsuikabako.github.io"):
     dist = root / "dist"
     sources = root / "sources"
     entries = []
@@ -155,12 +155,14 @@ def build_index(root, base_url):
         fail(f"status.toml: no source folder for {', '.join(unknown)}")
     # `url` is where this index lives: when the repository moves, the copy left at the old address names the new one and
     # the app moves its saved link there
-    return {"version": 1, "name": "Tsuikabako", "website": "https://tsuikabako.github.io", "url": f"{base_url}/index.min.json", "sources": entries}
+    return {"version": 1, "name": name, "website": website, "url": f"{base_url}/index.min.json", "sources": entries}
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     parser.add_argument("--base-url", default=DEFAULT_BASE_URL, help="raw https link of the repository root")
+    parser.add_argument("--name", default="Tsuikabako", help="the repository's name, shown on its card in the app")
+    parser.add_argument("--website", default="https://tsuikabako.github.io", help="the repository's web page")
     parser.add_argument("--check-wasm", type=Path, default=None, help="only check that a built .wasm imports nothing but kuro:source/host")
     parser.add_argument("--out", type=Path, default=None, help="output file (default: index.min.json at the root)")
     args = parser.parse_args()
@@ -169,7 +171,7 @@ def main():
         return
     root = Path(__file__).resolve().parent.parent
     out = args.out or root / "index.min.json"
-    index = build_index(root, args.base_url.rstrip("/"))
+    index = build_index(root, args.base_url.rstrip("/"), args.name, args.website)
     out.write_text(json.dumps(index, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
     plugins = sum(1 for entry in index["sources"] if entry["type"] == "wasm")
     print(f"wrote {out}: {len(index['sources'])} sources ({plugins} plug-ins, {len(index['sources']) - plugins} recipes)")

@@ -2,10 +2,9 @@
 //! keiyoushi `all/mangadex` extension (Apache-2.0). Fixed at the Kotlin defaults for English: safe and suggestive content,
 //! every original language, the full-quality images, the extension-language title first.
 
-use serde::Serialize;
+use kuro_guest::Res;
+use kuro_guest::wire::{Chapter, Manga, MangasPage};
 use serde_json::Value;
-
-pub type Res<T> = Result<T, String>;
 
 pub const API: &str = "https://api.mangadex.org";
 /// Where covers live (`<CDN>/covers/<manga id>/<file>`): loaded by the app.
@@ -15,44 +14,6 @@ pub const MANGA_LIMIT: i32 = 20;
 pub const LATEST_LIMIT: i32 = 100;
 /// The most the chapter feed gives at once.
 pub const FEED_LIMIT: i64 = 500;
-
-// ============================ Output (wire) ============================
-
-#[derive(Debug, Clone, PartialEq, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct Manga {
-    pub url: String,
-    pub title: String,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub artist: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub author: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub description: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub genre: Option<String>,
-    /// SManga status: 0 unknown, 1 ongoing, 2 completed, 5 cancelled, 6 on hiatus.
-    pub status: i32,
-    pub thumbnail_url: Option<String>,
-}
-
-#[derive(Debug, Clone, PartialEq, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct MangasPage {
-    pub mangas: Vec<Manga>,
-    pub has_next_page: bool,
-}
-
-#[derive(Debug, Clone, PartialEq, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct Chapter {
-    pub url: String,
-    pub name: String,
-    /// Epoch milliseconds of `publishAt`.
-    pub date_upload: i64,
-    pub chapter_number: f32,
-    pub scanlator: String,
-}
 
 /// One page of the chapter feed: its chapters and the offset of the next page, when there is one.
 #[derive(Debug, Clone, PartialEq)]
@@ -229,12 +190,8 @@ fn basic(manga: &Value) -> Manga {
     Manga {
         url: format!("/manga/{}", manga["id"].as_str().unwrap_or_default()),
         title: title_of(&manga["attributes"]),
-        artist: None,
-        author: None,
-        description: None,
-        genre: None,
-        status: 0,
         thumbnail_url: cover_of(manga),
+        ..Default::default()
     }
 }
 
@@ -359,7 +316,7 @@ fn chapter_of(chapter: &Value) -> Chapter {
         name: name.join(" "),
         date_upload: millis(a["publishAt"].as_str().unwrap_or_default()),
         chapter_number: a["chapter"].as_str().and_then(|n| n.parse().ok()).unwrap_or(-1.0),
-        scanlator,
+        scanlator: Some(scanlator),
     }
 }
 
@@ -428,7 +385,7 @@ mod tests {
         let first = &page.chapters[0];
         assert!(first.name.contains("Ch.64"), "{}", first.name);
         assert_eq!(first.chapter_number, 64.0);
-        assert!(first.url.starts_with("/chapter/") && first.date_upload > 0 && !first.scanlator.is_empty());
+        assert!(first.url.starts_with("/chapter/") && first.date_upload > 0 && first.scanlator.as_deref().is_some_and(|s| !s.is_empty()));
     }
 
     #[test]
