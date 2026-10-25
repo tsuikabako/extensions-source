@@ -1,7 +1,8 @@
 # Usagi
 
 Usagi (<https://web.usagi.one>), a Russian manga site of the GroupLe network (ReadManga, MintManga), as a manga source
-plug-in for Kurobayomi (ABI 1.5, `wit/kuro-source.wit`, manga ops).
+plug-in for Kurobayomi (ABI 1.5, `wit/kuro-source.wit`, manga ops). The ops, URLs and parsers are the shared
+[`lib/grouple`](../../lib/grouple) crate, which ReadManga and SelfManga use too; `src/lib.rs` holds only the site.
 
 ## Licence and origin
 
@@ -48,9 +49,10 @@ No login is needed for the rest, and nothing was geo-blocked in the checks above
 ## Test
 
 ```
+cd lib/grouple && cargo test
 cd sources/usagi && cargo test
 ```
 
-The fixtures were saved from the live site on 2026-10-23: the first six titles of the popular and latest catalogs, a
-search for "берсерк", the title page of `/33450` and its chapter 41. A second title
+The fixtures (in `lib/grouple/fixtures`) were saved from the live site on 2026-10-23: the first six titles of the
+popular and latest catalogs, a search for "берсерк", the title page of `/33450` and its chapter 41. A second title
 (`/heavenly_demon_cultivation_simulation`: 197 chapters, 18 pages) was checked live the same day with the same parsers.

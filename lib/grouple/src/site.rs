@@ -1,21 +1,18 @@
-//! The Usagi site (<https://web.usagi.one>) as pure functions: URLs and one parser per page. Ported from keiyoushi's
-//! GroupLe multisrc (`lib-multisrc/grouple`, Apache-2.0), which `ru/usagi` uses unchanged. Without the filters, the
-//! sign-in and the user hash.
+//! A GroupLe site as pure functions: URLs and one parser per page. Ported from keiyoushi's GroupLe multisrc
+//! (`lib-multisrc/grouple`, Apache-2.0). Without the filters, the sign-in and the user hash.
 
+use crate::Site;
 use kuro_guest::Res;
 use kuro_guest::html::{ElementRef, Html, own_text, sel, text_of};
 use kuro_guest::wire::{Chapter, Manga, MangasPage};
 use serde::Deserialize;
 use url::Url;
 
-pub const BASE: &str = "https://web.usagi.one";
-const HOST: &str = "web.usagi.one";
-
 // ================================ URLs =================================
 
 /// The catalog API behind popular (`RATING`), latest (`DATE_UPDATE`) and search, 50 titles a page.
-pub fn catalog_url(sort: &str, page: i32, query: &str) -> String {
-    let mut url = Url::parse(&format!("{BASE}/api/catalog/search")).expect("a valid base");
+pub fn catalog_url(site: &Site, sort: &str, page: i32, query: &str) -> String {
+    let mut url = Url::parse(&format!("{}/api/catalog/search", site.base)).expect("a valid base");
     url.query_pairs_mut().append_pair("offset", &(50 * (page.max(1) - 1)).to_string());
     if !query.trim().is_empty() {
         url.query_pairs_mut().append_pair("q", query.trim());
@@ -25,17 +22,18 @@ pub fn catalog_url(sort: &str, page: i32, query: &str) -> String {
 }
 
 /// A page of the site from a stored address (`/33450`, `/33450/vol1/41?mtr=true`), refused when it is another site's.
-pub fn page(path: &str) -> Res<String> {
-    let url = Url::parse(BASE).and_then(|base| base.join(path)).map_err(|e| format!("invalid address {path}: {e}"))?;
-    if url.host_str() != Some(HOST) {
-        return Err(format!("not a Usagi address: {path}"));
+pub fn page(site: &Site, path: &str) -> Res<String> {
+    let url = Url::parse(site.base).and_then(|base| base.join(path)).map_err(|e| format!("invalid address {path}: {e}"))?;
+    if !on_site(site, url.as_str()) {
+        return Err(format!("not a {} address: {path}", site.name));
     }
     Ok(url.to_string())
 }
 
 /// Whether a final address after redirects is still the site (the Kotlin refuses a chapter that lands elsewhere).
-pub fn on_site(url: &str) -> bool {
-    Url::parse(url).is_ok_and(|u| u.host_str() == Some(HOST))
+pub fn on_site(site: &Site, url: &str) -> bool {
+    let host = |u: &str| Url::parse(u).ok().and_then(|u| u.host_str().map(str::to_owned));
+    host(url).is_some_and(|h| Some(h) == host(site.base))
 }
 
 // =============================== Catalog ===============================
@@ -63,8 +61,8 @@ struct ElementId {
     link_name: String,
 }
 
-pub fn parse_catalog(body: &str) -> Res<MangasPage> {
-    let catalog: Catalog = serde_json::from_str(body).map_err(|e| format!("unexpected Usagi catalog: {e}"))?;
+pub fn parse_catalog(site: &Site, body: &str) -> Res<MangasPage> {
+    let catalog: Catalog = serde_json::from_str(body).map_err(|e| format!("unexpected {} catalog: {e}", site.name))?;
     Ok(MangasPage {
         has_next_page: catalog.offset + catalog.limit < catalog.total,
         mangas: catalog
@@ -139,7 +137,7 @@ fn joined(names: Vec<String>) -> Option<String> {
     Some(seen.join(", ")).filter(|s| !s.is_empty())
 }
 
-pub fn parse_details(html: &str) -> Res<Manga> {
+pub fn parse_details(site: &Site, html: &str) -> Res<Manga> {
     let doc = Html::parse_document(html);
     let root = doc.root_element();
     let title = title_of(&doc).ok_or("the manga page has no title")?;
@@ -197,7 +195,7 @@ pub fn parse_details(html: &str) -> Res<Manga> {
     }
 
     let thumbnail_url = doc.select(&sel(".cr-hero-poster__img")).next().or_else(|| doc.select(&sel(".cr-hero-overlay__bg")).next()).and_then(|img| {
-        ["src", "data-src", "data-original", "data-bg"].iter().filter_map(|a| img.value().attr(a)).find(|v| !v.is_empty()).and_then(|v| page_absolute(v))
+        ["src", "data-src", "data-original", "data-bg"].iter().filter_map(|a| img.value().attr(a)).find(|v| !v.is_empty()).and_then(|v| page_absolute(site, v))
     });
 
     Ok(Manga {
@@ -212,8 +210,8 @@ pub fn parse_details(html: &str) -> Res<Manga> {
     })
 }
 
-fn page_absolute(href: &str) -> Option<String> {
-    Url::parse(BASE).and_then(|base| base.join(href)).ok().map(String::from)
+fn page_absolute(site: &Site, href: &str) -> Option<String> {
+    Url::parse(site.base).and_then(|base| base.join(href)).ok().map(String::from)
 }
 
 /// The Kotlin `authGuard`: the page hides its content from guests when the `blockedForAnonymous` view setting is on.
@@ -284,13 +282,13 @@ fn date_of(text: &str) -> i64 {
 }
 
 /// The chapters of a manga page, newest first as the site lists them.
-pub fn parse_chapters(html: &str) -> Res<Vec<Chapter>> {
+pub fn parse_chapters(site: &Site, html: &str) -> Res<Vec<Chapter>> {
     let doc = Html::parse_document(html);
     if doc.select(&sel(".alert.alert-warning")).any(|a| text_of(a).contains("Запрещена публикация произведения по копирайту")) {
         return Err("Лицензировано - Главы удалены по требованию правообладателя.".into());
     }
     if blocked_for_guests(html) {
-        return Err("Для просмотра контента необходима авторизация на сайте; Kurobayomi пока не умеет входить на Usagi.".into());
+        return Err(format!("Для просмотра контента необходима авторизация на сайте; Kurobayomi пока не умеет входить на {}.", site.name));
     }
     let title = title_of(&doc).unwrap_or_default();
     let mut chapters = Vec::new();
@@ -304,7 +302,7 @@ pub fn parse_chapters(html: &str) -> Res<Vec<Chapter>> {
         };
         let Some(href) = link.value().attr("href") else { continue };
         let number = info.value().attr("data-num").and_then(|n| n.parse::<f32>().ok()).map_or(-1.0, |n| n / 10.0);
-        let path = Url::parse(BASE).and_then(|b| b.join(href)).map(|u| u.path().to_owned()).unwrap_or_else(|_| href.to_owned());
+        let path = Url::parse(site.base).and_then(|b| b.join(href)).map(|u| u.path().to_owned()).unwrap_or_else(|_| href.to_owned());
         chapters.push(Chapter {
             url: format!("{path}?mtr=true"),
             name: chapter_name(&own_text(link), &title, number),
@@ -341,7 +339,7 @@ fn quoted_strings(s: &str) -> Vec<String> {
 
 /// The page images of a chapter from the `rm_h.readerInit(chapterInfo, [[host, middle, path, w, h, ...], ...])` call
 /// (the Kotlin `PAGES_REGEX` and its address rules).
-pub fn parse_pages(html: &str) -> Res<Vec<String>> {
+pub fn parse_pages(site: &Site, html: &str) -> Res<Vec<String>> {
     let doc = Html::parse_document(html);
     if doc.select(&sel("div.alert")).next().is_some() || doc.select(&sel("form.purchase-form")).next().is_some() {
         return Err("Эта глава платная. Используйте сайт, чтобы купить и прочитать ее.".into());
@@ -366,7 +364,7 @@ pub fn parse_pages(html: &str) -> Res<Vec<String>> {
         rest = entry.find(']').map_or("", |close| &entry[close + 1..]);
         let [host, middle, end, ..] = fields.as_slice() else { continue };
         let mut url = if middle.is_empty() && end.starts_with("/static/") {
-            format!("{BASE}{end}")
+            format!("{}{end}", site.base)
         } else if middle.ends_with("/manga/") {
             format!("{host}{end}")
         } else {
@@ -388,6 +386,8 @@ pub fn parse_pages(html: &str) -> Res<Vec<String>> {
 mod tests {
     use super::*;
 
+    /// Usagi's settings: the fixtures are its pages.
+    const SITE: Site = Site { id: 5705163226489175947, name: "Usagi", lang: "ru", base: "https://web.usagi.one" };
     const POPULAR: &str = include_str!("../fixtures/popular.json");
     const LATEST: &str = include_str!("../fixtures/latest.json");
     const SEARCH: &str = include_str!("../fixtures/search.json");
@@ -396,25 +396,25 @@ mod tests {
 
     #[test]
     fn the_catalog_gives_cards_and_pages_on() {
-        let page = parse_catalog(POPULAR).unwrap();
+        let page = parse_catalog(&SITE, POPULAR).unwrap();
         assert!(page.has_next_page);
         assert_eq!(page.mangas[0].url, "/podniatie_urovnia_v_odinochku__A3b2ec");
         assert_eq!(page.mangas[0].title, "Поднятие уровня в одиночку");
         assert!(page.mangas[0].thumbnail_url.as_deref().unwrap().starts_with("https://"));
-        assert_eq!(parse_catalog(LATEST).unwrap().mangas.len(), 6);
-        let search = parse_catalog(SEARCH).unwrap();
+        assert_eq!(parse_catalog(&SITE, LATEST).unwrap().mangas.len(), 6);
+        let search = parse_catalog(&SITE, SEARCH).unwrap();
         assert!(!search.has_next_page, "8 results fit on one page");
         assert_eq!(search.mangas[0].url, "/nenasytnyi_berserk");
         assert_eq!(
-            catalog_url("RATING", 2, " берсерк "),
+            catalog_url(&SITE, "RATING", 2, " берсерк "),
             "https://web.usagi.one/api/catalog/search?offset=50&q=%D0%B1%D0%B5%D1%80%D1%81%D0%B5%D1%80%D0%BA&sortType=RATING"
         );
-        assert_eq!(catalog_url("DATE_UPDATE", 1, ""), "https://web.usagi.one/api/catalog/search?offset=0&sortType=DATE_UPDATE");
+        assert_eq!(catalog_url(&SITE, "DATE_UPDATE", 1, ""), "https://web.usagi.one/api/catalog/search?offset=0&sortType=DATE_UPDATE");
     }
 
     #[test]
     fn the_manga_page_has_title_people_genres_status_summary_and_cover() {
-        let manga = parse_details(MANGA).unwrap();
+        let manga = parse_details(&SITE, MANGA).unwrap();
         assert_eq!(manga.title, "Второе прохождение берсерка");
         assert!(manga.author.is_some(), "{manga:?}");
         let genre = manga.genre.unwrap();
@@ -428,7 +428,7 @@ mod tests {
 
     #[test]
     fn the_chapters_are_listed_newest_first_with_numbers_dates_and_translators() {
-        let chapters = parse_chapters(MANGA).unwrap();
+        let chapters = parse_chapters(&SITE, MANGA).unwrap();
         assert_eq!(chapters.len(), 41);
         assert_eq!(chapters[0].url, "/33450/vol1/41?mtr=true");
         assert_eq!(chapters[0].chapter_number, 41.0);
@@ -440,7 +440,7 @@ mod tests {
     #[test]
     fn guests_are_told_when_the_site_hides_a_title() {
         let blocked = "<script>var viewSettings = [{ name: 'blockedForAnonymous', rules: ['hide'], enabled: true && window.is_from_search !== 'yes', onlyGuest: true }];</script>";
-        assert!(parse_chapters(blocked).is_err());
+        assert!(parse_chapters(&SITE, blocked).is_err());
         assert!(!blocked_for_guests(&blocked.replace("enabled: true", "enabled: false")));
         assert!(!blocked_for_guests(MANGA));
     }
@@ -459,21 +459,21 @@ mod tests {
 
     #[test]
     fn the_chapter_page_gives_its_images_in_order_without_tokens() {
-        let pages = parse_pages(CHAPTER).unwrap();
+        let pages = parse_pages(&SITE, CHAPTER).unwrap();
         assert!(pages.len() >= 5, "{pages:?}");
         assert_eq!(pages[0], "https://rm.one-way.work/auto/126/35/18/1.jpg");
         assert!(pages[1].ends_with("/2.jpg"));
         let deleted = r#"<script>var chapterInfo = {}; rm_h.readerInit(chapterInfo, [['','',"/static/deleted1.png?t=1",600,800, '']], false);</script>"#;
-        assert_eq!(parse_pages(deleted).unwrap(), ["https://web.usagi.one/static/deleted1.png?t=1"]);
+        assert_eq!(parse_pages(&SITE, deleted).unwrap(), ["https://web.usagi.one/static/deleted1.png?t=1"]);
         let other = r#"<script>var chapterInfo = {}; rm_h.readerDoInit(chapterInfo, [['//h1.example/','https:',"x/1.png?t=2",1,1]]);</script>"#;
-        assert_eq!(parse_pages(other).unwrap(), ["https://h1.example/x/1.png?t=2"]);
+        assert_eq!(parse_pages(&SITE, other).unwrap(), ["https://h1.example/x/1.png?t=2"]);
     }
 
     #[test]
     fn only_addresses_of_the_site_are_fetched() {
-        assert_eq!(page("/33450/vol1/41?mtr=true").unwrap(), "https://web.usagi.one/33450/vol1/41?mtr=true");
-        assert!(page("https://evil.test/x").is_err());
-        assert!(on_site("https://web.usagi.one/33450") && !on_site("https://readmanga.io/x"));
+        assert_eq!(page(&SITE, "/33450/vol1/41?mtr=true").unwrap(), "https://web.usagi.one/33450/vol1/41?mtr=true");
+        assert!(page(&SITE, "https://evil.test/x").is_err());
+        assert!(on_site(&SITE, "https://web.usagi.one/33450") && !on_site(&SITE, "https://readmanga.io/x"));
         assert_eq!(status_of("завершён", "продолжается"), 4);
     }
 }

@@ -8,9 +8,9 @@ publish.workspace = true
 crate-type = ["cdylib"]
 
 [dependencies]
-chrono = { workspace = true }
-kuro-guest = { workspace = true, features = ["html"] }
-serde = { workspace = true }
-serde_json = { workspace = true }
-url = { workspace = true }
+kuro-guest = { workspace = true }
+kuro-grouple = { workspace = true }
 wit-bindgen = { workspace = true }
+
+[dev-dependencies]
+serde_json = { workspace = true }
