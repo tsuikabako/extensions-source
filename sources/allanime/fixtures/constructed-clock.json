@@ -1,0 +1,5 @@
+{"links":[
+{"link":"https://cdn.example/master.m3u8","hls":true,"resolutionStr":"Hls","subtitles":[{"lang":"en","src":"https://cdn.example/en.vtt","label":"English"}]},
+{"link":"https://cdn.example/video.mp4","mp4":true,"resolutionStr":"1080p"},
+{"link":"https://cdn.example/manifest.mpd","dash":true,"resolutionStr":"Dash"}
+]}

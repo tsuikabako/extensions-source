@@ -1,0 +1,9 @@
+{"data":{"episode":{"sourceUrls":[
+{"sourceUrl":"--175948514e4c4f57175b54575b5307515c050f5c0a0c0f0b0f0c0e590c590d590e590e5c0f5b0e5b0c5a0a5c0a5b","priority":7.9,"sourceName":"Default","type":"iframe"},
+{"sourceUrl":"--175948514e4c4f57175b54575b5307515c050f5c0a0c0f0b0f0c0e590c590d590e590e5c0f5b0e5b0c5a0a5c0a5c","priority":8.5,"sourceName":"S-mp4","type":"iframe"},
+{"sourceUrl":"--175948514e4c4f57175b54575b5307515c050f5c0a0c0f0b0f0c0e590c590d590e590e5c0f5b0e5b0c5a0a5c0a5d","priority":7,"sourceName":"Rab","type":"iframe"},
+{"sourceUrl":"https://www.mp4upload.com/embed-abc123.html","priority":4,"sourceName":"Mp4","type":"iframe"},
+{"sourceUrl":"https://streamlare.com/e/123","priority":3.5,"sourceName":"Sl","type":"iframe"},
+{"sourceUrl":"https://filemoon.sx/e/xyz","priority":3,"sourceName":"Fm-Hls","type":"iframe"},
+{"sourceUrl":"https://myanime.sharepoint.com/x/video.mp4","priority":5,"sourceName":"Sak","type":"player"}
+]}}}
