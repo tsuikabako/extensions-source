@@ -11,6 +11,10 @@
   "fails": 0,
   "status": "active"
  },
+ "animetoast": {
+  "fails": 0,
+  "status": "active"
+ },
  "animeworld": {
   "fails": 0,
   "status": "active"
@@ -48,7 +52,7 @@
   "status": "active"
  },
  "harmonyscan": {
-  "fails": 2,
+  "fails": 3,
   "status": "broken"
  },
  "hijala": {
@@ -151,6 +155,10 @@
   "fails": 0,
   "status": "active"
  },
+ "monoschinos": {
+  "fails": 0,
+  "status": "active"
+ },
  "murim": {
   "fails": 0,
   "status": "active"
@@ -160,6 +168,10 @@
   "status": "active"
  },
  "novelcooles": {
+  "fails": 0,
+  "status": "active"
+ },
+ "okanime": {
   "fails": 0,
   "status": "active"
  },
@@ -200,6 +212,34 @@
   "status": "active"
  },
  "usagi": {
+  "fails": 0,
+  "status": "active"
+ },
+ "vostfree": {
+  "fails": 0,
+  "status": "active"
+ },
+ "wcoanimedub": {
+  "fails": 0,
+  "status": "active"
+ },
+ "wcoanimesub": {
+  "fails": 0,
+  "status": "active"
+ },
+ "wcoforever": {
+  "fails": 0,
+  "status": "active"
+ },
+ "wcofun": {
+  "fails": 0,
+  "status": "active"
+ },
+ "wcostream": {
+  "fails": 0,
+  "status": "active"
+ },
+ "wcotv": {
   "fails": 0,
   "status": "active"
  },
