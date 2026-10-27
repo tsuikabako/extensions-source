@@ -1,6 +1,6 @@
 {
  "animegg": {
-  "fails": 1,
+  "fails": 0,
   "status": "active"
  },
  "animepahe": {
@@ -52,7 +52,7 @@
   "status": "active"
  },
  "harmonyscan": {
-  "fails": 7,
+  "fails": 8,
   "status": "broken"
  },
  "hijala": {
@@ -68,7 +68,7 @@
   "status": "active"
  },
  "kagane": {
-  "fails": 4,
+  "fails": 5,
   "status": "broken"
  },
  "kazokuden": {
