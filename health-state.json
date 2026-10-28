@@ -8,7 +8,7 @@
   "status": "active"
  },
  "animeparadise": {
-  "fails": 1,
+  "fails": 0,
   "status": "active"
  },
  "animetoast": {
@@ -52,11 +52,11 @@
   "status": "active"
  },
  "harmonyscan": {
-  "fails": 9,
+  "fails": 10,
   "status": "broken"
  },
  "hijala": {
-  "fails": 0,
+  "fails": 1,
   "status": "active"
  },
  "hunlightcomics": {
@@ -68,7 +68,7 @@
   "status": "active"
  },
  "kagane": {
-  "fails": 6,
+  "fails": 7,
   "status": "broken"
  },
  "kazokuden": {
@@ -76,7 +76,7 @@
   "status": "active"
  },
  "kickassanime": {
-  "fails": 0,
+  "fails": 1,
   "status": "active"
  },
  "kokomangas": {
@@ -124,7 +124,7 @@
   "status": "active"
  },
  "mangakakalot": {
-  "fails": 1,
+  "fails": 0,
   "status": "active"
  },
  "mangapill": {
@@ -148,7 +148,7 @@
   "status": "active"
  },
  "manhuahot": {
-  "fails": 1,
+  "fails": 0,
   "status": "active"
  },
  "manhwareads": {
