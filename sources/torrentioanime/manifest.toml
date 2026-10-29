@@ -1,0 +1,10 @@
+id = "torrentioanime"
+name = "Torrentio Anime"
+description = "Anime torrents found by Torrentio, titles from AniList; needs Kurobayomi 0.2.6 or newer"
+lang = "all"
+kind = "anime"
+version = 1
+# The hosts the plug-in reaches through the `http` import: AniList (titles), ani.zip and Kitsu (the Kitsu id Torrentio
+# names a show by) and Torrentio (each episode's torrents). The covers load in the app; the videos are magnet links,
+# which the app's own torrent engine plays.
+hosts = ["graphql.anilist.co", "api.ani.zip", "kitsu.io", "torrentio.strem.fun"]
