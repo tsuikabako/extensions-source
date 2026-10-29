@@ -1,0 +1,3 @@
+# What tools/check-health.py fetches to see that the site is up.
+url = "https://subsplease.org/api/?f=schedule&tz=Europe/Berlin"
+expect = "schedule"
