@@ -28,7 +28,7 @@
   "status": "active"
  },
  "atsumaru": {
-  "fails": 1,
+  "fails": 0,
   "status": "active"
  },
  "comicverse": {
@@ -52,7 +52,7 @@
   "status": "active"
  },
  "harmonyscan": {
-  "fails": 12,
+  "fails": 13,
   "status": "broken"
  },
  "hijala": {
@@ -68,7 +68,7 @@
   "status": "active"
  },
  "kagane": {
-  "fails": 9,
+  "fails": 10,
   "status": "broken"
  },
  "kazokuden": {
