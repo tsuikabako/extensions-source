@@ -1,9 +1,0 @@
-id = "nyaa"
-name = "Nyaa (Torrent)"
-description = "Anime torrents from nyaa.si, one episode per video file; needs Kurobayomi 0.2.6 or newer"
-lang = "all"
-kind = "anime"
-version = 1
-# The only host the plug-in reaches through the `http` import: the site's lists, torrent pages and .torrent files. The
-# videos are magnet links, which the app's own torrent engine plays.
-hosts = ["nyaa.si"]
