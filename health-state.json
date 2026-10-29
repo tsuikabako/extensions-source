@@ -28,7 +28,7 @@
   "status": "active"
  },
  "atsumaru": {
-  "fails": 0,
+  "fails": 1,
   "status": "active"
  },
  "comicverse": {
@@ -52,7 +52,7 @@
   "status": "active"
  },
  "harmonyscan": {
-  "fails": 11,
+  "fails": 12,
   "status": "broken"
  },
  "hijala": {
@@ -68,7 +68,7 @@
   "status": "active"
  },
  "kagane": {
-  "fails": 8,
+  "fails": 9,
   "status": "broken"
  },
  "kazokuden": {
@@ -120,7 +120,7 @@
   "status": "active"
  },
  "mangaeclipse": {
-  "fails": 1,
+  "fails": 0,
   "status": "active"
  },
  "mangakakalot": {
@@ -152,7 +152,7 @@
   "status": "active"
  },
  "manhwareads": {
-  "fails": 1,
+  "fails": 0,
   "status": "active"
  },
  "monoschinos": {
