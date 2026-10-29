@@ -3,6 +3,8 @@ name = "SubsPlease"
 description = "SubsPlease's English-subbed anime releases as torrents; needs Kurobayomi 0.2.6 or newer"
 lang = "all"
 kind = "anime"
+# its videos are magnet links: the app streams them with its torrent engine, and its Sources page can list torrent sources alone
+torrent = true
 version = 1
 # The only host the plug-in reaches through the `http` import: the site's show pages and its JSON API. The posters load
 # in the app; the videos are magnet links, which the app's own torrent engine plays.

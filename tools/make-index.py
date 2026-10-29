@@ -9,7 +9,7 @@ Each source is one folder, sources/<id>/, and its kind comes from the file it ho
 
 parked/ is not read. Each entry has id, name, lang, kind, version, file (the raw https link of the dist file), sha256 (of
 the file's bytes) and type ("wasm" or "recipe"), and a description when the source names one (one line, at most
-120 characters, shown under its name in the app), and added and updated (YYYY-MM-DD, UTC+1) from the git history of
+120 characters, shown under its name in the app), "torrent": true for a source whose videos are torrents, and added and updated (YYYY-MM-DD, UTC+1) from the git history of
 sources/<id>/: its first and its latest commit. Without that history (not a git checkout, or a shallow clone) the two
 are left out. The app fetches a source's file when a user turns the source on,
 checks the bytes against sha256, and fetches it again when the sha256 in the index changes.
@@ -157,6 +157,12 @@ def build_index(root, base_url, repo_name="Tsuikabako", repo_website="https://ts
             if not (isinstance(description, str) and description.strip() and len(description) <= 120):
                 fail(f"{meta_path}: description must be one line of text, at most 120 characters")
             entries[-1]["description"] = " ".join(description.split())
+        # a source whose videos are torrents (magnet links) says so; the app's Sources page can show these alone
+        torrent = meta.get("torrent", False)
+        if not isinstance(torrent, bool):
+            fail(f"{meta_path}: torrent must be true or false")
+        if torrent:
+            entries[-1]["torrent"] = True
         dates = git_dates(root, folder.name) if has_history else None
         if dates:
             entries[-1]["added"], entries[-1]["updated"] = dates

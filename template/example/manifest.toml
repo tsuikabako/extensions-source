@@ -4,6 +4,7 @@ name = "Example"
 description = "One short line shown under the name in the app"
 lang = "en"
 kind = "manga"            # or "anime"
+# torrent = true          # only when the videos are magnet links (the app streams them; needs app 0.2.6)
 version = 1               # raise it when you change the source
 # The only hosts the source may request. Covers, page images and videos load in the app and need not be listed.
 hosts = ["manga.example"]
