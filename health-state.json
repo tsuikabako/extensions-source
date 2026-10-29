@@ -52,7 +52,7 @@
   "status": "active"
  },
  "harmonyscan": {
-  "fails": 13,
+  "fails": 14,
   "status": "broken"
  },
  "hijala": {
@@ -68,7 +68,7 @@
   "status": "active"
  },
  "kagane": {
-  "fails": 10,
+  "fails": 11,
   "status": "broken"
  },
  "kazokuden": {
