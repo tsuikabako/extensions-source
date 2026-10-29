@@ -909,6 +909,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "kuro-subsplease"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "kuro-guest",
+ "serde_json",
+ "url",
+ "wit-bindgen",
+]
+
+[[package]]
 name = "kuro-topmanhuafan"
 version = "0.1.0"
 dependencies = [
@@ -916,6 +927,15 @@ dependencies = [
  "kuro-madara",
  "serde_json",
  "wit-bindgen",
+]
+
+[[package]]
+name = "kuro-torrent"
+version = "0.1.0"
+dependencies = [
+ "base64",
+ "kuro-guest",
+ "url",
 ]
 
 [[package]]
