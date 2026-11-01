@@ -1,3 +1,4 @@
 # Written by tools/check-health.py: do not edit (status.toml overrides it by hand).
+atsumaru = "broken"
 harmonyscan = "broken"
 kagane = "broken"

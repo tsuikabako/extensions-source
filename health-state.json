@@ -28,8 +28,8 @@
   "status": "active"
  },
  "atsumaru": {
-  "fails": 1,
-  "status": "active"
+  "fails": 2,
+  "status": "broken"
  },
  "comicverse": {
   "fails": 0,
@@ -48,11 +48,11 @@
   "status": "active"
  },
  "galaxydegenscans": {
-  "fails": 1,
+  "fails": 0,
   "status": "active"
  },
  "harmonyscan": {
-  "fails": 20,
+  "fails": 21,
   "status": "broken"
  },
  "hijala": {
@@ -68,7 +68,7 @@
   "status": "active"
  },
  "kagane": {
-  "fails": 17,
+  "fails": 18,
   "status": "broken"
  },
  "kazokuden": {
@@ -116,7 +116,7 @@
   "status": "active"
  },
  "mangadex": {
-  "fails": 0,
+  "fails": 1,
   "status": "active"
  },
  "mangaeclipse": {
@@ -196,7 +196,7 @@
   "status": "active"
  },
  "shinobiscans": {
-  "fails": 1,
+  "fails": 0,
   "status": "active"
  },
  "sleepytranslations": {
