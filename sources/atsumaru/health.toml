@@ -1,3 +1,4 @@
 # What tools/check-health.py fetches to see that the site is up.
 url = "https://atsu.moe/api/home2/popular?offset=0&limit=1&types=Manga&mediums=Comic&timeframe=daily"
 expect = "items"
+cloudflare = true  # Cloudflare answers 403 to the GitHub runner, while the app gets the API

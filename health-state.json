@@ -28,8 +28,8 @@
   "status": "active"
  },
  "atsumaru": {
-  "fails": 5,
-  "status": "broken"
+  "fails": 0,
+  "status": "active"
  },
  "comicverse": {
   "fails": 0,
@@ -68,8 +68,8 @@
   "status": "active"
  },
  "kagane": {
-  "fails": 21,
-  "status": "broken"
+  "fails": 0,
+  "status": "active"
  },
  "kazokuden": {
   "fails": 0,
@@ -116,8 +116,8 @@
   "status": "active"
  },
  "mangadex": {
-  "fails": 4,
-  "status": "broken"
+  "fails": 0,
+  "status": "active"
  },
  "mangaeclipse": {
   "fails": 0,

@@ -12,10 +12,12 @@ use serde_json::Value;
 /// extension has it. Keep it: backups and the library name it.
 const ID: i64 = 2499283573021220255;
 const NAME: &str = "MangaDex";
+/// MangaDex sends a browser User-Agent to its bot check, so the API and the images get the plug-in's own one.
+const USER_AGENT: &str = "Kurobayomi (+https://github.com/tsuikabako/extensions-source)";
 
 /// Fetches an API address. A non-2xx answer is an error: the API's own message when it gives one.
 fn get(host: &dyn Host, url: &str) -> Res<String> {
-    let response = Request::get(url).header("Accept", "application/json").send(host)?;
+    let response = Request::get(url).header("Accept", "application/json").header("User-Agent", USER_AGENT).send(host)?;
     if !response.is_success() && response.status != 429 {
         if let Some(message) = api::error_message(&response.body) {
             return Err(message);
@@ -60,7 +62,7 @@ impl Source for MangaDex {
     }
 
     fn request_headers(&self) -> Option<Vec<(String, String)>> {
-        Some(vec![("Accept".into(), "image/avif,image/webp,*/*".into())])
+        Some(vec![("Accept".into(), "image/avif,image/webp,*/*".into()), ("User-Agent".into(), USER_AGENT.into())])
     }
 
     fn run(&self, op: &str, input: &Input, host: &dyn Host) -> Res<Value> {

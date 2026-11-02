@@ -1,4 +1,4 @@
-//! Kagane's API (`https://kagane.si/api/v2`): the addresses, the request bodies and the parsers. No network here; `lib.rs`
+//! Kagane's API (`https://kagane.org/api/v2`): the addresses, the request bodies and the parsers. No network here; `lib.rs`
 //! sends the requests through the host.
 
 use kuro_guest::Res;
@@ -7,8 +7,8 @@ use kuro_guest::wire::{Chapter, Manga, MangasPage};
 use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
 
-pub const BASE: &str = "https://kagane.si";
-pub const API: &str = "https://kagane.si/api/v2";
+pub const BASE: &str = "https://kagane.org";
+pub const API: &str = "https://kagane.org/api/v2";
 /// Titles a page of the list or search, as the Kotlin asks for.
 const PAGE_SIZE: u32 = 35;
 
@@ -291,7 +291,7 @@ pub fn book_of(chapter_url: &str) -> Res<&str> {
     chapter_url.trim_end_matches('/').rsplit('/').next().filter(|id| !id.is_empty()).ok_or_else(|| format!("not a Kagane chapter: {chapter_url}"))
 }
 
-pub const INTEGRITY_URL: &str = "https://kagane.si/api/integrity";
+pub const INTEGRITY_URL: &str = "https://kagane.org/api/integrity";
 
 /// The integrity token and when it runs out (unix seconds).
 #[derive(Deserialize, Serialize, Debug, PartialEq)]
@@ -357,8 +357,8 @@ mod tests {
 
     #[test]
     fn search_urls_count_pages_from_zero_and_sort_descending() {
-        assert_eq!(search_url(1, "total_views"), "https://kagane.si/api/v2/search/series?page=0&size=35&sort=total_views,desc");
-        assert_eq!(search_url(3, ""), "https://kagane.si/api/v2/search/series?page=2&size=35");
+        assert_eq!(search_url(1, "total_views"), "https://kagane.org/api/v2/search/series?page=0&size=35&sort=total_views,desc");
+        assert_eq!(search_url(3, ""), "https://kagane.org/api/v2/search/series?page=2&size=35");
     }
 
     #[test]
@@ -380,7 +380,7 @@ mod tests {
         let first = &page.mangas[0];
         assert_eq!(first.title, "One Piece");
         assert_eq!(first.url, "019c3a10-837e-7d7c-bf6c-006df658a021");
-        assert!(first.thumbnail_url.as_deref().unwrap().starts_with("https://kagane.si/api/v2/image/"));
+        assert!(first.thumbnail_url.as_deref().unwrap().starts_with("https://kagane.org/api/v2/image/"));
     }
 
     #[test]
@@ -389,7 +389,7 @@ mod tests {
         assert_eq!((manga.url.as_str(), manga.title.as_str(), manga.status), ("s1", "One Piece", ONGOING));
         assert!(manga.genre.as_deref().unwrap().starts_with("Manga, Drama"));
         assert!(manga.description.as_deref().unwrap().contains("Monkey D. Luffy"));
-        assert_eq!(manga.thumbnail_url.as_deref(), Some("https://kagane.si/api/v2/image/019e2c21-50db-789e-95a9-c20199434cf3"));
+        assert_eq!(manga.thumbnail_url.as_deref(), Some("https://kagane.org/api/v2/image/019e2c21-50db-789e-95a9-c20199434cf3"));
     }
 
     #[test]

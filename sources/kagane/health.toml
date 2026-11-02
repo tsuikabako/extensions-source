@@ -1,3 +1,4 @@
-# What tools/check-health.py fetches to see that the site is up.
-url = "https://kagane.si/"
-expect = "Kagane"
+# What tools/check-health.py fetches to see that the site is up: one popular series from the API, since kagane.org's home
+# page only lists the mirrors (and the parked kagane.si page also says "kagane").
+url = "https://kagane.org/api/v2/series/019c3cc0-468d-72d3-a7de-fda30338e242"
+expect = "series_id"

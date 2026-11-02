@@ -1,4 +1,4 @@
-//! Kagane (<https://kagane.si>), a manga source plug-in for Kurobayomi. Ported from the keiyoushi `all/kagane` extension
+//! Kagane (<https://kagane.org>), a manga source plug-in for Kurobayomi. Ported from the keiyoushi `all/kagane` extension
 //! (Apache-2.0), English only. This file is the source's ops, its requests and the integrity token; the URLs and parsers
 //! are in `api.rs`, the glue to the app is the `kuro_guest` toolkit.
 

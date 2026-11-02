@@ -1,6 +1,6 @@
 # Kagane
 
-Kagane (<https://kagane.si>) as a manga source plug-in for Kurobayomi (ABI 1.5, `wit/kuro-source.wit`, manga ops), English only.
+Kagane (<https://kagane.org>) as a manga source plug-in for Kurobayomi (ABI 1.5, `wit/kuro-source.wit`, manga ops), English only.
 
 ## Licence and origin
 
@@ -24,7 +24,7 @@ bytes, big-endian, with the top bit cleared: `4024736764982024684`.
 Content shown: every source type (Official, Unofficial and Mixed). Adult titles (18+ and pornographic) follow the app's
 **Show adult (18+) titles** switch (Settings, NSFW group, off by default, sent to the plug-in as `showAdult`): while it is
 off, only safe and suggestive (15+) titles, the Kotlin's "suggestive" content rating; while it is on, every rating.
-Covers and page images load in the app, so the manifest lists only `kagane.si`.
+Covers and page images load in the app, so the manifest lists only `kagane.org`.
 
 ## Not ported
 
