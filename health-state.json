@@ -28,7 +28,7 @@
   "status": "active"
  },
  "atsumaru": {
-  "fails": 4,
+  "fails": 5,
   "status": "broken"
  },
  "comicverse": {
@@ -52,8 +52,8 @@
   "status": "active"
  },
  "harmonyscan": {
-  "fails": 23,
-  "status": "broken"
+  "fails": 0,
+  "status": "active"
  },
  "hijala": {
   "fails": 1,
@@ -68,7 +68,7 @@
   "status": "active"
  },
  "kagane": {
-  "fails": 20,
+  "fails": 21,
   "status": "broken"
  },
  "kazokuden": {
@@ -116,7 +116,7 @@
   "status": "active"
  },
  "mangadex": {
-  "fails": 3,
+  "fails": 4,
   "status": "broken"
  },
  "mangaeclipse": {
