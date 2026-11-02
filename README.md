@@ -48,6 +48,7 @@ means the source is broken and needs a fix.
 | <img src="sources/readmanga/icon.png" width="24" height="24" align="center"> ReadManga | ru | popular, latest, search, chapters with dates and translators |
 | <img src="sources/selfmanga/icon.png" width="24" height="24" align="center"> SelfManga | ru | popular, latest, search, chapters with dates and translators |
 | <img src="sources/desu/icon.png" width="24" height="24" align="center"> Desu | ru | popular, latest, search, chapters |
+| <img src="sources/mangabuff/icon.png" width="24" height="24" align="center"> MangaBuff | ru | popular, latest, search, chapters with dates |
 | <img src="sources/kazokuden/icon.png" width="24" height="24" align="center"> Kazoku Den | es | popular, latest, search, chapters with dates |
 | <img src="sources/ragnarokscanlation/icon.png" width="24" height="24" align="center"> Ragnarok Scanlation | es | popular, latest, search, chapters with dates |
 | <img src="sources/leercapitulo/icon.png" width="24" height="24" align="center"> LeerCapitulo | es | trending, latest, search, chapters with dates |

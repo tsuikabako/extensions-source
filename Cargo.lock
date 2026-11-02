@@ -636,6 +636,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "kuro-mangabuff"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "kuro-guest",
+ "serde",
+ "serde_json",
+ "url",
+ "wit-bindgen",
+]
+
+[[package]]
 name = "kuro-mangadex"
 version = "0.1.0"
 dependencies = [

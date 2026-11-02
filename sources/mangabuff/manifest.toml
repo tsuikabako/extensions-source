@@ -1,0 +1,9 @@
+id = "mangabuff"
+name = "MangaBuff"
+description = "Russian manga, manhwa and manhua translations"
+lang = "ru"
+kind = "manga"
+version = 1
+# The only host the plug-in reaches through the `http` import: lists, title pages, the chapter list and the reader.
+# Covers (mangabuff.ru) and page images (c*.mangabuff.ru) load in the app, not here.
+hosts = ["mangabuff.ru"]
