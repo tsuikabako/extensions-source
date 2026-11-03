@@ -52,7 +52,7 @@
   "status": "active"
  },
  "harmonyscan": {
-  "fails": 2,
+  "fails": 3,
   "status": "broken"
  },
  "hijala": {
@@ -64,7 +64,7 @@
   "status": "active"
  },
  "inkstory": {
-  "fails": 2,
+  "fails": 3,
   "status": "broken"
  },
  "kagane": {
@@ -116,7 +116,7 @@
   "status": "active"
  },
  "mangabuff": {
-  "fails": 2,
+  "fails": 3,
   "status": "broken"
  },
  "mangadex": {
@@ -236,7 +236,7 @@
   "status": "active"
  },
  "wcofun": {
-  "fails": 0,
+  "fails": 1,
   "status": "active"
  },
  "wcostream": {
