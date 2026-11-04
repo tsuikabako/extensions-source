@@ -16,6 +16,7 @@ State (consecutive failures per source) is kept in health-state.json so the next
 """
 
 import argparse
+import http.client
 import json
 import sys
 import tomllib
@@ -53,10 +54,14 @@ def fetch(url, user_agent=USER_AGENT):
     request = urllib.request.Request(url, headers={"User-Agent": user_agent, "Accept": "*/*"})
     try:
         with urllib.request.urlopen(request, timeout=30) as response:
-            return response.status, {k.lower(): v for k, v in response.headers.items()}, response.read(2_000_000).decode("utf-8", "replace")
+            try:
+                body = response.read(2_000_000).decode("utf-8", "replace")
+            except http.client.IncompleteRead as error:
+                body = error.partial.decode("utf-8", "replace")
+            return response.status, {k.lower(): v for k, v in response.headers.items()}, body
     except urllib.error.HTTPError as error:
         return error.code, {k.lower(): v for k, v in error.headers.items()}, error.read(200_000).decode("utf-8", "replace")
-    except (urllib.error.URLError, TimeoutError, OSError):
+    except (urllib.error.URLError, TimeoutError, OSError, http.client.HTTPException):
         return None, {}, ""
 
 
