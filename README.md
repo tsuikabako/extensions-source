@@ -87,10 +87,7 @@ means the source is broken and needs a fix.
 | <img src="sources/okanime/icon.png" width="24" height="24" align="center"> Okanime | ar | Anime with Arabic subtitles, from the Mp4upload and Uqload servers |
 
 > **Removed (2026-11-04):** the six WCO sources (WCOStream, Wcofun, WcoTv, WcoForever, WcoAnimeDub and WcoAnimeSub) and
-> their shared `lib/wco` theme. The saved episode-page test fixture `lib/wco/fixtures/wcotv-episode.html` contained
-> obfuscated page scripts and a third-party ad loader that were flagged as malware. It was test data and never built into
-> a plug-in, but the whole family is gone because every WCO plug-in shared that theme. Do not restore `lib/wco` or
-> `sources/wco*` from history without replacing that fixture with script-free HTML.
+> their shared `lib/wco` theme.
 
 Mangakakalot and AnimePahe sit behind Cloudflare's browser check, so they need a recent Kurobayomi that can pass it.
 
