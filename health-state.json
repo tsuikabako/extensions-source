@@ -223,30 +223,6 @@
   "fails": 0,
   "status": "active"
  },
- "wcoanimedub": {
-  "fails": 0,
-  "status": "active"
- },
- "wcoanimesub": {
-  "fails": 0,
-  "status": "active"
- },
- "wcoforever": {
-  "fails": 0,
-  "status": "active"
- },
- "wcofun": {
-  "fails": 1,
-  "status": "active"
- },
- "wcostream": {
-  "fails": 0,
-  "status": "active"
- },
- "wcotv": {
-  "fails": 0,
-  "status": "active"
- },
  "weebcentral": {
   "fails": 0,
   "status": "active"
