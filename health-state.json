@@ -20,11 +20,11 @@
   "status": "active"
  },
  "aniworld": {
-  "fails": 1,
+  "fails": 0,
   "status": "active"
  },
  "anizone": {
-  "fails": 1,
+  "fails": 0,
   "status": "active"
  },
  "atsumaru": {
@@ -52,7 +52,7 @@
   "status": "active"
  },
  "harmonyscan": {
-  "fails": 6,
+  "fails": 7,
   "status": "broken"
  },
  "hijala": {
@@ -64,7 +64,7 @@
   "status": "active"
  },
  "inkstory": {
-  "fails": 6,
+  "fails": 7,
   "status": "broken"
  },
  "kagane": {
@@ -116,7 +116,7 @@
   "status": "active"
  },
  "mangabuff": {
-  "fails": 6,
+  "fails": 7,
   "status": "broken"
  },
  "mangadex": {
@@ -196,7 +196,7 @@
   "status": "active"
  },
  "senkuro": {
-  "fails": 1,
+  "fails": 0,
   "status": "active"
  },
  "shinobiscans": {
