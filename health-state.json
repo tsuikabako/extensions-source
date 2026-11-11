@@ -52,7 +52,7 @@
   "status": "active"
  },
  "harmonyscan": {
-  "fails": 20,
+  "fails": 21,
   "status": "broken"
  },
  "hijala": {
@@ -64,7 +64,7 @@
   "status": "active"
  },
  "inkstory": {
-  "fails": 20,
+  "fails": 21,
   "status": "broken"
  },
  "kagane": {
@@ -116,7 +116,7 @@
   "status": "active"
  },
  "mangabuff": {
-  "fails": 20,
+  "fails": 21,
   "status": "broken"
  },
  "mangadex": {
@@ -220,11 +220,11 @@
   "status": "active"
  },
  "vostfree": {
-  "fails": 0,
+  "fails": 1,
   "status": "active"
  },
  "weebcentral": {
-  "fails": 0,
+  "fails": 1,
   "status": "active"
  },
  "xsanomanga": {
