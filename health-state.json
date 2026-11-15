@@ -52,7 +52,7 @@
   "status": "active"
  },
  "harmonyscan": {
-  "fails": 28,
+  "fails": 29,
   "status": "broken"
  },
  "hijala": {
@@ -64,7 +64,7 @@
   "status": "active"
  },
  "inkstory": {
-  "fails": 28,
+  "fails": 29,
   "status": "broken"
  },
  "kagane": {
@@ -116,7 +116,7 @@
   "status": "active"
  },
  "mangabuff": {
-  "fails": 28,
+  "fails": 29,
   "status": "broken"
  },
  "mangadex": {
