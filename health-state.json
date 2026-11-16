@@ -52,7 +52,7 @@
   "status": "active"
  },
  "harmonyscan": {
-  "fails": 31,
+  "fails": 32,
   "status": "broken"
  },
  "hijala": {
@@ -64,7 +64,7 @@
   "status": "active"
  },
  "inkstory": {
-  "fails": 31,
+  "fails": 32,
   "status": "broken"
  },
  "kagane": {
@@ -116,7 +116,7 @@
   "status": "active"
  },
  "mangabuff": {
-  "fails": 31,
+  "fails": 32,
   "status": "broken"
  },
  "mangadex": {
@@ -144,7 +144,7 @@
   "status": "active"
  },
  "mangatuk": {
-  "fails": 1,
+  "fails": 0,
   "status": "active"
  },
  "manhatok": {
