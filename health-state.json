@@ -12,7 +12,7 @@
   "status": "active"
  },
  "animetoast": {
-  "fails": 0,
+  "fails": 1,
   "status": "active"
  },
  "animeworld": {
@@ -20,11 +20,11 @@
   "status": "active"
  },
  "aniworld": {
-  "fails": 1,
+  "fails": 0,
   "status": "active"
  },
  "anizone": {
-  "fails": 1,
+  "fails": 0,
   "status": "active"
  },
  "atsumaru": {
@@ -52,7 +52,7 @@
   "status": "active"
  },
  "harmonyscan": {
-  "fails": 33,
+  "fails": 34,
   "status": "broken"
  },
  "hijala": {
@@ -64,7 +64,7 @@
   "status": "active"
  },
  "inkstory": {
-  "fails": 33,
+  "fails": 34,
   "status": "broken"
  },
  "kagane": {
@@ -116,7 +116,7 @@
   "status": "active"
  },
  "mangabuff": {
-  "fails": 33,
+  "fails": 34,
   "status": "broken"
  },
  "mangadex": {
@@ -196,8 +196,8 @@
   "status": "active"
  },
  "senkuro": {
-  "fails": 1,
-  "status": "active"
+  "fails": 2,
+  "status": "broken"
  },
  "shinobiscans": {
   "fails": 0,
