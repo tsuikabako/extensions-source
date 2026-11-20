@@ -1,0 +1,10 @@
+id = "comix"
+name = "Comix"
+description = "Manga, manhwa and manhua in English from many groups, chapters with dates"
+lang = "en"
+kind = "manga"
+version = 4
+# comix.to is the site. Its pages are read in the app's hidden browser page, which may ask these hosts only.
+# challenges.cloudflare.com is where the site's own security check loads from: the page must be able to load it, or
+# the check never clears and no chapter list appears. The page images are on hosts that change and load in the app.
+hosts = ["comix.to", "challenges.cloudflare.com"]

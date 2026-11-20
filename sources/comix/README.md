@@ -36,17 +36,25 @@ scroll and hand back the HTML of the elements named. The source passes no script
 | `request-headers` | `Accept: */*` only: the image hosts answer 403 to the site's Referer (checked) |
 | `unscramble` | the page images the site hands out XOR-encoded or cut into a shuffled 5x5 grid are restored (`descramble.rs`, unchanged from the first plug-in; the image hosts say so in response headers) |
 
-The manifest lists `comix.to` only, so the page may ask nothing else: the site's analytics and font hosts are refused
-and the pages still fill (measured through the app's Windows engine). The page images are on hosts that change
-(`447.*.site` on 2026-11-20) and load in the app.
+The manifest lists `comix.to` and `challenges.cloudflare.com`, so the page may ask nothing else: the site's analytics
+and font hosts are refused and the pages still fill. The page images are on hosts that change (`447.*.site` on
+2026-11-20) and load in the app.
 
 The HTML is read with a small reader of its own (`tags.rs`), not the `scraper` crate: with the image decoder that
 `unscramble` needs, `scraper` takes the plug-in over the 1 MiB limit (1,183,441 bytes against 682,406).
 
-## If the site shows its check
+## The site's security check
 
-The site has a "Security check" page (Cloudflare Turnstile). The app answers no check. When the page read meets one
-that does not clear by itself, the wait is not met and the op fails with the app's error, which names the page.
+The site puts a "Security check" (Cloudflare Turnstile, in a `wafcap` dialog) in front of a chapter list for a
+browser it has not seen. It loads from `challenges.cloudflare.com`. With that host in the manifest the check runs in
+the app's hidden page as it does in any browser and clears by itself, as Cloudflare's browser check does for
+AnimePahe; the first chapter page then takes about 6 s instead of 2. Nothing answers the check for the person: if
+it ever asks for a click, the wait is not met and the op fails with the app's error, which names the page.
+
+Version 3 listed `comix.to` alone. The check could not load, every chapter list failed ("nothing matched
+ul.mchap-list > li.mchap-item in time"), and the source was parked for a few hours on 2026-11-20. Measured through
+the app's Windows engine with a new profile: `comix.to` alone fails after its time; with both hosts the chapter
+list comes in 6 to 7 s and the reader fills 50 of 50 pages in 15 s.
 
 ## Not ported
 

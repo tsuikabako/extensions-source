@@ -259,7 +259,8 @@ mod tests {
         let host = site();
         let info = call(&host, "info", json!({})).unwrap();
         assert_eq!((info["id"].as_i64(), info["lang"].as_str(), info["supportsLatest"].as_bool()), (Some(ID), Some("en"), Some(true)));
-        assert!(MANIFEST.contains("hosts = [\"comix.to\"]"));
+        // the site's check loads from Cloudflare: without that host in the list no chapter list appears
+        assert!(MANIFEST.contains("hosts = [\"comix.to\", \"challenges.cloudflare.com\"]"));
         for manga in ["https://evil.example/x", "/../browse", "02l05-after-a-meal", "/a/b"] {
             assert!(call(&host, "details", json!({ "manga": { "url": manga } })).is_err(), "{manga}");
             assert!(call(&host, "chapters", json!({ "manga": { "url": manga } })).is_err(), "{manga}");
