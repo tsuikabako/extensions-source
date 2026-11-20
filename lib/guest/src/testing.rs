@@ -1,5 +1,6 @@
 //! Hosts for `cargo test`. [`TestHost`] answers requests from a function (usually with saved pages from `fixtures/`),
-//! keeps preferences in memory and records what was sent. [`LiveHost`] sends real requests, for the `#[ignore]`d tests
+//! and page reads from another ([`TestHost::reading`], usually with the HTML a real page showed), keeps preferences in
+//! memory and records what was sent. [`LiveHost`] sends real requests, for the `#[ignore]`d tests
 //! that run a source against its live site.
 
 use std::cell::RefCell;
@@ -7,12 +8,16 @@ use std::collections::HashMap;
 
 use serde_json::json;
 
-use crate::{Host, Request, Res};
+use crate::{Host, Page, PageRead, Request, Res};
 
 type Answer = Box<dyn Fn(&Request) -> (u16, String)>;
+type Reader = Box<dyn Fn(&PageRead) -> Res<Page>>;
 
 pub struct TestHost {
     answer: Answer,
+    /// Answers page reads; without one the host reads no pages, as an app without them.
+    reader: Option<Reader>,
+    read: RefCell<Vec<PageRead>>,
     /// What `unix_seconds` returns.
     pub now: u64,
     prefs: RefCell<HashMap<String, String>>,
@@ -29,7 +34,18 @@ impl Default for TestHost {
 impl TestHost {
     /// A host that answers each request with `(status, body)` from `answer`.
     pub fn answering(answer: impl Fn(&Request) -> (u16, String) + 'static) -> Self {
-        Self { answer: Box::new(answer), now: 0, prefs: RefCell::default(), sent: RefCell::default() }
+        Self { answer: Box::new(answer), reader: None, read: RefCell::default(), now: 0, prefs: RefCell::default(), sent: RefCell::default() }
+    }
+
+    /// The same host, answering each page read ([`PageRead::send`]) from `reader`.
+    pub fn reading(mut self, reader: impl Fn(&PageRead) -> Res<Page> + 'static) -> Self {
+        self.reader = Some(Box::new(reader));
+        self
+    }
+
+    /// The page reads asked so far, in order.
+    pub fn pages_read(&self) -> Vec<PageRead> {
+        self.read.borrow().clone()
     }
 
     /// A host that answers every request with this body.
@@ -62,6 +78,14 @@ impl Host for TestHost {
         let url = request.url.clone();
         self.sent.borrow_mut().push(request);
         Ok(json!({ "status": status, "url": url, "headers": [], "body": body }).to_string())
+    }
+
+    fn page_read(&self, request_json: &str) -> Res<String> {
+        let Some(reader) = &self.reader else { return Err(crate::pages::NOT_OFFERED.to_owned()) };
+        let read: PageRead = serde_json::from_str(request_json).map_err(|e| format!("invalid page read: {e}"))?;
+        let page = reader(&read);
+        self.read.borrow_mut().push(read);
+        serde_json::to_string(&page?).map_err(|e| e.to_string())
     }
 
     fn unix_seconds(&self) -> u64 {

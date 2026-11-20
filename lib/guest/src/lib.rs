@@ -7,6 +7,8 @@
 //! - [`Host`]: what the app lends a source (network, clock, saved preferences, log). A source only reaches the app
 //!   through it, so its ops also run in plain `cargo test` with a [`testing::TestHost`].
 //! - [`http`]: one request type and one response type, with the same error texts in every source.
+//! - [`pages`]: a web page read through the app's hidden browser page, for a site that only fills its pages from its own
+//!   script.
 //! - [`wire`]: the JSON shapes the app reads (manga, chapters, pages, anime, episodes, hosters, videos).
 //! - [`html`] (feature `html`): small CSS-selector helpers.
 //!
@@ -14,6 +16,7 @@
 //! repository.
 
 pub mod http;
+pub mod pages;
 pub mod testing;
 pub mod wire;
 
@@ -25,6 +28,7 @@ use serde::de::DeserializeOwned;
 use serde_json::{Value, json};
 
 pub use http::{Request, Response};
+pub use pages::{Page, PageRead};
 
 /// The result of every op and helper: an error is a short text the app shows.
 pub type Res<T> = Result<T, String>;
@@ -43,6 +47,13 @@ pub trait Host {
     fn pref_set(&self, key: &str, value_json: &str) -> Res<()>;
     /// Writes to the app's log: 0 debug, 1 info, 2 warning, 3 error.
     fn log(&self, level: u8, message: &str);
+    /// Has a web page read through the app's hidden browser page: the request is a [`PageRead`] as JSON, the answer a
+    /// [`Page`] as JSON. Only a plug-in built with `plugin!(.., pages)` reaches the app with it; elsewhere it is not
+    /// offered.
+    fn page_read(&self, request_json: &str) -> Res<String> {
+        let _ = request_json;
+        Err(pages::NOT_OFFERED.to_owned())
+    }
 }
 
 /// Reads a saved preference, `None` when it is unset or not a `T`.
@@ -188,17 +199,13 @@ impl Input {
 ///
 /// The argument is a value whose type implements [`Source`]. The WIT file is `wit/` at the repository root, two folders
 /// up from `sources/<id>/`; a crate elsewhere passes its own path: `kuro_guest::plugin!(MySite, "../wit")`.
+///
+/// A source that reads web pages ([`pages`]) says so: `kuro_guest::plugin!(MySite, pages);` (or
+/// `plugin!(MySite, pages, "../wit")`). Its plug-in then imports the app's `pages` interface too, and loads only in an
+/// app that has it; every other plug-in is built exactly as before.
 #[macro_export]
 macro_rules! plugin {
-    ($source:expr) => {
-        $crate::plugin!($source, "../../wit");
-    };
-    ($source:expr, $wit:literal) => {
-        wit_bindgen::generate!({
-            path: $wit,
-            world: "source",
-        });
-
+    (@glue $source:expr, { $($pages:tt)* }) => {
         /// The app's imports, lent to the source.
         struct WitHost;
 
@@ -218,6 +225,7 @@ macro_rules! plugin {
             fn log(&self, level: u8, message: &str) {
                 kuro::source::host::log(level, message)
             }
+            $($pages)*
         }
 
         struct Plugin;
@@ -229,6 +237,32 @@ macro_rules! plugin {
         }
 
         export!(Plugin);
+    };
+    ($source:expr) => {
+        $crate::plugin!($source, "../../wit");
+    };
+    ($source:expr, pages) => {
+        $crate::plugin!($source, pages, "../../wit");
+    };
+    ($source:expr, pages, $wit:literal) => {
+        wit_bindgen::generate!({
+            path: $wit,
+            world: "source-pages",
+        });
+
+        $crate::plugin!(@glue $source, {
+            fn page_read(&self, request_json: &str) -> $crate::Res<String> {
+                kuro::source::pages::read(request_json)
+            }
+        });
+    };
+    ($source:expr, $wit:literal) => {
+        wit_bindgen::generate!({
+            path: $wit,
+            world: "source",
+        });
+
+        $crate::plugin!(@glue $source, {});
     };
 }
 
