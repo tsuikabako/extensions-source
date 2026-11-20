@@ -1,0 +1,9 @@
+id = "anikoto"
+name = "Anikoto"
+description = "Anime subbed and dubbed in English, HLS streams up to 1080p with subtitles in many languages"
+lang = "en"
+kind = "anime"
+version = 1
+# anikototv.bz is the site and its AJAX endpoints; megaplay.buzz and its mirror vidtube.site are the player pages of
+# its servers. The playlists, segments and subtitles are on CDN hosts that change, and load in the app.
+hosts = ["anikototv.bz", "megaplay.buzz", "vidtube.site"]

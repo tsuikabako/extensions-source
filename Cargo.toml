@@ -16,7 +16,9 @@ kuro-mangathemesia = { path = "lib/mangathemesia" }
 kuro-zeistmanga = { path = "lib/zeistmanga" }
 kuro-novelcool = { path = "lib/novelcool" }
 kuro-grouple = { path = "lib/grouple" }
+aes = "0.9"
 base64 = "0.22"
+cbc = { version = "0.2", features = ["alloc"] }
 chrono = { version = "0.4.45", default-features = false, features = ["std"] }
 regex-lite = "0.1"
 scraper = "0.27.0"
