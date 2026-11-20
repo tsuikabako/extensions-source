@@ -954,6 +954,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "kuro-reanime"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "kuro-guest",
+ "serde",
+ "serde_json",
+ "url",
+ "wit-bindgen",
+]
+
+[[package]]
 name = "kuro-selfmanga"
 version = "0.1.0"
 dependencies = [

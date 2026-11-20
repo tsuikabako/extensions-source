@@ -1,0 +1,9 @@
+id = "reanime"
+name = "Re:ANIME"
+description = "Anime subbed and dubbed, each episode one 1080p MKV file with its audio tracks and subtitles inside"
+lang = "en"
+kind = "anime"
+version = 1
+# reanime.cz is the site and its API; flixcloud.cc is its video host, asked for an episode's file. The file itself
+# (fetch*.flixcloud.cc, then a signed download host) loads in the app.
+hosts = ["reanime.cz", "flixcloud.cc"]
