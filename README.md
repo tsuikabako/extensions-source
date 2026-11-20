@@ -42,7 +42,6 @@ means the source is broken and needs a fix.
 | <img src="sources/atsumaru/icon.png" width="24" height="24" align="center"> Atsumaru | en | popular, latest, search, chapters with dates and groups |
 | <img src="sources/novelcoolen/icon.png" width="24" height="24" align="center"> NovelCool | en | hot, latest, search, chapters with dates |
 | <img src="sources/kagane/icon.png" width="24" height="24" align="center"> Kagane | en | popular, latest, search, chapters with dates and groups |
-| <img src="sources/comix/icon.png" width="24" height="24" align="center"> Comix | en | popular, latest, search, chapters with dates and groups (needs a Kurobayomi newer than 0.3.2) |
 | <img src="sources/senkuro/icon.png" width="24" height="24" align="center"> Senkuro | ru | popular, search, chapters with dates and teams |
 | <img src="sources/inkstory/icon.png" width="24" height="24" align="center"> InkStory | ru | popular, latest, search, chapters with dates and teams |
 | <img src="sources/usagi/icon.png" width="24" height="24" align="center"> Usagi | ru | popular, latest, search, chapters with dates and translators |
@@ -93,8 +92,6 @@ means the source is broken and needs a fix.
 > their shared `lib/wco` theme.
 
 Mangakakalot and AnimePahe sit behind Cloudflare's browser check, so they need a recent Kurobayomi that can pass it.
-Comix fills its pages from its own script, so the app reads them in its hidden browser page; that needs a Kurobayomi
-newer than 0.3.2 (the nightly from 2026-11-20 on). In an older app the source does not load.
 
 Each source's folder under [`sources/`](sources) has a README with the details: what it does, what was left out, and
 the extension it was ported from.
