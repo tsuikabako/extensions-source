@@ -1,0 +1,18 @@
+[package]
+name = "kuro-comix"
+version = "0.1.0"
+edition.workspace = true
+publish.workspace = true
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+base64 = { workspace = true }
+# the page images the site hands out cut into a shuffled grid are decoded, put back in order and encoded again
+image = { version = "0.25", default-features = false, features = ["jpeg", "png", "webp"] }
+kuro-guest = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+url = { workspace = true }
+wit-bindgen = { workspace = true }

@@ -1,0 +1,9 @@
+id = "comix"
+name = "Comix"
+description = "Manga, manhwa and manhua in English from many groups, chapters with dates"
+lang = "en"
+kind = "manga"
+version = 3
+# comix.to is the site. Its pages are read in the app's hidden browser page, which may ask this host only. The page
+# images are on hosts that change and load in the app.
+hosts = ["comix.to"]
