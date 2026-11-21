@@ -3,7 +3,8 @@ name = "InkStory"
 description = "Manga in Russian, chapters with dates and teams"
 lang = "ru"
 kind = "manga"
-version = 1
-# The only host the plug-in reaches through the `http` import: the site's API. Covers and page images (static.inuko.me)
-# load in the app, not here.
-hosts = ["api.inuko.me"]
+version = 2
+# The hosts the plug-in reaches through the `http` import: the site, for its server functions (behind an Anubis check the
+# app clears in its hidden browser page), and the shared API, for the update feed. Covers and page images
+# (static.inuko.me) load in the app, not here.
+hosts = ["inkstory.net", "api.inuko.me"]

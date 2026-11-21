@@ -5,8 +5,9 @@ Each source folder may hold a health.toml:  url = "https://site/"  expect = "tex
 (and user_agent = "..." for a site that answers only the User-Agent its source sends)
 The check fetches the url like a browser would and sorts the answer:
 - ok: HTTP 200 and the expected text is there.
-- challenge: Cloudflare's browser check answered (cf-mitigated: challenge). This runner cannot pass it, but the app does, so
-  nothing is known: the source keeps whatever status it had. A source with `cloudflare = true` is only ever checked this way.
+- challenge: a browser check answered: Cloudflare's (cf-mitigated: challenge) or Anubis's (its verification cookie, at any
+  status). This runner cannot pass it, but the app does, so nothing is known: the source keeps whatever status it had.
+  A source with `cloudflare = true` is only ever checked this way.
 - fail: no answer, an HTTP error, or the page without its expected text.
 A failed check prints what answered (Server header, cookie names, page title or start) so the log shows who refused it.
 A source turns "broken" only after FAILS_TO_BREAK failures in a row (one bad moment is not a verdict) and active again at
@@ -28,6 +29,8 @@ from pathlib import Path
 
 FAILS_TO_BREAK = 2
 USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Gecko/20100101 Firefox/140.0"
+# The start of the cookie name Anubis (a proof-of-work bot check) sets with its check page.
+ANUBIS_COOKIE = "techaro.lol-anubis-cookie-verification"
 
 
 def classify(status, headers, body, expect):
@@ -35,6 +38,8 @@ def classify(status, headers, body, expect):
     if status is None:
         return "fail"
     if headers.get("cf-mitigated", "").lower() == "challenge":
+        return "challenge"
+    if any(line.strip().startswith(ANUBIS_COOKIE) for line in headers.get("set-cookie", "").splitlines()):
         return "challenge"
     if status == 200 and (not expect or expect.lower() in body.lower()):
         return "ok"

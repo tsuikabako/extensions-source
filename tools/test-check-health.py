@@ -16,6 +16,9 @@ class Rules(unittest.TestCase):
         self.assertEqual(health.classify(200, {}, "something else", "weeb central"), "fail", "the page lacks its text")
         self.assertEqual(health.classify(200, {}, "anything", ""), "ok", "no text expected")
         self.assertEqual(health.classify(403, {"cf-mitigated": "challenge"}, "Just a moment", "x"), "challenge")
+        anubis = {"set-cookie": "__ddg1_=a; Path=/\ntecharo.lol-anubis-cookie-verification-347ddb4a=01a1; Secure"}
+        self.assertEqual(health.classify(200, anubis, "Making sure you're not a bot!", "InkStory"), "challenge", "Anubis at 200")
+        self.assertEqual(health.classify(200, {"set-cookie": "session=1"}, "<title>InkStory</title>", "InkStory"), "ok")
         self.assertEqual(health.classify(500, {}, "", "x"), "fail")
         self.assertEqual(health.classify(None, {}, "", "x"), "fail", "no answer at all")
 

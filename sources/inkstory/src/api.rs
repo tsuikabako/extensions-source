@@ -1,26 +1,47 @@
-//! InkStory's API (`https://api.inuko.me/v2`): the addresses, the parsers and the page image key. No network here;
-//! `lib.rs` sends the requests through the host.
+//! InkStory's data: the site's server functions (`https://inkstory.net/_serverFn/<id>`, TanStack Start) for the catalogue,
+//! a book, its chapters and a chapter's pages, and the shared API's update feed (`https://api.inuko.me/v2`) for Latest.
+//! The addresses, the parsers and the page image key; no network here, `lib.rs` sends the requests through the host.
 
 use kuro_guest::Res;
 use kuro_guest::wire::status::{COMPLETED, ON_HIATUS, ONGOING};
 use kuro_guest::wire::{Chapter, Manga, MangasPage};
 use serde::Deserialize;
+use serde::de::DeserializeOwned;
+use serde_json::{Value, json};
 
+use crate::seroval;
+
+pub const SITE: &str = "https://inkstory.net";
 pub const API: &str = "https://api.inuko.me/v2";
 /// The `serviceName` the shared API knows this site by (the Kotlin's `serviceName`).
 pub const SERVICE: &str = "inkstory";
-/// Titles a page, as the Kotlin asks for.
-const PAGE_SIZE: u32 = 30;
+/// Titles a catalogue page, as the Kotlin asks for.
+const PAGE_SIZE: u32 = 40;
+/// Titles a feed page.
+const FEED_SIZE: u32 = 30;
+
+/// Server function ids, from the Kotlin: SHA-256 of the function's place in the site's code, the same for every
+/// inuko.me site.
+const FN_CATALOGUE: &str = "5e920c6f2538a89f74b8cc297001d862340f690c4684e8ab6c14522960998b2e";
+const FN_BOOK: &str = "f1eb190aebb53f98ebd70df7ef5ec57105819b52503dba8d8943811d2bced2f2";
+const FN_CHAPTERS: &str = "1c9d8e028fe5eab8c867ee5fc39b0a75acc20270c6cecf479cfd582404e947bc";
+const FN_CHAPTER: &str = "c342d30c43b5931eec428542eb9d2bf68431a41a046ae931929f8f018d7f5505";
+/// The reading restrictions the catalogue lists, as the Kotlin asks for.
+const READING_RESTRICTIONS: [&str; 3] = ["NONE", "AUTHORIZED_ONLY", "LIBRARY_ONLY"];
 
 fn parse<'a, T: Deserialize<'a>>(body: &'a str, what: &str) -> Res<T> {
     serde_json::from_str(body).map_err(|e| format!("unexpected InkStory {what}: {e}"))
+}
+
+fn from_value<T: DeserializeOwned>(value: Value, what: &str) -> Res<T> {
+    serde_json::from_value(value).map_err(|e| format!("unexpected InkStory {what}: {e}"))
 }
 
 fn non_empty(text: Option<&str>) -> Option<String> {
     text.map(str::trim).filter(|t| !t.is_empty()).map(str::to_owned)
 }
 
-/// Encodes a query value (the search text).
+/// Encodes a query value.
 fn encode(text: &str) -> String {
     text.bytes()
         .map(|b| match b {
@@ -30,23 +51,37 @@ fn encode(text: &str) -> String {
         .collect()
 }
 
+/// The address of a server function call with input `data`.
+fn call_url(id: &str, data: &Value) -> String {
+    format!("{SITE}/_serverFn/{id}?payload={}", encode(&seroval::payload(data)))
+}
+
+/// The result of a call's answer; an error when the site reports the item as not found.
+pub fn result(body: &str, what: &str) -> Res<Value> {
+    seroval::result(body)?.ok_or_else(|| format!("InkStory: {what} not found"))
+}
+
 // ------------------------------------------------------------------ list and search
 
 /// The catalogue, most viewed first (the Kotlin's Popular and search), filtered by `query`. Pages count from 0 on the
 /// site.
-pub fn books_url(page: i32, query: &str) -> String {
-    let mut url = format!("{API}/books?serviceName={SERVICE}");
+pub fn catalogue_url(page: i32, query: &str) -> String {
+    let mut input = json!({
+        "size": PAGE_SIZE,
+        "page": (page - 1).max(0),
+        "sort": "viewsCount",
+        "orderBy": "desc",
+        "readingRestriction": READING_RESTRICTIONS,
+    });
     if !query.trim().is_empty() {
-        url.push_str("&search=");
-        url.push_str(&encode(query.trim()));
+        input["search"] = json!(query.trim());
     }
-    url.push_str(&format!("&page={}&size={PAGE_SIZE}&sort=viewsCount,desc", (page - 1).max(0)));
-    url
+    call_url(FN_CATALOGUE, &input)
 }
 
-/// The chapter update feed, one row a title (the Kotlin's Latest).
+/// The chapter update feed, one row a title (Latest).
 pub fn feed_url(page: i32) -> String {
-    format!("{API}/chapter-update-feed?serviceName={SERVICE}&onlyBorderChapters=true&page={}&size={PAGE_SIZE}", (page - 1).max(0))
+    format!("{API}/chapter-update-feed?serviceName={SERVICE}&onlyBorderChapters=true&page={}&size={FEED_SIZE}", (page - 1).max(0))
 }
 
 #[derive(Deserialize, Default)]
@@ -83,12 +118,17 @@ impl BookDto {
     }
 }
 
-/// A catalogue page. `total` is the `x-estimated-total-hits` header; without it a full page means there may be more.
-pub fn parse_books(body: &str, page: i32, total: Option<u64>) -> Res<MangasPage> {
-    let books: Vec<BookDto> = parse(body, "book list")?;
-    let full = books.len() >= PAGE_SIZE as usize;
-    let has_next_page = total.map_or(full, |total| (page.max(1) as u64) * u64::from(PAGE_SIZE) < total);
-    Ok(MangasPage { mangas: books.into_iter().map(BookDto::manga).collect(), has_next_page })
+#[derive(Deserialize)]
+struct CatalogueDto {
+    total: u64,
+    books: Vec<BookDto>,
+}
+
+/// A catalogue page: its books, and whether `total` leaves more after page `page`.
+pub fn parse_catalogue(body: &str, page: i32) -> Res<MangasPage> {
+    let dto: CatalogueDto = from_value(result(body, "catalogue")?, "catalogue")?;
+    let has_next_page = (page.max(1) as u64) * u64::from(PAGE_SIZE) < dto.total;
+    Ok(MangasPage { mangas: dto.books.into_iter().map(BookDto::manga).collect(), has_next_page })
 }
 
 #[derive(Deserialize)]
@@ -98,15 +138,15 @@ struct FeedDto {
 
 pub fn parse_feed(body: &str) -> Res<MangasPage> {
     let rows: Vec<FeedDto> = parse(body, "update feed")?;
-    let has_next_page = rows.len() >= PAGE_SIZE as usize;
+    let has_next_page = rows.len() >= FEED_SIZE as usize;
     Ok(MangasPage { mangas: rows.into_iter().map(|row| row.book.manga()).collect(), has_next_page })
 }
 
 // ------------------------------------------------------------------ details
 
-/// A title by its slug, the manga url (as in the Kotlin, so Aniyomi backups match).
-pub fn details_url(slug: &str) -> String {
-    format!("{API}/books/{slug}")
+/// A book by its slug, the manga url (as in the Kotlin, so Aniyomi backups match).
+pub fn book_url(slug: &str) -> String {
+    call_url(FN_BOOK, &json!({ "slug": slug, "createView": false }))
 }
 
 #[derive(Deserialize)]
@@ -182,21 +222,25 @@ fn relation(relations: &[RelationDto], kind: &str) -> Option<String> {
     (!names.is_empty()).then(|| names.join(", "))
 }
 
-/// The book id the chapter and branch lists ask for.
-pub fn book_id(body: &str) -> Res<String> {
-    Ok(parse::<DetailsDto>(body, "book")?.id)
+fn details(body: &str) -> Res<DetailsDto> {
+    from_value(result(body, "book")?, "book")
 }
 
-/// The details as the Kotlin builds them: summary, rating, counts and links in the description; labels, then formats,
-/// as genres; authors and artists from the relations.
+/// The book id the chapter list asks for.
+pub fn book_id(body: &str) -> Res<String> {
+    Ok(details(body)?.id)
+}
+
+/// The details: summary, rating, counts and links in the description; labels, then formats, as genres; authors and
+/// artists from the relations.
 pub fn parse_details(body: &str) -> Res<Manga> {
-    let dto: DetailsDto = parse(body, "book")?;
+    let dto = details(body)?;
     let mut lines: Vec<String> = Vec::new();
     if let Some(summary) = non_empty(dto.description.as_deref()) {
         lines.push(summary);
         lines.push(String::new());
     }
-    if let Some(rating) = dto.average_rating {
+    if let Some(rating) = dto.average_rating.filter(|_| dto.rating_votes_count != Some(0)) {
         let votes = dto.rating_votes_count.map(|v| format!(" (оценок: {v})")).unwrap_or_default();
         lines.push(format!("Рейтинг: {rating:.2}{votes}"));
     }
@@ -229,31 +273,26 @@ pub fn parse_details(body: &str) -> Res<Manga> {
 
 // ------------------------------------------------------------------ chapters
 
-pub fn branches_url(book_id: &str) -> String {
-    format!("{API}/branches?bookId={book_id}&moderationStatus=APPROVED")
-}
-
+/// Every approved chapter of a book, all branches, newest first.
 pub fn chapters_url(book_id: &str) -> String {
-    format!("{API}/chapters?bookId={book_id}&moderationStatus=APPROVED")
+    call_url(FN_CHAPTERS, &json!(book_id))
 }
 
 #[derive(Deserialize)]
-struct BranchDto {
-    id: String,
+struct ChapterListDto {
     #[serde(default)]
-    publishers: Vec<PublisherDto>,
+    chapters: Vec<ChapterDto>,
 }
 
 #[derive(Deserialize)]
 #[serde(rename_all = "camelCase")]
 struct ChapterDto {
     id: String,
-    name: Option<String>,
     title: Option<String>,
     number: Option<f64>,
     volume: Option<f64>,
-    branch_id: Option<String>,
     created_at: Option<String>,
+    publisher_names: Option<String>,
 }
 
 /// 3.0 as "3", 0.5 as "0.5".
@@ -262,44 +301,29 @@ fn number(value: f64) -> String {
     text.strip_suffix(".0").map(str::to_owned).unwrap_or(text)
 }
 
-/// "Том 3 Глава 200 - Конец" as the Kotlin names a chapter.
+/// "Том 1 Глава 84" as the Kotlin names a chapter: the volume, then the site's title ("Глава 84"); "Глава <n>" when the
+/// site gives no title.
 fn chapter_name(dto: &ChapterDto) -> String {
-    let base = match (dto.volume.map(number), dto.number.map(number)) {
-        (Some(v), Some(n)) => format!("Том {v} Глава {n}"),
-        (None, Some(n)) => format!("Глава {n}"),
-        (Some(v), None) => format!("Том {v}"),
-        (None, None) => "Глава".to_owned(),
-    };
-    match [&dto.name, &dto.title].into_iter().find_map(|t| non_empty(t.as_deref())) {
-        Some(subtitle) if subtitle.to_lowercase() != base.to_lowercase() => format!("{base} - {subtitle}"),
-        _ => base,
+    let title = non_empty(dto.title.as_deref()).or_else(|| dto.number.map(|n| format!("Глава {}", number(n)))).unwrap_or_else(|| "Глава".to_owned());
+    match dto.volume {
+        Some(v) => format!("Том {} {title}", number(v)),
+        None => title,
     }
 }
 
-/// Every approved chapter of every branch (the Kotlin's default "all branches" mode), in the API's order (newest first);
-/// a branch's translators are the scanlator. The chapter url is its id, as in the Kotlin.
-pub fn parse_chapters(branches: &str, chapters: &str) -> Res<Vec<Chapter>> {
-    let branches: Vec<BranchDto> = parse(branches, "branch list")?;
-    let teams = |id: &str| {
-        let mut names: Vec<String> = Vec::new();
-        for p in branches.iter().filter(|b| b.id == id).flat_map(|b| &b.publishers) {
-            if let Some(name) = non_empty(p.name.as_deref())
-                && !names.contains(&name)
-            {
-                names.push(name);
-            }
-        }
-        names.join(", ")
-    };
-    let chapters: Vec<ChapterDto> = parse(chapters, "chapter list")?;
-    Ok(chapters
+/// Every chapter of every branch (the Kotlin's default), in the site's order (newest first); the chapter's teams are
+/// the scanlator. The chapter url is its id, as in the Kotlin.
+pub fn parse_chapters(body: &str) -> Res<Vec<Chapter>> {
+    let list: ChapterListDto = from_value(result(body, "chapter list")?, "chapter list")?;
+    Ok(list
+        .chapters
         .iter()
         .map(|dto| Chapter {
             url: dto.id.clone(),
             name: chapter_name(dto),
             date_upload: dto.created_at.as_deref().map_or(0, iso_millis),
             chapter_number: dto.number.map_or(-1.0, |n| n as f32),
-            scanlator: dto.branch_id.as_deref().map(teams).filter(|t| !t.is_empty()),
+            scanlator: non_empty(dto.publisher_names.as_deref()),
         })
         .collect())
 }
@@ -331,8 +355,8 @@ pub fn iso_millis(text: &str) -> i64 {
 
 // ------------------------------------------------------------------ pages
 
-pub fn pages_url(chapter_id: &str) -> String {
-    format!("{API}/chapters/{chapter_id}")
+pub fn chapter_url(chapter_id: &str) -> String {
+    call_url(FN_CHAPTER, &json!({ "id": chapter_id, "createView": false }))
 }
 
 #[derive(Deserialize)]
@@ -347,31 +371,14 @@ struct PageDto {
     image: Option<String>,
 }
 
-/// The length of an image file name without its extension, and where in it the codec letter sits: `s` for the
-/// server-side cipher, `x` for the XOR one.
-const IMAGE_NAME_LENGTH: usize = 36;
-const IMAGE_MODE_INDEX: usize = 14;
-
-/// An `s` (server cipher) image asked for as its `x` (XOR) twin, which `unxor` reads; any other url as it is.
-fn xor_twin(url: &str) -> String {
-    let start = url.rfind('/').map_or(0, |i| i + 1);
-    let file = url[start..].split('?').next().unwrap_or("");
-    let stem = file.rsplit_once('.').map_or(file, |(stem, _)| stem);
-    if stem.len() == IMAGE_NAME_LENGTH && stem.as_bytes()[IMAGE_MODE_INDEX] == b's' {
-        let at = start + IMAGE_MODE_INDEX;
-        return format!("{}x{}", &url[..at], &url[at + 1..]);
-    }
-    url.to_owned()
-}
-
-/// The page images in page order.
+/// The page images in page order, as the site gives them (an `x` image is XOR-ciphered; `unxor` reads it back).
 pub fn parse_pages(body: &str) -> Res<Vec<String>> {
-    let mut pages = parse::<PagesDto>(body, "page list")?.pages;
+    let mut pages = from_value::<PagesDto>(result(body, "chapter")?, "page list")?.pages;
     pages.sort_by_key(|p| p.index.unwrap_or(i32::MAX));
-    Ok(pages.iter().filter_map(|p| non_empty(p.image.as_deref())).map(|url| xor_twin(&url)).collect())
+    Ok(pages.iter().filter_map(|p| non_empty(p.image.as_deref())).collect())
 }
 
-/// The key of the XOR cipher on page images (the Kotlin's `SECRET_KEY`).
+/// The key of the XOR cipher on page images (the Kotlin's `IMAGE_KEY`).
 const KEY: &[u8] = b"UySkp0BzPhwlvP2V";
 /// The bytes the image signatures need.
 const SIGNATURE: usize = 12;
@@ -411,30 +418,62 @@ pub fn unxor(bytes: &[u8]) -> Option<Vec<u8>> {
 mod tests {
     use super::*;
 
-    const BOOKS: &str = include_str!("../fixtures/books.json");
+    // Saved from the site on 2026-11-21 through a WebView2 page (the site's Anubis check stops plain clients), untrimmed.
+    const POPULAR: &str = include_str!("../fixtures/fn-catalogue-popular.json");
+    const SEARCH: &str = include_str!("../fixtures/fn-catalogue-search.json");
+    const BOOK: &str = include_str!("../fixtures/fn-book.json");
+    const MISSING: &str = include_str!("../fixtures/fn-book-missing.json");
+    const CHAPTERS: &str = include_str!("../fixtures/fn-chapters.json");
+    const CHAPTER: &str = include_str!("../fixtures/fn-chapter.json");
     const FEED: &str = include_str!("../fixtures/feed.json");
-    const DETAILS: &str = include_str!("../fixtures/details.json");
-    const BRANCHES: &str = include_str!("../fixtures/branches.json");
-    const CHAPTERS: &str = include_str!("../fixtures/chapters.json");
-    const PAGES: &str = include_str!("../fixtures/pages.json");
     const PAGE_START: &[u8] = include_bytes!("../fixtures/page-start.bin");
 
+    /// The input a call url carries, decoded back.
+    fn input_of(url: &str) -> Value {
+        let query = url.split_once("?payload=").unwrap().1;
+        let bytes: Vec<u8> = {
+            let b = query.as_bytes();
+            let mut out = Vec::new();
+            let mut i = 0;
+            while i < b.len() {
+                if b[i] == b'%' {
+                    out.push(u8::from_str_radix(&query[i + 1..i + 3], 16).unwrap());
+                    i += 3;
+                } else {
+                    out.push(b[i]);
+                    i += 1;
+                }
+            }
+            out
+        };
+        let tree: Value = serde_json::from_slice(&bytes).unwrap();
+        let answer = json!({ "t": 10, "i": 99, "p": { "k": ["result"], "v": [tree["t"]] }, "o": 0 }).to_string();
+        seroval::result(&answer).unwrap().unwrap()["data"].clone()
+    }
+
     #[test]
-    fn list_urls_count_pages_from_zero_and_encode_the_query() {
-        assert_eq!(books_url(1, ""), "https://api.inuko.me/v2/books?serviceName=inkstory&page=0&size=30&sort=viewsCount,desc");
-        assert_eq!(books_url(2, " solo лев "), "https://api.inuko.me/v2/books?serviceName=inkstory&search=solo%20%D0%BB%D0%B5%D0%B2&page=1&size=30&sort=viewsCount,desc");
+    fn calls_go_to_the_site_with_the_kotlins_inputs() {
+        let popular = catalogue_url(1, "");
+        assert!(popular.starts_with(&format!("{SITE}/_serverFn/{FN_CATALOGUE}?payload=")));
+        assert_eq!(input_of(&popular), json!({ "size": 40, "page": 0, "sort": "viewsCount", "orderBy": "desc", "readingRestriction": ["NONE", "AUTHORIZED_ONLY", "LIBRARY_ONLY"] }));
+        assert_eq!(input_of(&catalogue_url(3, " solo лев "))["search"], "solo лев");
+        assert_eq!(input_of(&catalogue_url(3, ""))["page"], 2);
+        assert_eq!(input_of(&book_url("solo-leveling")), json!({ "slug": "solo-leveling", "createView": false }));
+        assert_eq!(input_of(&chapters_url("baf2")), json!("baf2"));
+        assert_eq!(input_of(&chapter_url("4fd0")), json!({ "id": "4fd0", "createView": false }));
         assert_eq!(feed_url(3), "https://api.inuko.me/v2/chapter-update-feed?serviceName=inkstory&onlyBorderChapters=true&page=2&size=30");
     }
 
     #[test]
-    fn a_book_list_gives_slugs_russian_titles_and_posters() {
-        let page = parse_books(BOOKS, 1, Some(21427)).unwrap();
+    fn the_catalogue_gives_slugs_russian_titles_posters_and_more_pages() {
+        let page = parse_catalogue(POPULAR, 1).unwrap();
         assert_eq!(page.mangas.len(), 3);
         assert_eq!((page.mangas[0].url.as_str(), page.mangas[0].title.as_str()), ("solo-leveling", "Поднятие уровня в одиночку"));
         assert!(page.mangas[0].thumbnail_url.as_deref().unwrap().starts_with("https://static.inuko.me/"));
-        assert!(page.has_next_page);
-        assert!(!parse_books(BOOKS, 1, Some(3)).unwrap().has_next_page, "the total header ends the list");
-        assert!(!parse_books(BOOKS, 1, None).unwrap().has_next_page, "a short page without the header ends it too");
+        assert!(page.has_next_page, "21901 titles");
+        let search = parse_catalogue(SEARCH, 1).unwrap();
+        assert_eq!(search.mangas[0].url, "solo-leveling");
+        assert!(!search.has_next_page, "28 titles fit on one page of 40");
     }
 
     #[test]
@@ -446,36 +485,38 @@ mod tests {
 
     #[test]
     fn details_read_the_status_genres_people_and_summary() {
-        let manga = parse_details(DETAILS).unwrap();
-        assert_eq!((manga.url.as_str(), manga.status), ("solo-leveling", COMPLETED));
-        assert!(manga.description.as_deref().unwrap().starts_with("Десятилетие назад"));
-        assert!(manga.description.as_deref().unwrap().contains("Рейтинг: 9.63"));
-        assert!(manga.genre.as_deref().unwrap().contains("Городское фэнтези"));
-        assert!(manga.genre.as_deref().unwrap().ends_with("webtoon, colored"));
-        assert!(manga.author.is_some());
-        assert_eq!(book_id(DETAILS).unwrap(), "4fe5dc17-e2d0-417c-8224-034a7c6bdb44");
+        let manga = parse_details(BOOK).unwrap();
+        assert_eq!((manga.url.as_str(), manga.title.as_str(), manga.status), ("there39s-a-mad-dog-living-in-the-duke39s-house", "Бешеный пес герцогского дома", ONGOING));
+        let description = manga.description.as_deref().unwrap();
+        assert!(description.starts_with("Прошлую жизнь я прожил как пёс на цепи."));
+        assert!(description.contains("Рейтинг: 9.08 (оценок: 145)") && description.contains("Закладки: 2.5k"));
+        assert!(manga.genre.as_deref().unwrap().starts_with("Аристократия"));
+        assert!(manga.genre.as_deref().unwrap().ends_with("colored, webtoon"));
+        assert_eq!((manga.author.as_deref(), manga.artist.as_deref()), (Some("Fanmison, Luminara"), Some("Luminara")));
+        assert_eq!(book_id(BOOK).unwrap(), "baf22303-c97f-4582-8dd5-277aa065a15f");
+    }
+
+    #[test]
+    fn a_missing_book_is_not_found() {
+        assert_eq!(parse_details(MISSING).unwrap_err(), "InkStory: book not found");
     }
 
     #[test]
     fn chapters_carry_names_numbers_dates_and_teams() {
-        let chapters = parse_chapters(BRANCHES, CHAPTERS).unwrap();
-        assert_eq!(chapters.len(), 5);
+        let chapters = parse_chapters(CHAPTERS).unwrap();
+        assert_eq!(chapters.len(), 84);
         let first = &chapters[0];
-        assert_eq!(first.url, "37ec6a2a-392d-4075-8e44-ffe0e9a61e53");
-        assert_eq!(first.name, "Том 3 Глава 200 - КОНЕЦ");
-        assert_eq!((first.chapter_number, first.date_upload), (200.0, 1_685_546_401_449));
-        assert_eq!(first.scanlator.as_deref(), Some("Novate"));
-        assert_eq!(chapters[3].name, "Том 1 Глава 0.5");
-        assert_eq!(chapters[4].name, "Том 1 Глава 0 - Пролог");
+        assert_eq!((first.url.as_str(), first.name.as_str()), ("4fd0ac54-b8bd-401d-9dcd-207d67b052f8", "Том 1 Глава 84"));
+        assert_eq!((first.chapter_number, first.date_upload), (84.0, 1_795_256_599_297));
+        assert_eq!(first.scanlator.as_deref(), Some("F4keSm1le"));
+        assert_eq!(chapters[83].name, "Том 1 Глава 1");
     }
 
     #[test]
-    fn pages_come_in_order_and_server_cipher_images_ask_for_the_xor_twin() {
-        let pages = parse_pages(PAGES).unwrap();
-        assert_eq!(pages.len(), 3);
-        assert_eq!(pages[0], "https://static.inuko.me/chapters/37ec6a2a-392d-4075-8e44-ffe0e9a61e53/dff94600-0c3d-xb6d-965c-e22b3a0a06e0.jpeg");
-        assert_eq!(xor_twin("https://h/c/dff94600-0c3d-sb6d-965c-e22b3a0a06e0.jpeg?v=1"), "https://h/c/dff94600-0c3d-xb6d-965c-e22b3a0a06e0.jpeg?v=1");
-        assert_eq!(xor_twin("https://h/c/poster.jpeg"), "https://h/c/poster.jpeg");
+    fn pages_come_in_order_as_the_site_names_them() {
+        let pages = parse_pages(CHAPTER).unwrap();
+        assert_eq!(pages[0], "https://static.inuko.me/chapters/4fd0ac54-b8bd-401d-9dcd-207d67b052f8/1bb7d105-49a2-xbc1-b031-8b91ea0e2da6.webp");
+        assert_eq!(pages[1], "https://static.inuko.me/chapters/4fd0ac54-b8bd-401d-9dcd-207d67b052f8/d3a49c68-4b3d-x3ae-bee7-f35621da684f.webp");
     }
 
     #[test]
