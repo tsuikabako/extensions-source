@@ -3,10 +3,10 @@
 AnimePahe (<https://animepahe.pw>) as an anime source plug-in for Kurobayomi (ABI 1.5, `wit/kuro-source.wit`, anime ops).
 
 The site answers plain clients with Cloudflare's browser check. The app handles that, not this plug-in: when a request
-gets the check, the app opens the site once in a hidden WebKit page, which passes it, and sends the site's requests from
-that page from then on (`src/page_fetch.rs` in the app). The video CDN refuses HTTP/1.1, so the app's player plays the
-HLS streams through its local relay (`src/player_view/hls_proxy.rs` in the app). An app older than that cannot use this
-source.
+gets the check, the app opens the site once in a hidden browser page (WebKitGTK on Linux, WebView2 on Windows), which
+passes it, and sends the requests that meet the check from that page. The video CDN refuses HTTP/1.1, so the app's player
+plays the HLS streams through its local relay. Both are described in
+[what the app handles](https://tsuikabako.github.io/make/app-help). On Windows it needs app 0.2.1 or newer.
 
 ## Ops
 

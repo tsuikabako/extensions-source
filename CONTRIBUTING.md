@@ -83,7 +83,9 @@ cargo install --locked wasm-component-ld
    and videos load in the app), then write the site's operations in `src/lib.rs`. The example is a whole manga source
    with every part to change marked `CHANGE`; [the plug-in guide](https://tsuikabako.github.io/make/plugin) walks
    through the toolkit (`lib/guest`). Existing sources are good models: `sources/mangadex` for a JSON API,
-   `sources/mangapill` for HTML, `sources/animepahe` for HLS video.
+   `sources/mangapill` for HTML, `sources/animepahe` for HLS video. Before working around a bot check, a page built by
+   a script, scrambled images or a video server that refuses the player, read
+   [what the app handles](https://tsuikabako.github.io/make/app-help): the app already does those for every source.
 3. Save responses into `fixtures/` and test the operations against them:
 
    ```bash
