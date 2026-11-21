@@ -30,6 +30,15 @@ class Rules(unittest.TestCase):
         self.assertEqual(health.next_state(("broken", 3), "challenge"), ("broken", 3))
         self.assertEqual(health.next_state(("active", 1), "challenge"), ("active", 1))
 
+    def test_a_failure_names_the_server_the_cookies_and_the_page(self):
+        headers = {"server": "ddos-guard", "set-cookie": "__ddg1_=a; Path=/\ntecharo.lol-anubis-cookie-verification-1=b; Secure"}
+        body = "<html><head><title>Making sure\n you&#39;re not a bot!</title></head>"
+        self.assertEqual(
+            health.failure_detail(headers, body),
+            "server='ddos-guard' cookies='__ddg1_,techaro.lol-anubis-cookie-verification-1' page='Making sure you&#39;re not a bot!'",
+        )
+        self.assertEqual(health.failure_detail({}, "Forbidden " * 40), f"server='' cookies='' page={('Forbidden ' * 20).strip()!r}")
+
 
 if __name__ == "__main__":
     unittest.main()

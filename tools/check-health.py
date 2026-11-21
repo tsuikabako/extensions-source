@@ -8,6 +8,7 @@ The check fetches the url like a browser would and sorts the answer:
 - challenge: Cloudflare's browser check answered (cf-mitigated: challenge). This runner cannot pass it, but the app does, so
   nothing is known: the source keeps whatever status it had. A source with `cloudflare = true` is only ever checked this way.
 - fail: no answer, an HTTP error, or the page without its expected text.
+A failed check prints what answered (Server header, cookie names, page title or start) so the log shows who refused it.
 A source turns "broken" only after FAILS_TO_BREAK failures in a row (one bad moment is not a verdict) and active again at
 the next ok. status.toml, written by hand, overrides all of this in make-index.py.
 
@@ -18,6 +19,7 @@ State (consecutive failures per source) is kept in health-state.json so the next
 import argparse
 import http.client
 import json
+import re
 import sys
 import tomllib
 import urllib.error
@@ -50,6 +52,23 @@ def next_state(previous, result):
     return ("broken" if fails >= FAILS_TO_BREAK else status), fails
 
 
+def headers_of(message):
+    """The headers in lower case, one value each, except Set-Cookie: every one, joined by line breaks."""
+    headers = {k.lower(): v for k, v in message.items()}
+    headers["set-cookie"] = "\n".join(message.get_all("Set-Cookie") or [])
+    return headers
+
+
+def failure_detail(headers, body):
+    """What answered a failed check, in one line: the Server header, the names of the cookies set, and the page title
+    (or the start of the body when there is none)."""
+    cookies = [line.split("=", 1)[0].strip() for line in headers.get("set-cookie", "").splitlines() if "=" in line]
+    title = re.search(r"<title[^>]*>(.*?)</title>", body, re.IGNORECASE | re.DOTALL)
+    text = title.group(1) if title else body
+    text = " ".join(text.split())[:200].rstrip()
+    return f"server={headers.get('server', '')!r} cookies={','.join(cookies)!r} page={text!r}"
+
+
 def fetch(url, user_agent=USER_AGENT):
     request = urllib.request.Request(url, headers={"User-Agent": user_agent, "Accept": "*/*"})
     try:
@@ -58,9 +77,9 @@ def fetch(url, user_agent=USER_AGENT):
                 body = response.read(2_000_000).decode("utf-8", "replace")
             except http.client.IncompleteRead as error:
                 body = error.partial.decode("utf-8", "replace")
-            return response.status, {k.lower(): v for k, v in response.headers.items()}, body
+            return response.status, headers_of(response.headers), body
     except urllib.error.HTTPError as error:
-        return error.code, {k.lower(): v for k, v in error.headers.items()}, error.read(200_000).decode("utf-8", "replace")
+        return error.code, headers_of(error.headers), error.read(200_000).decode("utf-8", "replace")
     except (urllib.error.URLError, TimeoutError, OSError, http.client.HTTPException):
         return None, {}, ""
 
@@ -86,6 +105,8 @@ def main():
         new_status, fails = next_state((previous["status"], previous["fails"]), result)
         kept[folder.name] = {"status": new_status, "fails": fails}
         print(f"{folder.name}: HTTP {status} -> {result}; {new_status} ({fails} in a row)")
+        if result != "ok" and status is not None:
+            print(f"  {failure_detail(headers, body)}")
     args.state.write_text(json.dumps(kept, indent=1, sort_keys=True) + "\n")
     lines = [
         "# Written by tools/check-health.py: do not edit (status.toml overrides it by hand).",
