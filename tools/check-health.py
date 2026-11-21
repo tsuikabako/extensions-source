@@ -2,7 +2,8 @@
 """Checks that each source's site answers, and keeps health.toml (read by make-index.py) up to date.
 
 Each source folder may hold a health.toml:  url = "https://site/"  expect = "text the page has"  cloudflare = true
-(and user_agent = "..." for a site that answers only the User-Agent its source sends)
+(and user_agent = "..." for a site that answers only the User-Agent its source sends, and checker_blocked = "text" for a
+site whose guard refuses this runner with a 403 or 503 page that has that text: unknown, not down)
 The check fetches the url like a browser would and sorts the answer:
 - ok: HTTP 200 and the expected text is there.
 - challenge: a browser check answered: Cloudflare's (cf-mitigated: challenge) or Anubis's (its verification cookie, at any
@@ -44,6 +45,12 @@ def classify(status, headers, body, expect):
     if status == 200 and (not expect or expect.lower() in body.lower()):
         return "ok"
     return "fail"
+
+
+def checker_blocked(status, body, marker):
+    """Whether a 403 or 503 is the site's guard refusing this runner: its page carries `marker` (health.toml's
+    checker_blocked, e.g. "DDoS-Guard"). Such a refusal says nothing about the app, which the guard lets through."""
+    return bool(marker) and status in (403, 503) and marker.lower() in body.lower()
 
 
 def next_state(previous, result):
@@ -106,6 +113,8 @@ def main():
         result = classify(status, headers, body, check.get("expect", ""))
         if check.get("cloudflare") and result == "fail" and status in (403, 503):
             result = "challenge"  # a Cloudflare page this runner cannot read as one
+        if result == "fail" and checker_blocked(status, body, check.get("checker_blocked", "")):
+            result = "challenge"  # the site's guard refuses this runner, not the app
         previous = state.get(folder.name, {"status": "active", "fails": 0})
         new_status, fails = next_state((previous["status"], previous["fails"]), result)
         kept[folder.name] = {"status": new_status, "fails": fails}

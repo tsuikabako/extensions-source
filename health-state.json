@@ -124,8 +124,8 @@
   "status": "active"
  },
  "mangabuff": {
-  "fails": 4,
-  "status": "broken"
+  "fails": 0,
+  "status": "active"
  },
  "mangadex": {
   "fails": 0,

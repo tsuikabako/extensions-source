@@ -1,3 +1,6 @@
 # What tools/check-health.py fetches to see that the site is up.
 url = "https://mangabuff.ru/manga?sort=updated_at"
 expect = "cards__item"
+# DDoS-Guard answers the health runner (a US datacenter) with its 403 page, titled "DDoS-Guard", while the app reads the
+# site (checked 2026-11-21): that is unknown, not down.
+checker_blocked = "DDoS-Guard"

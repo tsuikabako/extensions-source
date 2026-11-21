@@ -123,8 +123,9 @@ A scheduled workflow (`.github/workflows/health.yml`, every 6 hours) also checks
 `tools/check-health.py` and marks a source broken after two failed checks in a row, active again at the next good one.
 A browser check (Cloudflare's, or Anubis's proof of work) counts as "unknown", not as down: the app passes it, this runner
 cannot. Give a new source a
-`health.toml` (`url`, `expect`, `cloudflare = true` when the site has that check, and `user_agent` when the site
-answers only the User-Agent the source sends). The rules are tested with
+`health.toml` (`url`, `expect`, `cloudflare = true` when the site has that check, `user_agent` when the site
+answers only the User-Agent the source sends, and `checker_blocked = "text"` when the site's guard refuses the runner
+with a 403 or 503 page that has that text). The rules are tested with
 `python3 tools/test-check-health.py`.
 
 ## Build the index

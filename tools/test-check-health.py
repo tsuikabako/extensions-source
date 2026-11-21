@@ -22,6 +22,14 @@ class Rules(unittest.TestCase):
         self.assertEqual(health.classify(500, {}, "", "x"), "fail")
         self.assertEqual(health.classify(None, {}, "", "x"), "fail", "no answer at all")
 
+    def test_a_guard_refusing_the_runner_is_unknown_only_with_its_marker(self):
+        page = "<html><head><title>DDoS-Guard</title></head></html>"
+        self.assertTrue(health.checker_blocked(403, page, "DDoS-Guard"))
+        self.assertTrue(health.checker_blocked(503, page, "ddos-guard"))
+        self.assertFalse(health.checker_blocked(403, page, ""), "no marker in health.toml")
+        self.assertFalse(health.checker_blocked(403, "<title>Forbidden</title>", "DDoS-Guard"), "the site's own 403")
+        self.assertFalse(health.checker_blocked(500, page, "DDoS-Guard"))
+
     def test_one_failure_is_not_broken_but_two_in_a_row_are(self):
         state = health.next_state(("active", 0), "fail")
         self.assertEqual(state, ("active", 1))
