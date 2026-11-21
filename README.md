@@ -4,7 +4,7 @@ The code of the anime and manga sources for [Kurobayomi](https://github.com/kuro
 app for the Linux desktop. CI builds them and publishes the result to
 [tsuikabako/extensions](https://github.com/tsuikabako/extensions), the repository users add.
 
-**To use the sources**, go to **https://tsuikabako.github.io/add**, or paste this address in Kurobayomi:
+**To use the sources**, go to **https://tsuikabako.github.io**, or paste this address in Kurobayomi:
 
 ```
 https://raw.githubusercontent.com/tsuikabako/extensions/main/index.min.json
