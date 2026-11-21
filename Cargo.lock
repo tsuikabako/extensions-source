@@ -849,6 +849,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "kuro-mangagoku"
+version = "0.1.0"
+dependencies = [
+ "kuro-guest",
+ "serde",
+ "serde_json",
+ "url",
+ "wit-bindgen",
+]
+
+[[package]]
 name = "kuro-mangakakalot"
 version = "0.1.0"
 dependencies = [
