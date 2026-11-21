@@ -16,11 +16,11 @@
   "status": "active"
  },
  "animetoast": {
-  "fails": 2,
-  "status": "broken"
+  "fails": 0,
+  "status": "active"
  },
  "animeworld": {
-  "fails": 0,
+  "fails": 1,
   "status": "active"
  },
  "aniworld": {
@@ -39,8 +39,12 @@
   "fails": 0,
   "status": "active"
  },
+ "comix": {
+  "fails": 0,
+  "status": "active"
+ },
  "decadencescans": {
-  "fails": 1,
+  "fails": 0,
   "status": "active"
  },
  "desu": {
@@ -56,7 +60,7 @@
   "status": "active"
  },
  "harmonyscan": {
-  "fails": 40,
+  "fails": 41,
   "status": "broken"
  },
  "hijala": {
@@ -64,11 +68,11 @@
   "status": "active"
  },
  "hunlightcomics": {
-  "fails": 0,
+  "fails": 1,
   "status": "active"
  },
  "inkstory": {
-  "fails": 40,
+  "fails": 41,
   "status": "broken"
  },
  "kagane": {
@@ -76,7 +80,7 @@
   "status": "active"
  },
  "kazokuden": {
-  "fails": 1,
+  "fails": 0,
   "status": "active"
  },
  "kickassanime": {
@@ -120,7 +124,7 @@
   "status": "active"
  },
  "mangabuff": {
-  "fails": 2,
+  "fails": 3,
   "status": "broken"
  },
  "mangadex": {
@@ -204,8 +208,8 @@
   "status": "active"
  },
  "senkuro": {
-  "fails": 2,
-  "status": "broken"
+  "fails": 0,
+  "status": "active"
  },
  "shinobiscans": {
   "fails": 0,
@@ -224,7 +228,7 @@
   "status": "active"
  },
  "usagi": {
-  "fails": 1,
+  "fails": 0,
   "status": "active"
  },
  "vostfree": {
