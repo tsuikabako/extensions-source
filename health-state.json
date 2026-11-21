@@ -60,7 +60,7 @@
   "status": "active"
  },
  "harmonyscan": {
-  "fails": 43,
+  "fails": 44,
   "status": "broken"
  },
  "hijala": {
@@ -132,6 +132,10 @@
   "status": "active"
  },
  "mangaeclipse": {
+  "fails": 0,
+  "status": "active"
+ },
+ "mangagoku": {
   "fails": 0,
   "status": "active"
  },
