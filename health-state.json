@@ -20,7 +20,7 @@
   "status": "active"
  },
  "animeworld": {
-  "fails": 1,
+  "fails": 0,
   "status": "active"
  },
  "aniworld": {
@@ -60,7 +60,7 @@
   "status": "active"
  },
  "harmonyscan": {
-  "fails": 41,
+  "fails": 42,
   "status": "broken"
  },
  "hijala": {
@@ -68,7 +68,7 @@
   "status": "active"
  },
  "hunlightcomics": {
-  "fails": 1,
+  "fails": 0,
   "status": "active"
  },
  "inkstory": {
@@ -124,7 +124,7 @@
   "status": "active"
  },
  "mangabuff": {
-  "fails": 3,
+  "fails": 4,
   "status": "broken"
  },
  "mangadex": {
@@ -136,7 +136,7 @@
   "status": "active"
  },
  "mangakakalot": {
-  "fails": 0,
+  "fails": 1,
   "status": "active"
  },
  "mangapill": {
