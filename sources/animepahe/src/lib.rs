@@ -294,12 +294,18 @@ struct AnimePahe;
 impl Source for AnimePahe {
     fn info(&self) -> Info {
         // The site answers too many quick requests with 429; the Kotlin waits 3 s between pages.
-        Info { id: ID, name: NAME, lang: "en", supports_latest: false, request_gap_ms: Some(1500) }
+        Info { id: ID, name: NAME, lang: "en", supports_latest: true, request_gap_ms: Some(1500) }
+    }
+
+    /// The site lists only its latest releases (its home page has that one list, checked 2026-11-21): no popular list.
+    fn supports_popular(&self) -> bool {
+        false
     }
 
     fn run(&self, op: &str, input: &Input, host: &dyn Host) -> Res<Value> {
         match op {
-            "popular" => to_value(popular(host, input.require("page")?)?),
+            // apps up to 0.4.0 show Popular for every source and call it: they get the same latest releases
+            "latest" | "popular" => to_value(popular(host, input.require("page")?)?),
             "search" => to_value(search(host, input.require("page")?, &input.require::<String>("query")?)?),
             "details" => to_value(details(host, input.require("anime")?)?),
             "cover" => to_value(cover(host, input.require("anime")?)?),
@@ -316,6 +322,12 @@ kuro_guest::plugin!(AnimePahe);
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn the_site_has_latest_releases_and_no_popular_list() {
+        let info: Value = serde_json::from_str(&kuro_guest::invoke(&AnimePahe, &kuro_guest::testing::TestHost::default(), "info", "{}").unwrap()).unwrap();
+        assert_eq!((info["supportsLatest"].as_bool(), info["supportsPopular"].as_bool()), (Some(true), Some(false)));
+    }
 
     const KWIK: &str = include_str!("../fixtures/kwik.html");
 

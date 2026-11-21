@@ -101,6 +101,13 @@ pub trait Source {
         None
     }
 
+    /// Whether the site has a popular list of its own. A site that only lists its newest titles says `false` (and
+    /// `supports_latest: true` in its info): an app that reads it shows Latest only. Older apps still call `popular`,
+    /// so such a source keeps answering it with the same list as `latest`.
+    fn supports_popular(&self) -> bool {
+        true
+    }
+
     /// Answers one op: `popular`, `latest`, `search`, `details`, `chapters`, `pages` for manga; `popular`, `latest`,
     /// `search`, `details`, `episodes`, `hosters`, `videos`, `subtitles` for anime. An op the source does not offer
     /// answers `Err(unknown_op(op))`.
@@ -117,11 +124,21 @@ pub fn to_value<T: Serialize>(value: T) -> Res<Value> {
     serde_json::to_value(value).map_err(|e| e.to_string())
 }
 
+/// The `info` answer: the source's [`Info`], and `supportsPopular: false` for a source without a popular list (left
+/// out otherwise, so the answer of every other source is unchanged).
+fn info_json(source: &dyn Source) -> Value {
+    let mut info = source.info().to_json();
+    if !source.supports_popular() {
+        info["supportsPopular"] = json!(false);
+    }
+    info
+}
+
 /// Answers one call from the app. The built plug-in calls this from [`plugin!`]; tests call it directly.
 pub fn invoke(source: &dyn Source, host: &dyn Host, op: &str, input_json: &str) -> Res<String> {
     let out = match op {
-        "info" => source.info().to_json(),
-        "create-sources" => json!([source.info().to_json()]),
+        "info" => info_json(source),
+        "create-sources" => json!([info_json(source)]),
         "request-headers" => match source.request_headers() {
             Some(headers) => to_value(headers)?,
             None => return Err(unknown_op(op)),
@@ -297,6 +314,27 @@ mod tests {
         assert_eq!(call("create-sources", "{}").unwrap(), json!([info]));
         let no_gap = Info { request_gap_ms: None, ..Example.info() };
         assert!(no_gap.to_json().get("requestGapMs").is_none());
+        assert!(call("info", "{}").unwrap().get("supportsPopular").is_none(), "a source with a popular list says nothing");
+    }
+
+    #[test]
+    fn a_source_without_a_popular_list_says_so_in_its_info() {
+        struct Newest;
+        impl Source for Newest {
+            fn info(&self) -> Info {
+                Info { id: 8, name: "Newest", lang: "en", supports_latest: true, request_gap_ms: None }
+            }
+            fn supports_popular(&self) -> bool {
+                false
+            }
+            fn run(&self, op: &str, _input: &Input, _host: &dyn Host) -> Res<Value> {
+                Err(unknown_op(op))
+            }
+        }
+        let info: Value = serde_json::from_str(&invoke(&Newest, &TestHost::default(), "info", "{}").unwrap()).unwrap();
+        assert_eq!(info, json!({ "id": 8, "name": "Newest", "lang": "en", "supportsLatest": true, "supportsPopular": false }));
+        let all: Value = serde_json::from_str(&invoke(&Newest, &TestHost::default(), "create-sources", "{}").unwrap()).unwrap();
+        assert_eq!(all, json!([info]));
     }
 
     #[test]
