@@ -60,7 +60,7 @@
   "status": "active"
  },
  "harmonyscan": {
-  "fails": 42,
+  "fails": 43,
   "status": "broken"
  },
  "hijala": {
@@ -136,8 +136,8 @@
   "status": "active"
  },
  "mangakakalot": {
-  "fails": 1,
-  "status": "active"
+  "fails": 2,
+  "status": "broken"
  },
  "mangapill": {
   "fails": 0,
