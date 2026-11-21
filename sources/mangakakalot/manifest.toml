@@ -3,7 +3,7 @@ name = "Mangakakalot"
 description = "A big manga catalogue, chapters with dates"
 lang = "en"
 kind = "manga"
-version = 2
+version = 3
 # The only host the plug-in may reach through the `http` import. Covers and page images (a CDN host) load in the app.
 # The site is behind Cloudflare's browser check, which the app passes (hidden pages).
-hosts = ["www.kakamanga.com"]
+hosts = ["www.mangakakalove.com"]

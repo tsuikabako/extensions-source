@@ -1,4 +1,4 @@
-//! The Mangakakalot site (<https://www.kakamanga.com>, moved from www.mangakakalot.gg in October 2026) as pure functions: URLs and one parser per page. Ported from the
+//! The Mangakakalot site (<https://www.mangakakalove.com>; www.mangakakalot.gg until October 2026, then www.kakamanga.com until it became MangaGoku in November) as pure functions: URLs and one parser per page. Ported from the
 //! keiyoushi `en/mangakakalot` extension and its MangaBox base (Apache-2.0). Without the genre, status and sort filters, the
 //! alternative CDNs and the option that merges strip images.
 
@@ -8,8 +8,8 @@ use kuro_guest::wire::{Chapter, Manga, MangasPage};
 use serde::Deserialize;
 use url::Url;
 
-pub const BASE: &str = "https://www.kakamanga.com";
-pub const HOST: &str = "www.kakamanga.com";
+pub const BASE: &str = "https://www.mangakakalove.com";
+pub const HOST: &str = "www.mangakakalove.com";
 
 // ================================ URLs =================================
 
@@ -257,7 +257,7 @@ mod tests {
         let page = parse_search(SEARCH);
         assert_eq!(page.mangas[0].title, "Naruto");
         assert_eq!(page.mangas[0].url, "/manga/naruto");
-        assert_eq!(search_url(2, "One Piece: Gold!"), "https://www.kakamanga.com/search/story/one_piece_gold?page=2");
+        assert_eq!(search_url(2, "One Piece: Gold!"), "https://www.mangakakalove.com/search/story/one_piece_gold?page=2");
     }
 
     #[test]
@@ -291,7 +291,7 @@ mod tests {
         assert_eq!(chapters[0].chapter_number, 66.0);
         assert_eq!(chapters[0].date_upload, millis("2026-10-21T04:39:09.000000Z"));
         assert_eq!(millis("1970-01-02T00:00:01.000000Z"), 86_401_000);
-        assert_eq!(chapters_url("/manga/no-more-regrets").unwrap(), "https://www.kakamanga.com/api/manga/no-more-regrets/chapters?limit=-1");
+        assert_eq!(chapters_url("/manga/no-more-regrets").unwrap(), "https://www.mangakakalove.com/api/manga/no-more-regrets/chapters?limit=-1");
         assert!(parse_chapters(r#"{"success":false}"#, "/manga/x").unwrap().is_empty());
     }
 
@@ -306,7 +306,7 @@ mod tests {
 
     #[test]
     fn only_addresses_of_the_site_are_fetched() {
-        assert_eq!(page("/manga/naruto").unwrap(), "https://www.kakamanga.com/manga/naruto");
+        assert_eq!(page("/manga/naruto").unwrap(), "https://www.mangakakalove.com/manga/naruto");
         assert!(page("https://evil.test/x").is_err());
         assert!(chapters_url("/manga/../x").is_err());
         assert_eq!(query_slug("  Hello,  World! "), "hello_world");

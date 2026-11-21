@@ -1,4 +1,4 @@
-//! Mangakakalot (<https://www.kakamanga.com>), a manga source plug-in for Kurobayomi. Ported from the keiyoushi
+//! Mangakakalot (<https://www.mangakakalove.com>), a manga source plug-in for Kurobayomi. Ported from the keiyoushi
 //! `en/mangakakalot` extension and its MangaBox base (Apache-2.0). This file is the source's ops; the URLs and parsers
 //! are in `site.rs`, the glue to the app is the `kuro_guest` toolkit.
 
@@ -23,11 +23,11 @@ impl Source for Mangakakalot {
 
     /// The headers of a page image and a cover: the CDN answers 403 without the site as Referer.
     fn request_headers(&self) -> Option<Vec<(String, String)>> {
-        Some(vec![("Referer".into(), "https://www.kakamanga.com/".into())])
+        Some(vec![("Referer".into(), "https://www.mangakakalove.com/".into())])
     }
 
     fn run(&self, op: &str, input: &Input, host: &dyn Host) -> Res<Value> {
-        let get = |url: &str| Request::get(url).header("Referer", "https://www.kakamanga.com/").text(host, NAME);
+        let get = |url: &str| Request::get(url).header("Referer", "https://www.mangakakalove.com/").text(host, NAME);
         match op {
             "popular" => to_value(site::parse_list(&get(&site::popular_url(input.page()))?)),
             "latest" => to_value(site::parse_list(&get(&site::latest_url(input.page()))?)),

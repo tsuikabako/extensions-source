@@ -1,6 +1,6 @@
 # Mangakakalot
 
-Mangakakalot (<https://www.kakamanga.com>) as a manga source plug-in for Kurobayomi (ABI 1.5, `wit/kuro-source.wit`, manga ops).
+Mangakakalot (<https://www.mangakakalove.com>) as a manga source plug-in for Kurobayomi (ABI 1.5, `wit/kuro-source.wit`, manga ops).
 
 The site answers plain clients with Cloudflare's browser check. The app handles that, not this plug-in: when a request gets
 the check, the app opens the site once in a hidden web page, which passes it, and sends the site's requests from that page
@@ -33,7 +33,7 @@ as more).
 - The genre, status and sort filters.
 - The other CDNs: the Kotlin retries a failing image on the chapter's other CDNs, the app cannot yet.
 - The option that merges strip images into taller ones.
-- The second domain (`mangakakalove.com`).
+- The other domains. `mangakakalot.gg` is behind Cloudflare's check, and `kakamanga.com` now forwards to MangaGoku, the same catalogue with a new layout: that is the `mangagoku` source.
 
 ## Test
 
