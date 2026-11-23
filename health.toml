@@ -1,2 +1,6 @@
 # Written by tools/check-health.py: do not edit (status.toml overrides it by hand).
+aniworld = "broken"
+anizone = "broken"
+comix = "broken"
 harmonyscan = "broken"
+senkuro = "broken"

@@ -24,12 +24,12 @@
   "status": "active"
  },
  "aniworld": {
-  "fails": 1,
-  "status": "active"
+  "fails": 2,
+  "status": "broken"
  },
  "anizone": {
-  "fails": 1,
-  "status": "active"
+  "fails": 2,
+  "status": "broken"
  },
  "atsumaru": {
   "fails": 0,
@@ -40,11 +40,11 @@
   "status": "active"
  },
  "comix": {
-  "fails": 1,
-  "status": "active"
+  "fails": 2,
+  "status": "broken"
  },
  "decadencescans": {
-  "fails": 1,
+  "fails": 0,
   "status": "active"
  },
  "desu": {
@@ -60,7 +60,7 @@
   "status": "active"
  },
  "harmonyscan": {
-  "fails": 46,
+  "fails": 47,
   "status": "broken"
  },
  "hijala": {
@@ -80,11 +80,11 @@
   "status": "active"
  },
  "kazokuden": {
-  "fails": 1,
+  "fails": 0,
   "status": "active"
  },
  "kickassanime": {
-  "fails": 1,
+  "fails": 0,
   "status": "active"
  },
  "kokomangas": {
@@ -212,8 +212,8 @@
   "status": "active"
  },
  "senkuro": {
-  "fails": 1,
-  "status": "active"
+  "fails": 2,
+  "status": "broken"
  },
  "shinobiscans": {
   "fails": 0,
