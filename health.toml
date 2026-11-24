@@ -1,4 +1,2 @@
 # Written by tools/check-health.py: do not edit (status.toml overrides it by hand).
-comix = "broken"
 harmonyscan = "broken"
-senkuro = "broken"
