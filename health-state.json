@@ -24,11 +24,11 @@
   "status": "active"
  },
  "aniworld": {
-  "fails": 1,
+  "fails": 0,
   "status": "active"
  },
  "anizone": {
-  "fails": 1,
+  "fails": 0,
   "status": "active"
  },
  "atsumaru": {
@@ -40,7 +40,7 @@
   "status": "active"
  },
  "comix": {
-  "fails": 1,
+  "fails": 0,
   "status": "active"
  },
  "decadencescans": {
@@ -60,7 +60,7 @@
   "status": "active"
  },
  "harmonyscan": {
-  "fails": 52,
+  "fails": 53,
   "status": "broken"
  },
  "hijala": {
@@ -212,7 +212,7 @@
   "status": "active"
  },
  "senkuro": {
-  "fails": 1,
+  "fails": 0,
   "status": "active"
  },
  "shinobiscans": {
