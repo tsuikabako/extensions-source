@@ -16,7 +16,7 @@
   "status": "active"
  },
  "animetoast": {
-  "fails": 0,
+  "fails": 1,
   "status": "active"
  },
  "animeworld": {
@@ -40,7 +40,7 @@
   "status": "active"
  },
  "comix": {
-  "fails": 0,
+  "fails": 1,
   "status": "active"
  },
  "decadencescans": {
@@ -56,11 +56,11 @@
   "status": "active"
  },
  "galaxydegenscans": {
-  "fails": 0,
+  "fails": 1,
   "status": "active"
  },
  "harmonyscan": {
-  "fails": 56,
+  "fails": 57,
   "status": "broken"
  },
  "hijala": {
@@ -212,7 +212,7 @@
   "status": "active"
  },
  "senkuro": {
-  "fails": 0,
+  "fails": 1,
   "status": "active"
  },
  "shinobiscans": {
